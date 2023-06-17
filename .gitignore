@@ -6,3 +6,6 @@
 .hgignore
 .svn
 .dub
+TestWindow
+generated
+libgtkd-4.so.0
