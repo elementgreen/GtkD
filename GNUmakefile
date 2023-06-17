@@ -25,22 +25,17 @@ ifndef DC
     endif
 endif
 
-# make gtkD libs and test
-.DEFAULT_GOAL = default-goal
-
-default-goal: libs test
+all: libs shared-libs test
 shared: shared-libs
 
-all: libs shared-libs test
-
 ifeq ("$(DC)","gdc")
-    DCFLAGS?=-O2
+    DCFLAGS?=-O2 -g
     LINKERFLAG?=-Xlinker
     DDOCFLAGS=-fsyntax-only -c -fdoc -fdoc-file=$@
     DDOCINC=-fdoc-inc=
     output=-o $@
 else
-    DCFLAGS?=-O
+    DCFLAGS?=-O -g
     LINKERFLAG?=-L
     DDOCFLAGS=-o- -Df$@
     output=-of$@
