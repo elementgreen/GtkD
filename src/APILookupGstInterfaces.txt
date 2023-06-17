@@ -72,9 +72,11 @@ noCode: true
 noExternal: true
 
 struct: VideoAggregatorConvertPadClass
+noCode: true
 noExternal: true
 
 struct: VideoAggregatorConvertPadPrivate
+noCode: true
 noExternal: true
 
 struct: VideoAggregatorPad
@@ -85,6 +87,14 @@ struct: VideoAggregatorPadClass
 noExternal: true
 
 struct: VideoAggregatorPadPrivate
+noExternal: true
+
+struct: VideoAggregatorParallelConvertPad
+noCode: true
+noExternal: true
+
+struct: VideoAggregatorParallelConvertPadClass
+noCode: true
 noExternal: true
 
 struct: VideoAlignment
@@ -295,6 +305,7 @@ noEnum: ColorBalanceType
 noEnum: NavigationCommand
 noEnum: NavigationEventType
 noEnum: NavigationMessageType
+noEnum: NavigationModifierType
 noEnum: NavigationQueryType
 noEnum: VideoAlphaMode
 noEnum: VideoBufferFlags

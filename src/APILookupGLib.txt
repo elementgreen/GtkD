@@ -175,10 +175,6 @@ array: set_groups groups length
 struct: ByteArray
 class: ByteArray
 
-struct: Bytes
-noCode: new_take
-noCode: new_static
-
 struct: Checksum
 noCode: get_digest
 code: start
@@ -225,93 +221,8 @@ code: end
 
 struct: DateTime
 structWrap: gpointer DateTime
-noCode: new_now_utc
-noCode: new_now_local
-noCode: new_from_unix_local
-noCode: new_from_unix_utc
-noCode: new_from_timeval_local
-noCode: new_from_timeval_utc
-noCode: new_local
-noCode: new_utc
 noCode: hash
 code: start
-	/**
-	 * Creates a DateTime corresponding to the given Unix time t
-	 * Unix time is the number of seconds that have elapsed since 1970-01-01
-	 * 00:00:00 UTC, regardless of the local time offset.
-	 *
-	 * This call can fail (ConstructionException) if t represents a time outside
-	 * of the supported range of GDateTime.
-	 * You should release the return value by calling unref()
-	 * when you are done with it
-	 *
-	 * Params:
-	 *     t   = the Unix time
-	 *     utc = If true use utc else use the local timezone.
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 *
-	 * Since: 2.26
-	 */
-	public this (long t, bool utc = true)
-	{
-		GDateTime* p;
-
-		if ( utc )
-		{
-			p = g_date_time_new_from_unix_utc(t);
-		}
-		else
-		{
-			p = g_date_time_new_from_unix_local(t);
-		}
-
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_date_time_new_from_unix_local(t)");
-		}
-		this(cast(GDateTime*) p);
-	}
-
-	/**
-	 * Creates a DateTime corresponding to the given TimeVal tv.
-	 * The time contained in a TimeVal is always stored in the form of
-	 * seconds elapsed since 1970-01-01 00:00:00 UTC, regardless of the
-	 * local time offset.
-	 *
-	 * This call can fail (ConstructionException) if tv represents a time outside
-	 * of the supported range of DateTime.
-	 * You should release the return value by calling unref()
-	 * when you are done with it.
-	 *
-	 * Params:
-	 *     tv  = a GTimeVal
-	 *     utc = If true use utc else use the local timezone.
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 *
-	 * Since: 2.26
-	 */
-	public this (ref GTimeVal tv, bool utc = true)
-	{
-		GDateTime* p;
-
-		if ( utc )
-		{
-			p = g_date_time_new_from_timeval_utc(&tv);
-		}
-		else
-		{
-			p = g_date_time_new_from_timeval_local(&tv);
-		}
-
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_date_time_new_from_timeval_local((tv is null) ? null : tv.getTimeValStruct())");
-		}
-		this(cast(GDateTime*) p);
-	}
-
 	/** */
 	override bool opEquals(Object rhs)
 	{
@@ -1486,11 +1397,6 @@ code: start
 	}
 code: end
 
-struct: TimeZone
-noCode: new_local
-noCode: new_utc
-noCode: new_identifier
-
 struct: Tree
 class: BBTree
 
@@ -1536,150 +1442,6 @@ code: start
 	public static string buildPath(string separator, string[] firstElement ... )
 	{
 		return Str.toString(g_build_pathv(Str.toStringz(separator), Str.toStringzArray(firstElement)));
-	}
-code: end
-
-struct: Variant
-noCode: new_bytestring_array
-noCode: new_object_path
-noCode: new_signature
-noCode: new_objv
-noCode: new_bytestring
-noCode: new_handle
-noCode: new_take_string
-code: start
-	/**
-	 * Creates a DBus object path GVariant with the contents of string.
-	 * string must be a valid DBus object path.
-	 * Use Variant.isObjectPath() if you're not sure.
-	 *
-	 * Since: 2.24
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static Variant fromObjectPath(string path)
-	{
-		auto p = g_variant_new_object_path(Str.toStringz(path));
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_variant_new_object_path");
-		}
-		return new Variant(cast(GVariant*) p);
-	}
-
-	/**
-	 * Creates a DBus type signature GVariant with the contents of string.
-	 * string must be a valid DBus type signature.
-	 * Use Variant.isSignature() if you're not sure.
-	 *
-	 * Since: 2.24
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static Variant fromSignature(string signature)
-	{
-		auto p = g_variant_new_signature(Str.toStringz(signature));
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_variant_new_signature");
-		}
-		return new Variant(cast(GVariant*) p);
-	}
-
-	/**
-	 * Creates an array-of-bytes GVariant with the contents of string.
-	 * This function is just like new Variant(string) except that the string
-	 * need not be valid utf8.
-	 *
-	 * The nul terminator character at the end of the string is stored in
-	 * the array.
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static Variant fromByteString(string byteString)
-	{
-		auto p = g_variant_new_bytestring(Str.toStringz(byteString));
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_variant_new_bytestring");
-		}
-		return new Variant(cast(GVariant*) p);
-	}
-
-	/**
-	 * Constructs an array of object paths Variant from the given array
-	 * of strings.
-	 *
-	 * Each string must be a valid Variant object path.
-	 *
-	 * Since: 2.30
-	 *
-	 * Params:
-	 *     strv   = an array of strings.
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static Variant fromObjv(string[] strv)
-	{
-		// GVariant * g_variant_new_objv (const gchar * const *strv,  gssize length);
-		auto p = g_variant_new_objv(Str.toStringzArray(strv), strv.length);
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_variant_new_objv(strv, length)");
-		}
-		return new Variant(cast(GVariant*) p);
-	}
-
-	/**
-	 * Constructs an array of bytestring GVariant from the given array of
-	 * strings. If length is -1 then strv is null-terminated.
-	 *
-	 * Since: 2.26
-	 *
-	 * Params:
-	 *     strv   = an array of strings.
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static Variant fromByteStringArray(string[] strv)
-	{
-		auto p = g_variant_new_bytestring_array(Str.toStringzArray(strv), strv.length);
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by g_variant_new_bytestring_array(strv, length)");
-		}
-		return new Variant(cast(GVariant*) p);
-	}
-code: end
-
-struct: VariantType
-noCode: new_maybe
-code: start
-	/**
-	 * Constructs the type corresponding to a maybe instance containing
-	 * type type or Nothing.
-	 *
-	 * It is appropriate to call free() on the return value.
-	 *
-	 * Params:
-	 *     element = a VariantType
-	 *
-	 * Return: a new maybe VariantType
-	 *
-	 *     Since 2.24
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public static VariantType newMaybe(VariantType element)
-	{
-		auto p = g_variant_type_new_maybe((element is null) ? null : element.getVariantTypeStruct());
-
-		if(p is null)
-		{
-			throw new ConstructionException("null returned by new_maybe");
-		}
-
-		return new VariantType(cast(GVariantType*) p);
 	}
 code: end
 
@@ -1981,10 +1743,6 @@ version 2.54: start
 version: end
 
 version 2.60: move: strv_equal Str
-
-move: string_new String
-move: string_new_len String
-move: string_sized_new String
 
 move: bit_lock Thread
 move: bit_trylock Thread

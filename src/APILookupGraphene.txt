@@ -23,3 +23,6 @@
 # must start with wrap
 wrap: graphene
 file: Graphene-1.0.gir
+
+noConstant: PI
+noConstant: PI_2

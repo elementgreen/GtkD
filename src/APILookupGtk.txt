@@ -25,10 +25,6 @@ wrap: gtk
 file: Gtk-4.0.gir
 
 struct: Builder
-#There are now 3 constructors that have a single string parameter, disable 2 of them.
-noCode: new_from_resource
-noCode: new_from_string
-
 noCode: get_objects
 import: glib.ListSG
 code: start
@@ -54,116 +50,6 @@ code: start
 	}
 code: end
 
-struct: Button
-noCode: new_from_icon_name
-noCode: new_with_label
-
-struct: CellView
-noCode: new_with_text
-
-struct: CheckButton
-noCode: new_with_label
-
-struct: ComboBox
-import: glib.ConstructionException
-noCode: new
-noCode: new_with_entry
-noCode: new_with_model
-noCode: new_with_model_and_entry
-code: start
-	/**
-	 * Creates a new empty GtkComboBox.
-	 * Params:
-	 *   entry = If true, create an empty ComboBox with an entry.
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public this (bool entry=true)
-	{
-		GtkComboBox* __p;
-		if ( entry )
-		{
-			// GtkWidget* gtk_combo_box_new_text (void);
-			__p = cast(GtkComboBox*)gtk_combo_box_new_with_entry();
-		}
-		else
-		{
-			// GtkWidget* gtk_combo_box_new (void);
-			__p = cast(GtkComboBox*)gtk_combo_box_new();
-		}
-
-		if(__p is null)
-		{
-			throw new ConstructionException("null returned by gtk_combo_box_new");
-		}
-
-		this(__p);
-	}
-
-
-	/**
-	 * Creates a new GtkComboBox with the model initialized to model.
-	 * Params:
-	 *   model = A GtkTreeModel.
-	 *   entry = If true, create an empty ComboBox with an entry.
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public this (TreeModelIF model, bool entry=true)
-	{
-		GtkComboBox* __p;
-		if ( entry )
-		{
-			// GtkWidget* gtk_combo_box_new_with_model_and_entry (GtkTreeModel *model);
-			__p = cast(GtkComboBox*)gtk_combo_box_new_with_model_and_entry((model is null) ? null : model.getTreeModelStruct());
-		}
-		else
-		{
-			// GtkWidget* gtk_combo_box_new_with_model (GtkTreeModel *model);
-			__p = cast(GtkComboBox*)gtk_combo_box_new_with_model((model is null) ? null : model.getTreeModelStruct());
-		}
-
-		if(__p is null)
-		{
-			throw new ConstructionException("null returned by gtk_combo_box_new");
-		}
-
-		this(__p);
-	}
-code: end
-
-struct: ComboBoxText
-import: glib.ConstructionException
-noCode: new
-noCode: new_with_entry
-code: start
-	/**
-	 * Creates a new ComboBoxText, which is a ComboBox just displaying strings.
-	 * Params:
-	 *   entry = If true, create an ComboBox with an entry.
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public this (bool entry=true)
-	{
-		GtkComboBoxText* __p;
-		if ( entry )
-		{
-			// GtkWidget* gtk_combo_box_text_new_with_entry (void);
-			__p = cast(GtkComboBoxText*)gtk_combo_box_text_new_with_entry();
-		}
-		else
-		{
-			// GtkWidget* gtk_combo_box_text_new (void);
-			__p = cast(GtkComboBoxText*)gtk_combo_box_text_new();
-		}
-
-		if(__p is null)
-		{
-			throw new ConstructionException("null returned by gtk_combo_box_new");
-		}
-
-		this(__p);
-	}
-code: end
-
 struct: Dialog
 code: start
 	/** */
@@ -176,8 +62,24 @@ code: start
 	}
 code: end
 
-struct: Expander
-noCode: new
+struct: DrawingArea
+code: start
+	import cairo.Context;
+
+	public void setDrawFunc(void delegate(Context, int, int, DrawingArea) dlg)
+	{
+		extern (C) void _drawFunc(GtkDrawingArea* drawing_area, cairo_t* cr, int width, int height,
+		void* user_data)
+		{
+			auto dlg = cast(typeof(&dlg))user_data;
+			auto ctx = ObjectG.getDObject!(Context)(cr);
+			auto da = ObjectG.getDObject!(DrawingArea)(drawing_area);
+			(*dlg)(ctx, width, height, da);
+		}
+
+		gtk_drawing_area_set_draw_func(gtkDrawingArea, &_drawFunc, cast(void*)&dlg, null);
+	}
+code: end
 
 struct: FileChooserDialog
 import: glib.ConstructionException
@@ -230,27 +132,11 @@ struct: FontChooser
 override: get_font_map
 override: set_font_map
 
-struct: Image
-noCode: new_from_icon_name
-noCode: new_from_resource
-
-struct: Label
-noCode: new
-
 struct: ListStore
+move: newv ListStore new
+move: set_valuesv ListStore set
 import: gtk.TreeIter
 code: start
-	/**
-	 * Creates a top level iteractor.
-	 * I don't think lists have but the top level iteractor
-	 */
-	TreeIter createIter()
-	{
-		GtkTreeIter* iter = new GtkTreeIter;
-		gtk_list_store_append(getListStoreStruct(), iter);
-		return new TreeIter(iter);
-	}
-
 	/** */
 	void setValue(TYPE)(TreeIter iter, int column, TYPE value)
 	{
@@ -258,9 +144,6 @@ code: start
 		gtk_list_store_set_value(gtkListStore, iter.getTreeIterStruct(), column, v.getValueStruct());
 	}
 code: end
-
-struct: MediaFile
-noCode: new_for_resource
 
 struct: MenuButton
 alias: set_direction setMenuDirection
@@ -313,9 +196,6 @@ code: end
 struct: Native
 alias: realize realizeNative
 alias: unrealize unrealizeNative
-
-struct: Picture
-noCode: new_for_resource
 
 struct: Root
 alias: get_display getDisplayRoot
@@ -491,8 +371,14 @@ code: start
 	}
 code: end
 
-struct: ToggleButton
-noCode: new_with_label
+struct: TreeIter
+code: start
+	/** */
+	public this()
+	{
+		this(new GtkTreeIter);
+	}
+code: end
 
 struct: TreeModel
 code: start
@@ -506,37 +392,15 @@ code: start
 	}
 code: end
 
-struct: TreePath
-noCode: new
-noCode: new_first
+struct: TreeStore
+move: newv TreeStore new
+move: set_valuesv TreeStore set
 code: start
-	/**
-	 * Creates a new GtkTreePath. This structure refers to a row.
-	 * Params:
-	 * firstRow = if true this is the string representation of this path is "0"
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public this (bool firstRow=false)
+	/** */
+	void setValue(TYPE)(TreeIter iter, int column, TYPE value)
 	{
-		GtkTreePath* __p;
-
-		if ( firstRow )
-		{
-			// GtkTreePath* gtk_tree_path_new_first (void);
-			__p = cast(GtkTreePath*)gtk_tree_path_new_first();
-		}
-		else
-		{
-			// GtkTreePath* gtk_tree_path_new (void);
-			__p = cast(GtkTreePath*)gtk_tree_path_new();
-		}
-
-		if(__p is null)
-		{
-			throw new ConstructionException("null returned by gtk_tree_path_new()");
-		}
-
-		this(__p);
+		Value v = new Value(value);
+		gtk_tree_store_set_value(gtkTreeStore, iter.getTreeIterStruct(), column, v.getValueStruct());
 	}
 code: end
 
@@ -570,9 +434,6 @@ code: start
 	}
 code: end
 
-struct: Video
-noCode: new_for_resource
-
 struct: PrintUnixDialog
 import: gtk.Settings
 noCode: get_settings
@@ -598,3 +459,58 @@ code: start
 		return cast(Settings)ObjectG.getDObject!(PrintSettings)(cast(GtkPrintSettings*) __p, true);
 	}
 code: end
+
+struct: Widget
+noCode: add_controller
+code: start
+	/**
+	 * Adds @controller to @widget so that it will receive events.
+	 *
+	 * You will usually want to call this function right after
+	 * creating any kind of [class@Gtk.EventController].
+	 *
+	 * Params:
+	 *     controller = a `GtkEventController` that hasn't been
+	 *         added to a widget yet
+	 */
+	public void addController(EventController controller)
+	{ // gtk_widget_add_controller() takes an object reference, add a reference for EventController D object
+		if (controller !is null)
+		  controller.ref_();
+
+		gtk_widget_add_controller(gtkWidget, (controller is null) ? null : controller.getEventControllerStruct());
+	}
+code: end
+
+move: accelerator_get_default_mod_mask AccelGroup
+move: accelerator_get_label AccelGroup
+move: accelerator_get_label_with_keycode AccelGroup
+move: accelerator_name AccelGroup
+move: accelerator_name_with_keycode AccelGroup
+move: accelerator_parse AccelGroup
+move: accelerator_parse_with_keycode AccelGroup
+move: accelerator_valid AccelGroup
+move: check_version Version
+move: disable_setlocale Main
+move: distribute_natural_allocation Widget
+move: get_binary_age Version
+move: get_debug_flags Main
+move: get_default_language Main
+move: get_interface_age Version
+move: get_locale_direction Main
+move: get_major_version Version
+move: get_micro_version Version
+move: get_minor_version Version
+move: init Main
+move: init_check Main
+move: print_run_page_setup_dialog PrintOperation
+move: print_run_page_setup_dialog_async PrintOperation
+move: rgb_to_hsv ColorUtils
+move: set_debug_flags Main
+move: show_about_dialog AboutDialog
+move: show_uri Show
+move: test_init TestUtils init
+move: test_list_all_types TestUtils list_all_types
+move: test_register_all_types TestUtils register_all_types
+move: test_widget_wait_for_draw TestUtils widget_wait_for_draw
+move: tree_get_row_drag_data TreeDragSource get_row_drag_data
