@@ -23,7 +23,7 @@ module TestDrawingArea;
 private import cairo.Context;
 private import cairo.ImageSurface;
 
-private import gtk.VBox;
+private import gtk.Box;
 private import pango.PgContext;
 private import pango.PgLayout;
 
@@ -31,16 +31,16 @@ private import std.stdio;
 private import std.math;
 
 private import gtk.Widget;
-private import gtk.MenuItem;
+private import gtk.EventControllerMotion;
+private import gtk.GestureClick;
+private import gio.MenuItem;
 private import gtk.ComboBox;
 private import gtk.ComboBoxText;
-private import gtk.Menu;
+private import gio.Menu;
 private import gtk.Adjustment;
-private import gtk.HBox;
-private import gdk.Pixbuf;
-private import gdk.Cairo;
-private import gdk.Color;
+private import gdkpixbuf.Pixbuf;
 private import gdk.Event;
+private import gdk.CairoContext;
 
 private import pango.PgCairo;
 private import pango.PgFontDescription;
@@ -53,12 +53,12 @@ private import gtk.SpinButton;
 /**
  * This tests the gtkD drawing area widget
  */
-class TestDrawingArea : VBox
+final class TestDrawingArea : Box
 {
 
 	this()
 	{
-		super(false,4);
+		super(GtkOrientation.VERTICAL,4);
 
 		TestDrawing drawingArea = new TestDrawing();
 
@@ -109,37 +109,43 @@ class TestDrawingArea : VBox
 		primOption.setActive(0);
 		primOption.addOnChanged(&drawingArea.onPrimOptionChanged);
 
-		packStart(drawingArea,true,true,0);
+		drawingArea.setVexpand(true);
+		append(drawingArea);
 
-		HBox hbox = new HBox(false,4);
-		hbox.packStart(operators,false,false,2);
-		hbox.packStart(primOption,false,false,2);
-		hbox.packStart(drawingArea.spin,false,false,2);
-		hbox.packStart(drawingArea.backSpin,false,false,2);
+		Box hbox = new Box(GtkOrientation.HORIZONTAL,4);
+		hbox.append(operators);
+		hbox.append(primOption);
+		hbox.append(drawingArea.imageSizeSpin);
+		hbox.append(drawingArea.squareSizeSpin);
 
-		packStart(hbox, false, false, 0);
+		append(hbox);
 	}
 
-	class TestDrawing : DrawingArea
+	final class TestDrawing : DrawingArea
 	{
 		CairoOperator operator = CairoOperator.OVER;
 		ImageSurface surface;
-		Color paintColor;
-		Color black;
 
 		int width;
 		int height;
 
 		bool buttonIsDown;
+		int motionX, motionY;
 
 		string primitiveType;
 		PgFontDescription font;
-		Image image;
+		Pixbuf nativePixbuf;
 		Pixbuf scaledPixbuf;
 
-		SpinButton spin;
-		SpinButton backSpin;
-		static GdkPoint[] polygonStar = [
+		SpinButton imageSizeSpin;
+		SpinButton squareSizeSpin;
+
+		struct Point
+		{
+			int x, y;
+		}
+
+		const Point[] polygonStar = [
 			{0,4},
 			{1,1},
 			{4,0},
@@ -159,92 +165,84 @@ class TestDrawingArea : VBox
 			primitiveType = "Filled Arc";
 			font = PgFontDescription.fromString("Courier 48");
 
-			image = new Image("images/gtkDlogo_a_small.png");
-			scaledPixbuf = image.getPixbuf();
-			if (scaledPixbuf is null)
-			{
+      nativePixbuf = Pixbuf.newFromFile("images/gtkDlogo_a_small.png");
+
+			if (nativePixbuf !is null)
+				scaledPixbuf = nativePixbuf.copy();
+			else
 				writeln("\nFailed to load image file gtkDlogo_a_small.png");
-			}
 
-			paintColor = new Color(cast(ubyte)0,cast(ubyte)0,cast(ubyte)0);
-			black = new Color(cast(ubyte)0,cast(ubyte)0,cast(ubyte)0);
+			imageSizeSpin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0),1,0);
+			imageSizeSpin.addOnValueChanged(&imageSizeSpinChanged);
+			imageSizeSpin.setTooltipText("Size of Image drawing operator");
 
-			spin = new SpinButton(new Adjustment(30, 1, 400, 1, 10, 0),1,0);
-			sizeSpinChanged(spin);
-			spin.addOnValueChanged(&sizeSpinChanged);
-			backSpin = new SpinButton(new Adjustment(5, 4, 100, 1, 10, 0),1,0);
-			backSpin.addOnValueChanged(&backSpinChanged);
+			squareSizeSpin = new SpinButton(new Adjustment(5, 4, 100, 1, 10, 0),1,0);
+			squareSizeSpin.addOnValueChanged(&squareSizeSpinChanged);
+			squareSizeSpin.setTooltipText("Background square size");
 
-			addOnDraw(&drawCallback);
-			addOnMotionNotify(&onMotionNotify);
-			addOnSizeAllocate(&onSizeAllocate);
-			addOnButtonPress(&onButtonPress);
-			addOnButtonRelease(&onButtonRelease);
+			setDrawFunc(&drawFunc);
+			addOnResize(&onResize);
+
+			auto motionController = new EventControllerMotion();
+			addController(motionController);
+			motionController.addOnMotion(&onMotion);
+
+			auto gestureClick = new GestureClick();
+			addController(gestureClick);
+			gestureClick.setButton(1);
+			gestureClick.addOnPressed(&onButtonPress);
+			gestureClick.addOnReleased(&onButtonRelease);
 		}
 
-		void onSizeAllocate(GtkAllocation* allocation, Widget widget)
+		void onResize(int w, int h, DrawingArea drawingArea)
 		{
-			width = allocation.width;
-			height = allocation.height;
+			width = w;
+			height = h;
 
-			surface = ImageSurface.create(CairoFormat.ARGB32, width, height);
+			surface = ImageSurface.create(CairoFormat.ARGB32, w, h);
 			drawPoints(Context.create(surface));
 		}
 
-		public bool onButtonPress(Event event, Widget widget)
+		public void onButtonPress(int nPress, double x, double y, GestureClick gestureClick)
 		{
-			debug(trace) writeln("button DOWN");
-			if ( event.type == EventType.BUTTON_PRESS && event.button.button == 1 )
-			{
-				debug(trace) writeln("Button 1 down");
-				buttonIsDown = true;
-
-				drawPrimitive(cast(int)event.button.x, cast(int)event.button.y);
-			}
-			return false;
+			buttonIsDown = true;
+			this.queueDraw();
 		}
 
-		public bool onButtonRelease(Event event, Widget widget)
+		public void onButtonRelease(int nPress, double x, double y, GestureClick gestureClick)
 		{
-			debug(trace) writeln("button UP");
-			if ( event.type == EventType.BUTTON_RELEASE && event.button.button == 1 )
-			{
-				debug(trace) writeln("Button 1 UP");
-				buttonIsDown = false;
-			}
-			return false;
+			buttonIsDown = false;
+			this.queueDraw();
 		}
 
 		/**
 		 * This will be called from the expose event call back.
 		 * \bug this is called on get or loose focus - review
 		 */
-		public bool drawCallback(Scoped!Context context, Widget widget)
+		public void drawFunc(Context context, int width, int height, DrawingArea drawingArea)
 		{
 			//Fill the Widget with the surface we are drawing on.
 			context.setSourceSurface(surface, 0, 0);
+
+			if ( buttonIsDown )
+				drawPrimitive(motionX, motionY);
+
 			context.paint();
-
-			return true;
 		}
 
-		public bool onMotionNotify(Event event, Widget widget)
+		public void onMotion(double x, double y, EventControllerMotion ctrl)
 		{
-			//writeln("testWindow.mouseMoved -----------------------------");
-			if ( buttonIsDown && event.type == EventType.MOTION_NOTIFY )
-			{
-				drawPrimitive(cast(int)event.motion.x, cast(int)event.motion.y);
-			}
+			motionX = cast(int)x;
+			motionY = cast(int)y;
 
-			return true;
+			if ( buttonIsDown )
+				this.queueDraw();
 		}
 
-		static int backSpinCount = 0;
-
-		public void backSpinChanged(SpinButton spinButton)
+		public void squareSizeSpinChanged(SpinButton spinButton)
 		{
-
-			debug(trace) writefln("backSpinChanged - entry %s", ++backSpinCount);
+			static int count = 0;
+			debug(trace) writefln("backSpinChanged - entry %s", ++count);
 
 			drawPoints(Context.create(surface));
 			this.queueDraw();
@@ -252,24 +250,24 @@ class TestDrawingArea : VBox
 			debug(trace) writeln("backSpinChanged - exit");
 		}
 
-		public void sizeSpinChanged(SpinButton spinButton)
+		public void imageSizeSpinChanged(SpinButton spinButton)
 		{
-			if ( !(scaledPixbuf is null))
+			if (nativePixbuf !is null)
 			{
-				int width = spinButton.getValueAsInt();
-				scaledPixbuf = image.getPixbuf();
+				int w = imageSizeSpin.getValueAsInt();
 
-				float ww = width * scaledPixbuf.getWidth() / 30;
-				float hh = width * scaledPixbuf.getHeight() / 30;
+				float ww = w * nativePixbuf.getWidth() / 30;
+				float hh = w * nativePixbuf.getHeight() / 30;
 
-				scaledPixbuf = scaledPixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
+				scaledPixbuf = nativePixbuf.scaleSimple(cast(int)ww, cast(int)hh, GdkInterpType.HYPER);
+				this.queueDraw();
 			}
 		}
 
 		public void drawPrimitive(int x, int y)
 		{
-			int width = spin.getValueAsInt();
-			int height = width * 3 / 4;
+			int w = squareSizeSpin.getValueAsInt();
+			int h = w * 3 / 4;
 
 			Context context = Context.create(surface);
 			context.setOperator(operator);
@@ -279,18 +277,18 @@ class TestDrawingArea : VBox
 			switch ( primitiveType )
 			{
 				case "Arc":
-					context.arc(x-width/2,y-width/2,width,0,2*PI);
+					context.arc(x-w/2,y-w/2,w,0,2*PI);
 					context.stroke();
 					break;
 
 				case "Filled Arc":
-					context.arc(x-width/4,y-width/4,width/2,0,2*PI);
+					context.arc(x-w/4,y-w/4,w/2,0,2*PI);
 					context.fill();
 					break;
 
 				case "Line":
 					context.moveTo(x, y);
-					context.lineTo(x+width, y);
+					context.lineTo(x+w, y);
 					context.stroke();
 					break;
 
@@ -300,12 +298,12 @@ class TestDrawingArea : VBox
 					break;
 
 				case "Rectangle":
-					context.rectangle(x-width/2, y-width/4, width, height);
+					context.rectangle(x-w/2, y-w/4, w, h);
 					context.stroke();
 					break;
 
 				case "Filled Rectangle":
-					context.rectangle(x-width/2, y-width/4, width, height);
+					context.rectangle(x-w/2, y-w/4, w, h);
 					context.fill();
 					break;
 
@@ -318,7 +316,7 @@ class TestDrawingArea : VBox
 
 				case "Pango text":
 					PgLayout l = PgCairo.createLayout(context);
-					PgFontDescription fd = new PgFontDescription("Sans", width);
+					PgFontDescription fd = new PgFontDescription("Sans", w);
 
 					l.setText("Gtk+ with D");
 					l.setFontDescription(fd);
@@ -330,7 +328,7 @@ class TestDrawingArea : VBox
 				case "Image":
 					if ( !(scaledPixbuf is null))
 					{
-						context.setSourcePixbuf(scaledPixbuf, x, y);
+						CairoContext.setSourcePixbuf(context, scaledPixbuf, x, y);
 						context.paint();
 					}
 					break;
@@ -364,12 +362,9 @@ class TestDrawingArea : VBox
 
 		private void drawPoints(Context context)
 		{
-			int square = backSpin.getValueAsInt();
+			int square = squareSizeSpin.getValueAsInt();
 			int totalcount = 0;
 			int count = 0;
-			Color color = new Color();
-			int width = this.width;
-			int height = this.height;
 			int x = 0;
 			int y = 0;
 
@@ -417,11 +412,11 @@ class TestDrawingArea : VBox
 
 				context.restore();
 			}
-			color.destroy();
 		}
 
-		void onOperatorsChanged(ComboBoxText comboBoxText)
+		void onOperatorsChanged(ComboBox comboBox)
 		{
+			auto comboBoxText = cast(ComboBoxText)comboBox;
 			debug(trace) writefln("CairoOperator = %s", comboBoxText.getActiveText());
 			switch ( comboBoxText.getActiveText() )
 			{
@@ -458,9 +453,9 @@ class TestDrawingArea : VBox
 			}
 		}
 
-		void onPrimOptionChanged(ComboBoxText comboBoxText)
+		void onPrimOptionChanged(ComboBox comboBox)
 		{
-			primitiveType = comboBoxText.getActiveText();
+			primitiveType = (cast(ComboBoxText)comboBox).getActiveText();
 		}
 	}
 }

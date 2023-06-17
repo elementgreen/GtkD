@@ -18,12 +18,14 @@
 
 module TestEntries;
 
-private import gtk.Table;
+private import gtk.Grid;
 
 private import gtk.Entry;
+private import gtk.EntryBuffer;
 private import gtk.CheckButton;
 private import gtk.Button;
 private import gtk.Label;
+private import gtk.Widget;
 
 private import glib.Str;
 
@@ -31,7 +33,7 @@ private import std.stdio;
 /**
  * This tests the GtkD Entry widget
  */
-class TestEntries : Table
+final class TestEntries : Grid
 {
 	/**
 	 * Out main widget to test
@@ -43,41 +45,55 @@ class TestEntries : Table
 	 */
 	this()
 	{
-		super(3,2,false);
+		super();
 
 		// create the main test widget
-		entry = new Entry("Change me!");
-		attach(new Label("Input text"),0,1,0,1,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
-		attach(entry,1,2,0,1,AttachOptions.EXPAND,AttachOptions.EXPAND,4,4);
+		entry = Entry.newWithBuffer(new EntryBuffer("Change me!",-1));
+		attachWithOptions(new Label("Input text"),0,1,false);
+		attachWithOptions(entry,1,0,false);
 
 		// create a button that will print the content of the entry to stdout
-		Button testButton = new Button("Show entry", &showEntry);
-		attach(testButton,2,3,0,1,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
+		Button testButton = Button.newWithLabel("Show entry");
+		testButton.addOnClicked(&showEntryClicked);
+		attachWithOptions(testButton,2,0,false);
 		//testButton.setTooltip("This is just a test",null);
 
 		// create a button that will change the entry display mode to invisible
 		// i.e. like a password entry
-		CheckButton entryVisible = new CheckButton("Visible", &entryVisible);
+		CheckButton entryVisible = CheckButton.newWithLabel("Visible");
+		entryVisible.addOnToggled(&entryVisibleToggled);
 		entryVisible.setActive(true);
-		attach(entryVisible,2,3,1,2,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
+		attachWithOptions(entryVisible,2,1,false);
 
 		// create a button that will change the entry mode to not editable
-		CheckButton entryEditable = new CheckButton("Editable", &entryEditable);
+		CheckButton entryEditable = CheckButton.newWithLabel("Editable");
+		entryEditable.addOnToggled(&entryEditableToggled);
 		entryEditable.setActive(true);
-		attach(entryEditable,1,2,1,2,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
+		attachWithOptions(entryEditable,1,1,false);
 	}
 
-	void showEntry(Button button)
+  void attachWithOptions(Widget child,int column,int row,bool expand)
+  {
+    child.setHexpand(expand);
+    child.setVexpand(expand);
+    child.setMarginStart(4);
+    child.setMarginEnd(4);
+    child.setMarginTop(4);
+    child.setMarginBottom(4);
+    attach(child,column,row,1,1);
+  }
+
+	void showEntryClicked(Button button)
 	{
 		writef("text field contains '%s'\n",entry.getText());
 	}
 
-	void entryEditable(CheckButton button)
+	void entryEditableToggled(CheckButton button)
 	{
 		entry.setEditable(button.getActive());
 	}
 
-	void entryVisible(CheckButton button)
+	void entryVisibleToggled(CheckButton button)
 	{
 		entry.setVisibility(button.getActive());
 	}

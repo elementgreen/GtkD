@@ -20,29 +20,29 @@ module TestImage;
 
 //debug = trace
 
-private import gtk.VBox;
+private import gtk.Box;
 
-private import gtk.Table;
+private import gtk.Grid;
 private import gtk.FileChooserDialog;
 private import gtk.Button;
 private import gtk.Widget;
 private import gtk.ScrolledWindow;
-private import gtk.ButtonBox;
-private import gtk.HButtonBox;
 private import gtk.Image;
-
+private import gtk.Dialog;
 private import gtk.Window;
 
 private import std.stdio;
 
 private import glib.Str;
+private import gio.FileIF;
+private import gio.ListModelIF;
 
 /**
  * This tests the GtkD loading and display and image file
  */
-class TestImage : VBox
+class TestImage : Box
 {
-	Table table;
+	Grid grid;
 	FileChooserDialog fs;
 	ScrolledWindow sw;
 
@@ -56,22 +56,24 @@ class TestImage : VBox
 			writeln("instantiating TestImage");
 		}
 
-		super(false,8);
+		super(GtkOrientation.VERTICAL,8);
 
-		sw = new ScrolledWindow(null,null);
+		sw = new ScrolledWindow();
 
-		sw.addWithViewport(initTable());
+		sw.setChild(initGrid());
 
-		ButtonBox hBox = HButtonBox.createActionBox();
-		Button loadDir = new Button("Load Files", &loadImages);
-		hBox.packStart(loadDir,false,false,0);
+		Box hBox = new Box(GtkOrientation.HORIZONTAL,0);
+		Button loadDir = Button.newWithLabel("Load Files");
+		loadDir.addOnClicked(&loadImages);
+		hBox.append(loadDir);
 
-		packStart(sw,true,true,0);
-		packStart(hBox,false,false,0);
+		sw.setVexpand(true);
+		append(sw);
+		append(hBox);
 
 	}
 
-	Table initTable()
+	Grid initGrid()
 	{
 
 		string[] pngs;
@@ -86,19 +88,19 @@ class TestImage : VBox
 		pngs ~= "images/gtkD_logo_too_small.png";
 
 
-		return loadTable(pngs);
+		return loadGrid(pngs);
 	}
 
-	private Table loadTable(string[] imageFiles)
+	private Grid loadGrid(string[] imageFiles)
 	{
-		//Table table = new Table(1,1,false);
-		if ( table  is  null )
+		if ( grid  is  null )
 		{
-			table = new Table(1,1,false);
+			grid = new Grid();
 		}
 		else
 		{
-			table.removeAll();
+			for (auto child = grid.getFirstChild(); child; )
+				grid.remove(child);
 		}
 
 
@@ -122,12 +124,17 @@ class TestImage : VBox
 			{
 				fileName = fileName;
 			}
-			image = new Image(fileName);
+			image = Image.newFromFile(fileName);
 			//image.addOnEnterNotify(&onEnter);
 			//image.addOnLeaveNotify(&onLeave);
-			debug(trace) writefln("adding image %s to table at %s,%s", fileName, col, row);
-			table.resize(col+1, row+1);
-			table.attach(image,col,col+1,row,row+1,AttachOptions.FILL,AttachOptions.FILL,4,4);
+			debug(trace) writefln("adding image %s to grid at %s,%s", fileName, col, row);
+			image.setMarginStart(4);
+			image.setMarginEnd(4);
+			image.setMarginTop(4);
+			image.setMarginBottom(4);
+			image.setVexpand(true);
+			image.setHexpand(true);
+			grid.attach(image,col,row,1,1);
 			++col;
 			if ( col == 8 )
 			{
@@ -136,10 +143,8 @@ class TestImage : VBox
 			}
 
 		}
-		return table;
+		return grid;
 	}
-
-private import glib.ListSG;
 
 	void loadImages(Button button)
 	{
@@ -154,23 +159,24 @@ private import glib.ListSG;
 			fs = new FileChooserDialog("File Selection", window, FileChooserAction.OPEN, a, r);
 		}
 		fs.setSelectMultiple(true);
-		ResponseType response = cast(ResponseType) fs.run();
-		if ( response == ResponseType.ACCEPT )
-		{
-			string[] fileNames;
-			ListSG list = fs.getFilenames();
 
-
-			for ( int i = 0; i<list.length() ; i++)
+		fs.addOnResponse(delegate(int response, Dialog dialog) {
+			if ( response == ResponseType.ACCEPT )
 			{
-				debug(trace) writefln("Testmage.loadImages.File selected = %s",
-						Str.toString(cast(char*)list.nthData(i)));
-				fileNames ~= Str.toString(cast(char*)list.nthData(i));
-			}
+				string[] fileNames;
+				ListModelIF list = fs.getFiles();
 
-			loadTable(fileNames);
-		}
-		fs.hide();
+				for ( int i = 0; i<list.getNItems() ; i++)
+				{
+					string fileName = (cast(FileIF)list.getObject(i)).getPath();
+					debug(trace) writefln("Testmage.loadImages.File selected = %s", fileName);
+					fileNames ~= fileName;
+				}
+
+				loadGrid(fileNames);
+			}
+			fs.hide();
+		});
 	}
 
 	void onEnter(Widget widget)

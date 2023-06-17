@@ -23,8 +23,6 @@ module TestIdle;
 private import cairo.Context;
 private import cairo.ImageSurface;
 
-private import gtk.VBox;
-private import gtk.HBox;
 private import gtk.Box;
 
 private import gtk.DrawingArea;
@@ -32,9 +30,6 @@ private import gdk.Event;
 private import gtk.Widget;
 private import gtk.ComboBox;
 private import gtk.ComboBoxText;
-
-private import gdk.Color;
-private import gdk.Cairo;
 
 private import gtk.SpinButton;
 private import gtk.Adjustment;
@@ -48,7 +43,7 @@ private import glib.Timeout;
 /**
  * This tests the gtkD drawing area widget
  */
-class TestIdle : VBox
+class TestIdle : Box
 {
 
 	SpinButton timeoutSpin;
@@ -61,7 +56,7 @@ class TestIdle : VBox
 			writeln("instantiating TestTimeout");
 		}
 
-		super(false,7);
+		super(GtkOrientation.VERTICAL,7);
 
 		TestDrawing drawingArea = new TestDrawing();
 
@@ -106,14 +101,15 @@ class TestIdle : VBox
 
 		timeoutSpin = new SpinButton(new Adjustment(200.0, 1.0, 1000.0, 1.0, 100.0, 0),1,0);
 		timeoutSpin.addOnValueChanged(&drawingArea.onTimeoutSpinValueChanged);
-		Box controlBox = new HBox(false, 7);
+		Box controlBox = new Box(GtkOrientation.HORIZONTAL, 7);
 
-		controlBox.packStart(operators, false, false, 2);
-		controlBox.packStart(callType, false, false, 2);
-		controlBox.packStart(timeoutSpin, false, false, 2);
+		controlBox.append(operators);
+		controlBox.append(callType);
+		controlBox.append(timeoutSpin);
 
-		packStart(drawingArea,true,true,0);
-		packStart(controlBox,false,false,0);
+		drawingArea.setVexpand(true);
+		append(drawingArea);
+		append(controlBox);
 	}
 
 	class TestDrawing : DrawingArea
@@ -143,8 +139,8 @@ class TestIdle : VBox
 
 			addOnMap(&onMap);
 			addOnUnmap(&onUnmap);
-			addOnSizeAllocate(&onSizeAllocate);
-			addOnDraw(&onDraw);
+			addOnResize(&onResize);
+			setDrawFunc(&drawFunc);
 		}
 
 		public void onMap(Widget widget)
@@ -164,10 +160,8 @@ class TestIdle : VBox
 			continueIdleCallback = false;
 		}
 
-		void onSizeAllocate(GtkAllocation* allocation, Widget widget)
+		void onResize(int width, int height, DrawingArea drawingArea)
 		{
-			width = allocation.width;
-			height = allocation.height;
 			x = 0;
 			y = 0;
 			xi = 1;
@@ -202,13 +196,11 @@ class TestIdle : VBox
 			}
 		}
 
-		bool onDraw(Scoped!Context context, Widget widget)
+		void drawFunc(Context context, int width, int height, DrawingArea drawingArea)
 		{
 			//Fill the Widget with the surface we are drawing on.
 			context.setSourceSurface(surface, 0, 0);
 			context.paint();
-
-			return true;
 		}
 
 		bool idleCallback()
@@ -245,8 +237,9 @@ class TestIdle : VBox
 			return continueIdleCallback;
 		}
 
-		void onCallTypeChanged(ComboBoxText comboBoxText)
+		void onCallTypeChanged(ComboBox comboBox)
 		{
+		  ComboBoxText comboBoxText = cast(ComboBoxText)comboBox;
 			debug(trace) writefln("gcOptions = %s", comboBoxText.getActiveText());
 			switch ( comboBoxText.getActiveText() )
 			{
@@ -257,8 +250,9 @@ class TestIdle : VBox
 			resetCallType();
 		}
 
-		void onOperatorChanged(ComboBoxText comboBoxText)
+		void onOperatorChanged(ComboBox comboBox)
 		{
+		  ComboBoxText comboBoxText = cast(ComboBoxText)comboBox;
 			debug(trace) writefln("CairoOperator = %s", comboBoxText.getActiveText());
 			switch ( comboBoxText.getActiveText() )
 			{

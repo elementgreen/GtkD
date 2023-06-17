@@ -25,61 +25,44 @@ module TestWindow;
 version(cairo)import cairo.clock;
 
 import gtk.Version;
-import gtk.Table;
+import gtk.Grid;
 
 import stdlib = core.stdc.stdlib : exit;
 import core.thread;
 import std.random;
 import std.string;
 
-import gdk.Threads;
-
 import gio.Application : GioApplication = Application;
 import gtk.Application;
 import gtk.ApplicationWindow;
 import gtk.Adjustment;
-import gtk.AccelGroup;
 
 import TestEntries;
 
-import TestStock;
 import TestDrawingArea;
 import TestScales;
 import TestText;
-import TestTreeView;
 import TestImage;
 import TestThemes;
 import TestAspectFrame;
 import TestIdle;
 import TTextView;
 
-import gtk.MenuItem;
 import gtk.Widget;
-import gtk.MenuBar;
+import gtk.PopoverMenuBar;
 import gtk.Notebook;
 import gtk.ComboBoxText;
 import gtk.FileChooserDialog;
-import gtk.FontSelectionDialog;
-import gtk.ColorSelectionDialog;
+import gtk.FontChooserDialog;
+import gtk.ColorChooserDialog;
 import gtk.Button;
-import gtk.VBox;
+import gtk.Box;
 import gtk.MessageDialog;
 import gtk.Frame;
-import gtk.HButtonBox;
 import gtk.Statusbar;
-import gtk.Menu;
-import gtk.HandleBox;
-import gtk.Toolbar;
-import gtk.SeparatorToolItem;
-import gtk.ToolButton;
-import gtk.RadioButton;
 import gtk.CheckButton;
 import gtk.ToggleButton;
-import gtk.HBox;
-import gtk.Arrow;
-import gtk.ButtonBox;
 import gtk.Calendar;
-import gtk.VButtonBox;
 import gtk.SpinButton;
 import gtk.ListStore;
 import gtk.TreeIter;
@@ -87,31 +70,37 @@ import gtk.TreeView;
 import gtk.TreeViewColumn;
 import gtk.CellRendererText;
 import gtk.Window;
-
 import gtk.ScrolledWindow;
 import gtk.MessageDialog;
+import gtk.Separator;
+import gtk.EventControllerMotion;
+import gtk.GestureClick;
+import gtk.ColorChooserDialog;
+
+import gio.Menu;
+import gio.MenuItem;
+import gio.SimpleAction;
+import gio.ActionMapIF;
 
 import core.memory;
 
 import glib.ListSG;
-
+import gobject.Value;
+import glib.Variant;
 import glib.Str;
 import gtk.Label;
 import glib.ListG;
 import gtk.Paned;
-import gtk.HPaned;
-import gtk.VPaned;
 
 import gtk.Calendar;
 import std.stdio;
-import gtk.VButtonBox;
-import gtk.FileChooserButton;
+import gtk.FileChooserNative;
 
 import gtk.AboutDialog;
 import gtk.Dialog;
 
 import gtk.TreeStore;
-import gdk.Pixbuf;
+import gdkpixbuf.Pixbuf;
 import gtk.ComboBox;
 
 import gtk.TreePath;
@@ -139,12 +128,15 @@ class TestWindow : ApplicationWindow
 										MessageType.QUESTION,
 										ButtonsType.YES_NO,
 										"Are you sure you want' to exit these GtkDTests?");
-		int responce = d.run();
-		if ( responce == ResponseType.YES )
-		{
-			stdlib.exit(0);
-		}
-		d.destroy();
+    d.show();
+		d.addOnResponse(delegate (int response, Dialog dialog) {
+			if ( response == ResponseType.YES )
+			{
+				stdlib.exit(0);
+			}
+			dialog.destroy();
+		});
+
 		return true;
 	}
 
@@ -158,9 +150,9 @@ class TestWindow : ApplicationWindow
 		super(application);
 		setTitle("GtkD tests");
 		setup();
-		showAll();
+		show();
 
-		string versionCompare = Version.checkVersion(3,0,0);
+		string versionCompare = Version.checkVersion(4,0,0);
 
 		if ( versionCompare.length > 0 )
 		{
@@ -171,8 +163,8 @@ class TestWindow : ApplicationWindow
 										"GtkD : Gtk+ version missmatch\n" ~ versionCompare ~
 										"\nYou might run into problems!"~
 										"\n\nPress OK to continue");
-			d.run();
-			d.destroy();
+			d.addOnResponse((int, Dialog dialog) => dialog.destroy());
+			d.show();
 		}
 	}
 
@@ -180,94 +172,121 @@ class TestWindow : ApplicationWindow
 	{
 		//Frame.defaultBorder = 7;
 
-		VBox mainBox = new VBox(false,0);
-		mainBox.packStart(getMenuBar(),false,false,0);
-		mainBox.packStart(getToolbar(),false,false,0);
+		auto mainBox = new Box(GtkOrientation.VERTICAL,0);
+
+		getApplication().setMenubar(getMenuBar());
+		setShowMenubar(true);
+		mainBox.append(getToolbar());
 
 		Notebook notebook = setNotebook();
-		notebook.setBorderWidth(10);
-		mainBox.packStart(notebook,true,true,0);
+		notebook.setMarginStart(10);
+		notebook.setMarginEnd(10);
+		notebook.setMarginTop(10);
+		notebook.setMarginBottom(10);
+		notebook.setVexpand(true);
+		mainBox.append(notebook);
 
-		Button cancelButton = new Button(StockID.CANCEL, &anyButtonExits);
-		Button exitButton = new Button(StockID.QUIT, &anyButtonExits);
-		Button quitButton = new Button(StockID.OK, &anyButtonExits);
+		Button cancelButton = Button.newWithLabel("Cancel");
+		cancelButton.addOnClicked(&anyButtonExits);
+		Button exitButton = Button.newWithLabel("Quit");
+		exitButton.addOnClicked(&anyButtonExits);
+		Button quitButton = Button.newWithLabel("OK");
 
-		ButtonBox bBox = HButtonBox.createActionBox();
+		Box bBox = new Box(GtkOrientation.HORIZONTAL,10);
 
-		bBox.packEnd(exitButton,0,0,10);
-		bBox.packEnd(cancelButton,0,0,10);
-		bBox.packEnd(quitButton,0,0,10);
-		mainBox.packStart(bBox,false,false,0);
+		bBox.prepend(exitButton);
+		bBox.prepend(cancelButton);
+		bBox.prepend(quitButton);
+		mainBox.append(bBox);
 
 		Statusbar statusbar = new Statusbar();
 
-		mainBox.packStart(statusbar,false,true,0);
-		add(mainBox);
+		mainBox.append(statusbar);
+		setChild(mainBox);
 
-		notebook.appendPage(new TestEntries,"Entry");
+		notebook.appendPage(new TestEntries.TestEntries(),new Label("Entry"));
 		testEventBox(notebook);
 
 		testButtons(notebook);
 
-		notebook.appendPage(new TestStock,"Stock");
 		testLists(notebook);
 		testNotebook(notebook);
 		testPaned(notebook);
 		testDialogs(notebook);
 		testViewport(notebook);
 
-		notebook.appendPage(new TestScales,"Scales");
+		notebook.appendPage(new TestScales.TestScales(),new Label("Scales"));
 			testSpinButton(notebook);
 
-		notebook.appendPage(new TestTreeView,"TreeView");
+//		notebook.appendPage(new TestTreeView,"TreeView");
 //		notebook.appendPage(new TestTreeView1,"TreeView 1");
 //			testList(notebook);
 
 		version(linux) {
 			// this block crashes gtk+ on win32 for some reason
-			notebook.appendPage(new Frame(new TestDrawingArea,"Drawing Area"),"Drawing");
-			notebook.appendPage(new TestText,"Text");
-			notebook.appendPage(new TestImage(this),"Image");
+			auto frame = new Frame("Drawing Area");
+			frame.setChild(new TestDrawingArea.TestDrawingArea());
+			notebook.appendPage(frame,new Label("Drawing"));
+			notebook.appendPage(new TestText.TestText(),new Label("Text"));
+			notebook.appendPage(new TestImage.TestImage(this),new Label("Image"));
 			//TestThemes seems to be unfinished.
 			//notebook.appendPage(new TestThemes(this),"Themes");
-			notebook.appendPage(new TestAspectFrame(),"Aspect Frame");
-			notebook.appendPage(new TestIdle(),"Idle");
-			version(cairo)notebook.appendPage(new Clock(), "Cairo");
+			notebook.appendPage(new TestAspectFrame.TestAspectFrame(),new Label("Aspect Frame"));
+			notebook.appendPage(new TestIdle.TestIdle(),new Label("Idle"));
+			version(cairo)notebook.appendPage(new Clock(), new Label("Cairo"));
 			gtkDemo(notebook);
 		}
 	}
 
-	MenuBar getMenuBar()
+	Menu getMenuBar()
 	{
+		Menu menuBar = new Menu();
 
-		AccelGroup accelGroup = new AccelGroup();
+		Menu menu = new Menu();
+		menuBar.appendSubmenu("File", menu);
+		menu.append("New", "file.new");
+		menu.append("Open", "file.open");
+		menu.append("Close", "file.close");
+		menu.append("Exit", "file.exit");
 
-		addAccelGroup(accelGroup);
+		menu = new Menu();
+		menuBar.appendSubmenu("Edit", menu);
+		menu.append("Find", "edit.find");
+		menu.append("Search", "edit.search");
 
+		menu = new Menu();
+		menuBar.appendSubmenu("Help", menu);
+		menu.append("About", "help.about");
 
-		MenuBar menuBar = new MenuBar();
+		auto actionMap = cast(ActionMapIF)getApplication();
 
-		Menu menu = menuBar.append("_File");
+		auto action = new SimpleAction("file.new", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
-		MenuItem item = new MenuItem(&onMenuActivate, "_New","file.new", true, accelGroup, 'n');
-		//item.addAccelerator("activate",accelGroup,'n',GdkModifierType.CONTROL_MASK,GtkAccelFlags.VISIBLE);
+		action = new SimpleAction("file.open", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
-		menu.append(item);
-		menu.append(new MenuItem(&onMenuActivate, "_Open","file.open", true, accelGroup, 'o'));
-		menu.append(new MenuItem(&onMenuActivate, "_Close","file.close", true, accelGroup, 'c'));
-		menu.append(new MenuItem(&onMenuActivate, "E_xit","file.exit", true, accelGroup, 'x'));
+		action = new SimpleAction("file.close", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
+		action = new SimpleAction("file.exit", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
-		menu = menuBar.append("_Edit");
+		action = new SimpleAction("edit.find", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
-		menu.append(new MenuItem(&onMenuActivate,"_Find","edit.find", true, accelGroup, 'f'));
-		menu.append(new MenuItem(&onMenuActivate,"_Search","edit.search", true, accelGroup, 's'));
+		action = new SimpleAction("edit.search", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
-		menu = menuBar.append("_Help");
-		menu.append(new MenuItem(&onMenuActivate,"_About","help.about", true, accelGroup, 'a',GdkModifierType.CONTROL_MASK|GdkModifierType.SHIFT_MASK));
-
-
-
+		action = new SimpleAction("help.about", null);
+		action.addOnActivate(&onMenuActivate);
+		actionMap.addAction(action);
 
 		return menuBar;
 	}
@@ -288,15 +307,13 @@ class TestWindow : ApplicationWindow
 		}
 	}
 
-	void onMenuActivate(MenuItem menuItem)
+	void onMenuActivate(Variant val, SimpleAction action)
 	{
-		string action = menuItem.getActionName();
-		switch( action )
+		string actionName = action.getName();
+		switch( actionName )
 		{
 			case "help.about":
-				GtkDAbout dlg = new GtkDAbout();
-				dlg.addOnResponse(&onDialogResponse);
-				dlg.showAll();
+				new GtkDAbout();
 				break;
 			default:
 				MessageDialog d = new MessageDialog(
@@ -304,33 +321,24 @@ class TestWindow : ApplicationWindow
 					GtkDialogFlags.MODAL,
 					MessageType.INFO,
 					ButtonsType.OK,
-					"You pressed menu item "~action);
-				d.run();
-				d.destroy();
+					"You pressed menu item "~actionName);
+				
+				d.show();
+				d.addOnResponse((int response, Dialog dialog) => dialog.destroy());
 			break;
 		}
-
-	}
-
-	void onDialogResponse(int response, Dialog dlg)
-	{
-		if(response == GtkResponseType.CANCEL)
-			dlg.destroy();
 	}
 
 	Widget getToolbar()
 	{
-		HandleBox handleBox = new HandleBox();
-		Toolbar toolbar = new Toolbar();
-		toolbar.insert(new ToolButton(StockID.OPEN));
-		toolbar.insert(new ToolButton(StockID.CLOSE));
-		toolbar.insert(new SeparatorToolItem());
-		toolbar.insert(new ToolButton(StockID.SAVE));
-		toolbar.insert(new ToolButton(StockID.SAVE_AS));
+		Box toolbar = new Box(GtkOrientation.HORIZONTAL,0);
+		toolbar.append(Button.newFromIconName("document-open"));
+		toolbar.append(Button.newFromIconName("window-close"));
+		toolbar.append(new Separator(GtkOrientation.VERTICAL));
+		toolbar.append(Button.newFromIconName("document-save"));
+		toolbar.append(Button.newFromIconName("document-save-as"));
 
-		handleBox.add(toolbar);
-
-		return handleBox;
+		return toolbar;
 
 	}
 
@@ -354,99 +362,61 @@ class TestWindow : ApplicationWindow
 
 	void testEventBox(Notebook notebook)
 	{
-
 //		EventBox eventBox = new EventBox();
 //		eventBox.add(new Label("label on event box"));
 //		notebook.appendPage(eventBox,"Buttons");
 
 		//EventBox eventBox = new EventBox();
 		//eventBox.add(new Label("label on event box"));
-		notebook.appendPage(new Label("just a simple label"),new Label("label"));
-
+		notebook.appendPage(new Label("just a simple label"),new Label("Label"));
 	}
 
 	void testButtons(Notebook notebook)
 	{
+		Grid grid = new Grid();
+		grid.setColumnSpacing(4);
+		grid.setRowSpacing(4);
+		CheckButton groupBtn;
 
-		Table table = new Table(2,12,0);
-
-		//ListSG listSG = new ListSG();
-
-		RadioButton radio1Button = new RadioButton(cast(ListSG)null,"Option 1");
-		RadioButton radio2Button = new RadioButton(radio1Button,"Option 2");
-		RadioButton radio3Button = new RadioButton(radio2Button,"Option 3");
-		RadioButton radio4Button = new RadioButton(radio3Button,"Option 4");
-		RadioButton radio5Button = new RadioButton(radio4Button,"Option 5");
-		RadioButton radio6Button = new RadioButton(radio5Button,"Option 6");
-		RadioButton radio7Button = new RadioButton(radio6Button,"Option 7");
-		RadioButton radio8Button = new RadioButton(radio7Button,"Option 8");
-		RadioButton radio9Button = new RadioButton(radio8Button,"Option 9");
-		table.attach(radio1Button,0,1,0,1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio2Button,0,1,1,2,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio3Button,0,1,2,3,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio4Button,0,1,3,4,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio5Button,0,1,4,5,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio6Button,0,1,5,6,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio7Button,0,1,6,7,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio8Button,0,1,7,8,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(radio9Button,0,1,8,9,AttachOptions.FILL,AttachOptions.FILL,4,4);
-
-		CheckButton editableButton = new CheckButton("editable");
-		CheckButton visibleButton = new CheckButton("visible");
-		table.attach(editableButton,0,1,9,10,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(visibleButton,0,1,10,11,AttachOptions.FILL,AttachOptions.FILL,4,4);
-
-		ToggleButton toggleButton = new ToggleButton("Toggle this");
-		table.attach(toggleButton,0,1,11,12,AttachOptions.FILL,AttachOptions.FILL,4,4);
-
-		Button button = new Button("test events");
-		table.attach(button,0,1,12,13,AttachOptions.FILL,AttachOptions.FILL,4,4);
-
-		void bActivate(Button button)
+		// Radio buttons
+		foreach (i; 0 .. 9)
 		{
-			writeln("button Activate");
-		}
-		void bClicked(Button button)
-		{
-			writeln("button Clicked");
-		}
-		void bEnter(Button button)
-		{
-			writeln("button Enter");
-		}
-		void bLeave(Button button)
-		{
-			writeln("button Leave");
-		}
-		void bPressed(Button button)
-		{
-			writeln("button Pressed");
-		}
-		void bReleased(Button button)
-		{
-			writeln("button Released");
-		}
-		button.addOnActivate(&bActivate);
-		button.addOnClicked(&bClicked);
-		button.addOnEnter(&bEnter);
-		button.addOnLeave(&bLeave);
-		button.addOnPressed(&bPressed);
-		button.addOnReleased(&bReleased);
+			auto checkBtn = CheckButton.newWithLabel(format("Option %d", i + 1));
+			grid.attach(checkBtn, 0, i, 1, 1);
 
-//		for ( ShadowType shadow = 0; shadow<=ShadowType.max ; shadow ++)
-//		{
-//			for ( DirectionType direction = 0 ; direction<=DirectionType.max ; direction++)
-//			{
-//				table.attach(new Arrow(direction,shadow),direction+1,direction+2,shadow,shadow+1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-//				table.attach(new Arrow(direction,shadow),direction+1,direction+2,shadow,shadow+1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-//				table.attach(new Arrow(direction,shadow),direction+1,direction+2,shadow,shadow+1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-//				table.attach(new Arrow(direction,shadow),direction+1,direction+2,shadow,shadow+1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-//			}
-//		}
+			if (i > 0)
+				checkBtn.setGroup(groupBtn);
+			else groupBtn = checkBtn;
+		}
 
+		CheckButton editableButton = CheckButton.newWithLabel("editable");
+		CheckButton visibleButton = CheckButton.newWithLabel("visible");
+		grid.attach(editableButton,0,9,1,1);
+		grid.attach(visibleButton,0,10,1,1);
 
-		notebook.appendPage(new Frame(table,"Buttons"),"Buttons");
+		ToggleButton toggleButton = ToggleButton.newWithLabel("Toggle this");
+		grid.attach(toggleButton,0,11,1,1);
 
+		Button button = Button.newWithLabel("test events");
+		grid.attach(button,0,12,1,1);
+
+		button.addOnActivate((Button) => writeln("button Activate"));
+		button.addOnClicked((Button) => writeln("button Clicked"));
+
+		auto motionController = new EventControllerMotion();
+		button.addController(motionController);
+		motionController.addOnEnter((double, double, EventControllerMotion) => writeln("button Enter"));
+		motionController.addOnLeave((EventControllerMotion) => writeln("button Leave"));
+
+		auto gestureClick = new GestureClick();
+		button.addController(gestureClick);
+		gestureClick.setButton(1);
+		gestureClick.addOnPressed((int, double, double, GestureClick) => writeln("button Pressed"));
+		gestureClick.addOnReleased((int, double, double, GestureClick) => writeln("button Released"));
+
+		auto frame = new Frame("Buttons");
+		frame.setChild(grid);
+		notebook.appendPage(frame, new Label("Buttons"));
 	}
 
 	class ComboStore : TreeStore
@@ -466,32 +436,31 @@ class TestWindow : ApplicationWindow
 
 	void testLists(Notebook notebook)
 	{
-		VBox mainBox = new VBox(false,3);
+		Box mainBox = new Box(GtkOrientation.VERTICAL,3);
 
 		// comboBoxTextEntry from a list of strings
-		mainBox.packStart(new Label("String combo"),false,true,0);
+		mainBox.append(new Label("String combo"));
 		static string[] cbList = ["item 1","item 2","item 3","item 4","item 5","item 6","item 7","item 8","item 9"];
 		comboText = new ComboBoxText();
-		string entry3 = "Combo box text entry 3";
 		comboText.appendText("Combo box text entry 1");
 		comboText.appendText("Combo box text entry 2");
-		comboText.appendText(entry3);
+		comboText.appendText("Combo box text entry 3");
 		comboText.appendText("Combo box text entry 4");
 		comboText.appendText("Combo box text entry 5");
 		comboText.setActive(2);
 
-		ButtonBox actionBox1 = HButtonBox.createActionBox();
-		actionBox1.packStart(comboText,false,false,0);
+		Box actionBox1 = new Box(GtkOrientation.HORIZONTAL,0);
+		actionBox1.append(comboText);
 
-		Button showCombo1 = new Button("ShowCombo", &showTextCombo);
-		actionBox1.packStart(showCombo1,false,false,0);
+		Button showCombo1 = Button.newWithLabel("ShowCombo");
+		showCombo1.addOnClicked(&showTextCombo);
+		actionBox1.append(showCombo1);
 
-		mainBox.packStart(new Frame(actionBox1, "Text entry ComboBox"),false,false,0);
-
-
+		Frame frame = new Frame("Text entry ComboBox");
+		frame.setChild(actionBox1);
+		mainBox.append(frame);
 
 		// TODO combo with widgets
-
 
 		// new ComboBox + TreeModel
 
@@ -499,35 +468,35 @@ class TestWindow : ApplicationWindow
 
 		TreeIter iterFirst;	// to set the first active iter
 		TreeIter iterChild;
-		TreeIter iterTop = comboStore.append(null);
+		TreeIter iterTop;
+		comboStore.append(iterTop, null);
 		comboStore.setValue(iterTop, 0, "Paganini" );
-		iterFirst = comboStore.append(iterTop);
+		comboStore.append(iterFirst, iterTop);
 		comboStore.setValue(iterFirst, 0, "Nicolo" );
 
-		iterTop = comboStore.append(null);
+		comboStore.append(iterTop, null);
 		comboStore.setValue(iterTop, 0, "List" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Franz" );
 
-		iterTop = comboStore.append(null);
+		comboStore.append(iterTop, null);
 		comboStore.setValue(iterTop, 0, "Beethoven" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Ludwic" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Maria" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Van" );
 
-		iterTop = comboStore.append(null);
+		comboStore.append(iterTop, null);
 		comboStore.setValue(iterTop, 0, "Bach" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Johann" );
-		iterChild = comboStore.append(iterTop);
+		comboStore.append(iterChild, iterTop);
 		comboStore.setValue(iterChild, 0, "Sebastian" );
 
-		ComboBox treeCombo = new ComboBox(comboStore);
-		treeCombo.setWrapWidth(1);
-		treeCombo.setProperty("entry-text-column", 0);
+		ComboBox treeCombo = ComboBox.newWithModelAndEntry(comboStore);
+		treeCombo.setEntryTextColumn(0);
 
 		// TODO something is wrong gettign the ier from the path
 		//TreePath path = new TreePath("0,0");
@@ -536,7 +505,9 @@ class TestWindow : ApplicationWindow
 		// use a previously set iter
 		treeCombo.setActiveIter(iterFirst);
 
-		mainBox.packStart(new Frame(treeCombo,"Tree Combo box"),false,true,0);
+		frame = new Frame("Tree Combo box");
+		frame.setChild(treeCombo);
+		mainBox.append(frame);
 
 		simpleCombo = new ComboBoxText();
 		simpleCombo.appendText("Top");
@@ -547,16 +518,21 @@ class TestWindow : ApplicationWindow
 
 		// actions
 
-		ButtonBox actionBox = HButtonBox.createActionBox();
-		actionBox.packStart(simpleCombo,false,false,0);
+		Box actionBox =  new Box(GtkOrientation.HORIZONTAL,0);
+		actionBox.append(simpleCombo);
 
-		Button showCombo = new Button("ShowCombo", &showSimpleCombo);
-		actionBox.packStart(showCombo,false,false,0);
+		Button showCombo = Button.newWithLabel("ShowCombo"); 
+		showCombo.addOnClicked(&showSimpleCombo);
+		actionBox.append(showCombo);
 
-		mainBox.packStart(new Frame(actionBox, "Simple text list"),false,false,0);
+		frame = new Frame("Simple text list");
+		frame.setChild(actionBox);
+		mainBox.append(frame);
 
-		notebook.appendPage(new Frame(mainBox,"Lists"),"Lists");
+		frame = new Frame("Lists");
+		frame.setChild(mainBox);
 
+		notebook.appendPage(frame,new Label("Lists"));
 	}
 	ComboBoxText simpleCombo;
 	ComboBoxText comboText;
@@ -614,53 +590,53 @@ class TestWindow : ApplicationWindow
 	 */
 	void testNotebook(Notebook notebook)
 	{
-
-      	nb = new NB();
-      	nb.setTabPos(PositionType.min);
-      	nb.popupEnable();
+		nb = new NB();
+		nb.setTabPos(PositionType.min);
+		nb.popupEnable();
 		nb.setShowBorder(false);
-		nb.setBorderWidth(0);
 
-      	class PageMove
-      	{
-      		Notebook notebook;
-      		PositionType toPos;
-      		this(Notebook notebook,PositionType toPos)
-      		{
-      			this.notebook = notebook;
-      			this.toPos = toPos;
-      		}
-      		void buttonClickedCallback()
-      		{
-      			notebook.setTabPos(toPos);
-      		}
-      	}
+		class PageMove
+		{
+			Notebook notebook;
+			PositionType toPos;
+			this(Notebook notebook,PositionType toPos)
+			{
+				this.notebook = notebook;
+				this.toPos = toPos;
+			}
+			void buttonClickedCallback()
+			{
+				notebook.setTabPos(toPos);
+			}
+		}
 
 		PageMove toLeft = new PageMove(nb,PositionType.LEFT);
 		PageMove toRight = new PageMove(nb,PositionType.RIGHT);
 		PageMove toTop = new PageMove(nb,PositionType.TOP);
 		PageMove toBottom = new PageMove(nb,PositionType.BOTTOM);
 
-
 		notebook.appendPage(nb,new Label("Notebook"));
 
-      	for( char i = '1' ; i<'5' ; i++ )
-      	{
-      		Table table = new Table(2,2,true);
-			Button left = new Button("Left "~ i);
+		for( char i = '1' ; i<'5' ; i++ )
+		{
+			Grid grid = new Grid();
+			grid.setColumnSpacing(4);
+			grid.setRowSpacing(4);
+			Button left = Button.newWithLabel("Left "~ i);
 			left.addOnClicked(&posLeft);
-			Button right = new Button("Right "~ i);
+			Button right = Button.newWithLabel("Right "~ i);
 			right.addOnClicked(&posRight);
-			Button top = new Button("top "~ i);
+			Button top = Button.newWithLabel("top "~ i);
 			top.addOnClicked(&posTop);
-			Button bottom = new Button("bottom "~ i);
+			Button bottom = Button.newWithLabel("bottom "~ i);
 			bottom.addOnClicked(&posBottom);
 
-			table.attach(top,0,1,0,1,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
-			table.attach(right,1,2,0,1,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
-			table.attach(left,0,1,1,2,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
-			table.attach(bottom,1,2,1,2,AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
-      		if ( i == 3 )
+			grid.attach(top,0,0,1,1);
+			grid.attach(right,1,0,1,1);
+			grid.attach(left,0,1,1,1);
+			grid.attach(bottom,1,1,1,1);
+
+			if ( i == 3 )
 			{
 
 //				MenuItem menuItem = new MenuItem("menu page 3",&nb.itemActivated);
@@ -673,31 +649,26 @@ class TestWindow : ApplicationWindow
 //
 //				menuItem.setSubmenu(menu);
 
-				HBox box = new HBox(false,0);
-				box.setBorderWidth(0);
-				Button button = new Button("Page " ~ i ~ "\0");
+				Box box = new Box(GtkOrientation.HORIZONTAL,0);
+				Button button = Button.newWithLabel("Page " ~ i);
 				button.addOnClicked(&nb.buttonClicked);
-				button.setBorderWidth(0);
-				button.setRelief(ReliefStyle.NONE);
 				CheckButton checkButton = new CheckButton();
-				checkButton.setBorderWidth(0);
-				box.packStart(checkButton,false,false,0);
-				box.packStart(button,false,false,0);
-				//nb.appendPageMenu(table,box,menuItem);
-				//nb.appendPage(table,box);
+				box.append(checkButton);
+				box.append(button);
+				//nb.appendPageMenu(grid,box,menuItem);
+				//nb.appendPage(grid,box);
 			}
 			else
 			{
-				nb.appendPage(table,new Label("Page " ~ i ~ "\0"));
+				nb.appendPage(grid,new Label("Page " ~ i));
 			}
-      	}
+		}
 		//nb.addOnSwitchPage(&nb.switchPage);
 	}
 
 	void testPaned(Notebook notebook)
 	{
-
-		Paned mainPaned = new VPaned();
+		Paned mainPaned = new Paned(GtkOrientation.VERTICAL);
 		Paned p0 = mainPaned;
 		Button p1;
 		Paned p2;
@@ -705,23 +676,20 @@ class TestWindow : ApplicationWindow
 		bool h = true;
 		for ( char c='1' ; c<='5' ; c++ )
 		{
-			p1 = new Button("Pane "~c);
-			if ( h ) p2 = new HPaned();
-			else p2 = new VPaned();
+			p1 = Button.newWithLabel("Pane "~c);
+			if ( h ) p2 = new Paned(GtkOrientation.HORIZONTAL);
+			else p2 = new Paned(GtkOrientation.VERTICAL);
 
-			p0.add1(p1);
-			p0.add2(p2);
+			p0.setStartChild(p1);
+			p0.setEndChild(p2);
 			p0 = p2;
 			h = !h;
 		}
 
 		notebook.appendPage(mainPaned,new Label("Paned"));
-
 	}
 
 	FileChooserDialog fcd;
-	FontSelectionDialog f;
-	ColorSelectionDialog d;
 
 	void showFileChooser(Button button)
 	{
@@ -731,117 +699,120 @@ class TestWindow : ApplicationWindow
 		a ~= "Please don't";
 		r ~= ResponseType.OK;
 		r ~= ResponseType.CANCEL;
+
 		if ( fcd  is  null )
 		{
 			fcd = new FileChooserDialog("File Chooser", this, FileChooserAction.OPEN, a, r);
 		}
 
 		fcd.setSelectMultiple(true);
-		fcd.run();
+		fcd.show();
+		fcd.addOnResponse((int response, Dialog dialog) => dialog.hide());
 //		writefln("file selected = %s",fcd.getFileName());
 //
 //		foreach ( int i, string selection ; fs.getSelections())
 //		{
 //			writefln("File(s) selected [%d] %s",i,selection);
 //		}
-		fcd.hide();
 	}
 
 	void showColor(Button button)
 	{
+    static ColorChooserDialog d;
+
 		if ( d  is  null )
 		{
-			d = new ColorSelectionDialog("Select the color");
+			d = new ColorChooserDialog("Select the color", this);
 		}
-		d.run();
-		d.hide();
+		d.show();
+		d.addOnResponse((int response, Dialog dialog) => dialog.hide());
 	}
 
 	void showCalendar(Button button)
 	{
-		Window calWin = new Window("Calendar");
+		Window calWin = new Window();
+		calWin.setTitle("Calendar");
 		Calendar calendar = new Calendar();
 		//calendar.setTitle("No Title");
-		calWin.add(calendar);
-		calWin.showAll();
+		calWin.setChild(calendar);
+		calWin.show();
 	}
 
 	void showFont(Button button)
 	{
+		static FontChooserDialog f;
+
 		if ( f  is  null )
 		{
-			f = new FontSelectionDialog("Select the font");
+			f = new FontChooserDialog("Select the font", this);
 		}
-		f.run();
-		string fontName = f.getFontName();
-		f.hide();
+		f.show();
+		f.addOnResponse((int response, Dialog dialog) => dialog.hide());
 	}
-
-	Button fontButton;
 
 	void testDialogs(Notebook notebook)
 	{
-
-		ButtonBox bBox = VButtonBox.createActionBox();
+		Box bBox = new Box(GtkOrientation.VERTICAL,0);
 
 		if ( fcd  is  null )
 		{
 			fcd = new FileChooserDialog("File Chooser", this, FileChooserAction.OPEN);
 		}
 
+		Button fileChooser = Button.newWithLabel("File Chooser");
+		fileChooser.addOnClicked(&showFileChooser);
 
-		Button fileChooser = new Button("File Chooser", &showFileChooser);
-		FileChooserButton fcb = new FileChooserButton(fcd);
+		Button color = Button.newWithLabel("Color Dialog");
+		color.addOnClicked(&showColor);
 
-		Button color = new Button("Color Dialog", &showColor);
-		Button calendar = new Button("Calendar Dialog", &showCalendar);
-		fontButton = new Button("Font Dialog", &showFont);
+		Button calendar = Button.newWithLabel("Calendar Dialog");
+		calendar.addOnClicked(&showCalendar);
+
+		Button fontButton = Button.newWithLabel("Font Dialog");
+		fontButton.addOnClicked(&showFont);
+
 		//fontButton.modifyFont("[Newspaper][16]");
 
-		bBox.packStart(fileChooser,0,0,10);
-		bBox.packStart(fcb,0,0,10);
-		bBox.packStart(color,0,0,10);
-		bBox.packStart(calendar,0,0,10);
-		bBox.packStart(fontButton,0,0,10);
+		bBox.append(fileChooser);
+		bBox.append(color);
+		bBox.append(calendar);
+		bBox.append(fontButton);
 
-		notebook.appendPage(new Frame(bBox,"Dialogs"),new Label("Dialogs"));
-
+		Frame frame = new Frame("Dialogs");
+		frame.setChild(bBox);
+		notebook.appendPage(frame,new Label("Dialogs"));
 	}
 
 	void testViewport(Notebook notebook)
 	{
-
-		Table grid = new Table(21,21,0);
+		Grid grid = new Grid();
 		for ( int i = 0 ; i<21 ; i++)
 		{
 			for ( int j = 0 ; j<21; j++)
 			{
 				if ( (i == j) || (i+j==20) || (i==10) || (j==10))
 				{
-					grid.attach(
-						new Button("Button"),
-							i,i+1,
-							j,j+1,
-							AttachOptions.SHRINK,AttachOptions.SHRINK,4,4);
+					grid.attach(Button.newWithLabel("Button"),i,j,1,1);
 				}
 			}
 		}
 
-		ScrolledWindow sw = new ScrolledWindow(null,null);
-		sw.addWithViewport(grid);
+		ScrolledWindow sw = new ScrolledWindow();
+		sw.setChild(grid);
 		notebook.appendPage(sw,new Label("Viewport"));
 	}
 
 	void testSpinButton(Notebook notebook)
 	{
-		Table table = new Table(2,1,false);
+		Grid grid = new Grid();
+		grid.setColumnSpacing(4);
+		grid.setRowSpacing(4);
 
 		SpinButton spin = new SpinButton(new Adjustment(1.0, 0.0, 100.0, 1.0, 10.0, 0),1,0);
-		table.attach(new Label("Spin this:"),0,1,0,1,AttachOptions.FILL,AttachOptions.FILL,4,4);
-		table.attach(spin,1,2,0,1,AttachOptions.FILL,AttachOptions.FILL,4,4);
+		grid.attach(new Label("Spin this:"),0,0,1,1);
+		grid.attach(spin,1,0,1,1);
 
-		notebook.appendPage(table,"Spin Buttons");
-
+		notebook.appendPage(grid,new Label("Spin Buttons"));
 	}
 
 	void testList(Notebook notebook)
@@ -861,39 +832,40 @@ class TestWindow : ApplicationWindow
 
 		TestListStore testListStore = new TestListStore();
 
-		TreeIter iterTop = testListStore.createIter();
+		TreeIter iterTop;
+		testListStore.append(iterTop);
 
 		static int [3] cols = [0,1,2];
-		string[] vals;
-		vals ~= "Antonio";
-		vals ~= "Canada";
-		vals ~= "Ontario";
+		Value[] vals;
+		vals ~= new Value("Antonio");
+		vals ~= new Value("Canada");
+		vals ~= new Value("Ontario");
 		testListStore.set(iterTop,cols,vals);
 
 		testListStore.append(iterTop);
-		string[] vals1;
-		vals1 ~= "John Reimer";
-		vals1 ~= "Canada";
-		vals1 ~= "BC";
+		Value[] vals1;
+		vals1 ~= new Value("John Reimer");
+		vals1 ~= new Value("Canada");
+		vals1 ~= new Value("BC");
 		testListStore.set(iterTop,cols,vals1);
 
 		testListStore.append(iterTop);
-		string[] vals2;
-		vals2 ~= "Friend of GtkD 2";
-		vals2 ~= "Poland";
-		vals2 ~= "Torun";
+		Value[] vals2;
+		vals2 ~= new Value("Friend of GtkD 2");
+		vals2 ~= new Value("Poland");
+		vals2 ~= new Value("Torun");
 		testListStore.set(iterTop,cols,vals2);
 
 		testListStore.append(iterTop);
-		string[] vals3;
-		vals3 ~= "Friend of GtkD 3";
-		vals3 ~= "Norway";
-		vals3 ~= "Norway";
+		Value[] vals3;
+		vals3 ~= new Value("Friend of GtkD 3");
+		vals3 ~= new Value("Norway");
+		vals3 ~= new Value("Norway");
 		testListStore.set(iterTop,cols,vals3);
 
-		TreeView treeView = new TreeView(testListStore);
+		TreeView treeView = new TreeView();
+		treeView.setModel(testListStore);
 		treeView.setHeadersClickable(true);
-		treeView.setRulesHint(true);
 
 		//CellRendererText cellText = new CellRendererText();
 		TreeViewColumn column = new TreeViewColumn("Author",new CellRendererText(),"text", 0);
@@ -918,9 +890,9 @@ class TestWindow : ApplicationWindow
 		column.setSortIndicator(true);
 
 		//notebook.appendPage(treeView,"ListView");
-		ScrolledWindow sw = new ScrolledWindow(null,null);
-		sw.addWithViewport(treeView);
-		notebook.appendPage(sw,"ListView");
+		ScrolledWindow sw = new ScrolledWindow();
+		sw.setChild(treeView);
+		notebook.appendPage(sw,new Label("ListView"));
 	}
 
 	void testDelete(Notebook notebook)
@@ -944,27 +916,22 @@ class TestWindow : ApplicationWindow
 
 	void gtkDemo(Notebook notebook)
 	{
-		void showTTextView(Button button)
-		{
-			new TTextView();
-		}
+		Box vBBox = new Box(GtkOrientation.VERTICAL, 0);
+		vBBox.setSpacing(4);
 
-		void showTEditableCells(Button button)
-		{
-		//	new TEditableCells();
-		}
+		Button button = Button.newWithLabel("Text View");
+		button.addOnClicked(delegate(Button button) {
+			new TTextView.TTextView();
+		});
+		vBBox.append(button);
 
-		ButtonBox vBBox = VButtonBox.createActionBox();
+		button = Button.newWithLabel("Editable Cells");
+		button.addOnClicked(delegate(Button button) {
+			//	new TEditableCells()
+		});
+		vBBox.append(button);
 
-		Button button = new Button("Text View");
-		button.addOnClicked(&showTTextView);
-		vBBox.packStart(button,false,false,4);
-
-		button = new Button("Editable Cells");
-		button.addOnClicked(&showTEditableCells);
-		vBBox.packStart(button,false,false,4);
-
-		notebook.appendPage(vBBox,"gtk-demo");
+		notebook.appendPage(vBBox,new Label("gtk-demo"));
 	}
 }
 

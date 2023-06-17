@@ -18,7 +18,7 @@
 
 module TestText;
 
-private import gtk.VBox;
+private import gtk.Box;
 
 private import gtk.ScrolledWindow;
 private import gtk.TextView;
@@ -30,7 +30,7 @@ debug import std.stdio;
  * This tests the GtkD text widget
  */
 
-class TestText : VBox
+class TestText : Box
 {
 
 	private import gtk.ScrolledWindow;
@@ -38,14 +38,14 @@ class TestText : VBox
 	this()
 	{
 
-		super(false,0);
+		super(GtkOrientation.VERTICAL,0);
 
 		debug(1)
 		{
 			writeln("instantiating TestText");
 		}
 
-		ScrolledWindow sw = new ScrolledWindow(null, null);
+		ScrolledWindow sw = new ScrolledWindow();
 		sw.setPolicy(PolicyType.AUTOMATIC,PolicyType.AUTOMATIC);
 
 		TextView textView = new TextView();
@@ -71,8 +71,9 @@ D can interface with C so any graphics toolkit with a C API can be used directly
 
 		);
 
-		sw.add(textView);
-		packStart(sw,true,true,0);
+		sw.setChild(textView);
+		sw.setVexpand(true);
+		append(sw);
 
 	}
 

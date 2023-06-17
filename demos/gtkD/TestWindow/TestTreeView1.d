@@ -20,7 +20,7 @@ module TestTreeView1;
 
 //debug = trace;
 
-private import gtk.VBox;
+private import gtk.Box;
 
 private import gobject.Value;
 
@@ -31,17 +31,18 @@ private import gtk.TreePath;
 private import gtk.TreeViewColumn;
 private import gtk.TreeIter;
 private import gtk.TreeSelection;
+private import gtk.TreeModelIF;
 private import gtk.CellRendererPixbuf;
 private import gtk.CellRendererText;
 private import gtk.ScrolledWindow;
-private import gdk.Pixbuf;
+private import gdkpixbuf.Pixbuf;
 private import glib.Str;
 private import std.stdio;
 
 /**
  * This tests the gtkD tree widget
  */
-public class TestTreeView1 : VBox
+public class TestTreeView1 : Box
 {
 //	enum columns
 //	{
@@ -58,16 +59,15 @@ public class TestTreeView1 : VBox
 
 	this()
 	{
-
 		debug(trace) writeln("TestTreeView1.this 1");
-		super(false, 0);
+		super(GtkOrientation.VERTICAL,0);
 		debug(trace) writeln("TestTreeView1.this 2");
 
-		pixbuf = new Pixbuf(greenClass_xpm);
+		pixbuf = Pixbuf.newFromXpmData(greenClass_xpm);
 		debug(trace) writeln("TestTreeView1.this 2.1");
-		pixbufTest = new Pixbuf(book_closed_xpm);
+		pixbufTest = Pixbuf.newFromXpmData(book_closed_xpm);
 		debug(trace) writeln("TestTreeView1.this 2.2");
-		image = new Image(pixbufTest);
+		image = Image.newFromPixbuf(pixbufTest);
 
 		debug(trace) writeln("TestTreeView1.this 3");
 		TreeView treeView1 = setup1();
@@ -79,13 +79,11 @@ public class TestTreeView1 : VBox
 
 		debug(trace) writeln("TestTreeView1.this 5");
 		treeView2.addOnMoveCursor(&moveCursorCallback);
-		packStart(image, false, false, 1);
-		ScrolledWindow sw = new ScrolledWindow(null, null);
-		sw.add(treeView1);
-		packStart(sw, true, true, 1);
-		sw = new ScrolledWindow(null, null);
-		sw.add(treeView2);
-		packStart(sw, true, true, 1);
+		append(image);
+		ScrolledWindow sw = new ScrolledWindow(treeView1);
+		append(sw);
+		sw = new ScrolledWindow(treeView2);
+		append(sw);
 
 		debug(trace) writeln("TestTreeView1.this 6");
 		//addWithViewport(treeView);
@@ -94,12 +92,13 @@ public class TestTreeView1 : VBox
 
 	}
 
-	bool moveCursorCallback(GtkMovementStep step, int i, TreeView tree)
+	bool moveCursorCallback(GtkMovementStep step, int i, bool extend, bool modify, TreeView tree)
 	{
-		TreeIter iter = tree.getSelectedIter();
-		iter.setModel(tree.getModel());
+		TreeModelIF model;
+		TreeIter iter;
+		tree.getSelection().getSelected(model, iter);
 		Value v = new Value();
-		iter.getValue(1, v);
+		model.getValue(iter, 1, v);
 		debug(trace) writefln("cursor on %s", v);
 		return false;
 	}
@@ -108,23 +107,22 @@ public class TestTreeView1 : VBox
 
 	void populate(TreeStore treeStore)
 	{
-		TreeIter iterChild;
-		TreeIter iterTop = treeStore.createIter();
-		treeStore.setValue(iterTop, 0, new Pixbuf(package_xpm) );
-		treeStore.setValue(iterTop, 1, "Icon for packages" );
+		TreeIter iterTop, iterChild;
+		treeStore.append(iterTop, null);
+		treeStore.setValue(iterTop, 0, Pixbuf.newFromXpmData(package_xpm));
+		treeStore.setValue(iterTop, 1, "Icon for packages");
 
-		iterChild = treeStore.append(iterTop);
-		treeStore.setValue(iterChild, 0,new Pixbuf(greenTemplate_xpm) );
-		treeStore.setValue(iterChild, 1, "Icon for templates" );
+		treeStore.append(iterChild, iterTop);
+		treeStore.setValue(iterChild, 0, Pixbuf.newFromXpmData(greenTemplate_xpm));
+		treeStore.setValue(iterChild, 1, "Icon for templates");
 
-		iterChild = treeStore.append(iterTop);
-		treeStore.setValue(iterChild, 0, new Pixbuf(greenInterface_xpm) );
-		treeStore.setValue(iterChild, 1, "Icon for interfaces" );
+		treeStore.append(iterChild, iterTop);
+		treeStore.setValue(iterChild, 0, Pixbuf.newFromXpmData(greenInterface_xpm));
+		treeStore.setValue(iterChild, 1, "Icon for interfaces");
 
-		iterChild = treeStore.append(iterTop);
-		treeStore.setValue(iterChild, 0, new Pixbuf(greenClass_xpm) );
-		treeStore.setValue(iterChild, 1, "Icon for classes" );
-
+		treeStore.append(iterChild, iterTop);
+		treeStore.setValue(iterChild, 0, Pixbuf.newFromXpmData(greenClass_xpm));
+		treeStore.setValue(iterChild, 1, "Icon for classes");
 	}
 
 	/**
@@ -148,8 +146,8 @@ public class TestTreeView1 : VBox
 		}
 
 		testTreeStore1 = new TTreeStore();
-		TreeView treeView = new TreeView(testTreeStore1);
-		treeView.setRulesHint(true);
+		TreeView treeView = new TreeView();
+		treeView.setModel(testTreeStore1);
 
 		TreeSelection ts = treeView.getSelection();
 		ts.setMode(SelectionMode.MULTIPLE);
@@ -192,8 +190,8 @@ public class TestTreeView1 : VBox
 		}
 
 		testTreeStore2 = new TTreeStore();
-		TreeView treeView = new TreeView(testTreeStore2);
-		treeView.setRulesHint(true);
+		TreeView treeView = new TreeView();
+		treeView.setModel(testTreeStore2);
 
 		TreeSelection ts = treeView.getSelection();
 		ts.setMode(SelectionMode.MULTIPLE);

@@ -18,12 +18,9 @@
 
 module TestScales;
 
-private import gtk.Table;
+private import gtk.Grid;
 
-private import gtk.VScale;
-private import gtk.HScale;
-private import gtk.MenuItem;
-private import gtk.Menu;
+private import gtk.Scale;
 private import gtk.CheckButton;
 private import gtk.ComboBox;
 private import gtk.ComboBoxText;
@@ -32,11 +29,7 @@ private import gtk.Button;
 private import gtk.Scrollbar;
 private import gtk.Separator;
 private import gtk.Label;
-private import gtk.Scale;
 private import gtk.Adjustment;
-private import gtk.VBox;
-private import gtk.HBox;
-private import gtk.HScrollbar;
 private import gtk.Range;
 
 debug import std.stdio;
@@ -45,10 +38,10 @@ debug import std.stdio;
  * This tests the gtkD scales and scrollbar widgets
  */
 
-class TestScales : Table //, MenuItemListener
+class TestScales : Grid
 {
-	VScale vscale;
-	HScale hscale;
+	Scale vscale;
+	Scale hscale;
 
 	this()
 	{
@@ -58,7 +51,7 @@ class TestScales : Table //, MenuItemListener
 			writeln("instantiating TestScales");
 		}
 
-		super(1,1,0);
+		super();
 
 		createRangeControls();
 	}
@@ -75,12 +68,16 @@ class TestScales : Table //, MenuItemListener
 			Scale scale;
 			Adjustment adj1, adj2;
 
-			box1 = new VBox(false,0);
-			add(box1);
+			box1 = new Box(GtkOrientation.VERTICAL,0);
+			attach(box1,0,0,1,1);
 
-			box2 = new HBox(false,0);
-			box2.setBorderWidth(10);
-			box1.packStart(box2, true,true,0);
+			box2 = new Box(GtkOrientation.HORIZONTAL,0);
+			box2.setMarginStart(10);
+			box2.setMarginEnd(10);
+			box2.setMarginTop(10);
+			box2.setMarginBottom(10);
+			box2.setVexpand(true);
+			box1.append(box2);
 
 			/* value, lower, upper, step_increment, page_increment, page_size */
 			/* Note that the page_size value only makes a difference for
@@ -88,41 +85,53 @@ class TestScales : Table //, MenuItemListener
 			 * (upper - page_size). */
 			adj1 = new Adjustment(0.0, 0.0, 101.0, 0.1, 1.0, 1.0);
 
-			vscale = new VScale(adj1);
+			vscale = new Scale(GtkOrientation.VERTICAL,adj1);
 			//scale_set_default_values (GTK_SCALE (vscale));
-			box2.packStart(vscale, true, true, 0);
+			vscale.setHexpand(true);
+			box2.append(vscale);
 
-			box3 = new VBox(false,10);
-			box2.packStart(box3,true,true,0);
+			box3 = new Box(GtkOrientation.VERTICAL,10);
+			box3.setHexpand(true);
+			box2.append(box3);
 
 			/* Reuse the same adjustment */
-			hscale = new HScale(adj1);
+			hscale = new Scale(GtkOrientation.HORIZONTAL,adj1);
 			hscale.setSizeRequest(200,-1);
 			//scale_set_default_values (GTK_SCALE (hscale));
-			box3.packStart(hscale,true,true,0);
+			hscale.setVexpand(true);
+			box3.append(hscale);
 
 			/* Reuse the same adjustment again */
-			scrollbar = new HScrollbar(adj1);
+			scrollbar = new Scrollbar(GtkOrientation.HORIZONTAL,adj1);
 			/* Notice how this causes the scales to always be updated
 			 * continuously when the scrollbar is moved */
-			box3.packStart(scrollbar,true,true,0);
+			scrollbar.setVexpand(true);
+			box3.append(scrollbar);
 
-			box2 = new HBox(false,10);
-			box2.setBorderWidth(10);
-			box1.packStart(box2,true,true,0);
+			box2 = new Box(GtkOrientation.HORIZONTAL,10);
+			box2.setMarginStart(10);
+			box2.setMarginEnd(10);
+			box2.setMarginTop(10);
+			box2.setMarginBottom(10);
+			box2.setVexpand(true);
+			box1.append(box2);
 
 			/* A checkbutton to control whether the value is displayed or not */
-			CheckButton cButton = new CheckButton("Display value on scale widgets");
+			CheckButton cButton = CheckButton.newWithLabel("Display value on scale widgets");
 			cButton.setActive(true);
-			cButton.addOnClicked(&displayValues);
-			box2.packStart(cButton,true,true,0);
+			cButton.addOnToggled(&displayValues);
+			cButton.setHexpand(true);
+			box2.append(cButton);
 
-			box2 = new HBox(false,10);
-			box2.setBorderWidth(10);
+			box2 = new Box(GtkOrientation.HORIZONTAL,10);
+			box2.setMarginStart(10);
+			box2.setMarginEnd(10);
+			box2.setMarginTop(10);
+			box2.setMarginBottom(10);
 
 			/* An option menu to change the position of the value */
 			label = new Label("Scale Value Position:");
-			box2.packStart(label,false,false,0);
+			box2.append(label);
 
 			positionSelection = new ComboBoxText();
 			positionSelection.appendText("Top");
@@ -132,14 +141,14 @@ class TestScales : Table //, MenuItemListener
 			positionSelection.addOnChanged(&onPositionSelectionChanged);
 			positionSelection.setActive(0);
 
-			box2.packStart(positionSelection,false,false,0);
+			box2.append(positionSelection);
 
-			box1.packStart(box2,false,false,0);
+			box1.append(box2);
 	}
 
-	void onPositionSelectionChanged(ComboBoxText comboBoxText)
+	void onPositionSelectionChanged(ComboBox comboBox)
 	{
-		switch ( comboBoxText.getActiveText() )
+		switch ( (cast(ComboBoxText)comboBox).getActiveText() )
 		{
 			case "Top":
 				vscale.setValuePos(PositionType.TOP);
@@ -163,9 +172,9 @@ class TestScales : Table //, MenuItemListener
 		}
 	}
 
-	void displayValues(Button checkButton)
+	void displayValues(CheckButton checkButton)
 	{
-		vscale.setDrawValue((cast(CheckButton)checkButton).getActive());
-		hscale.setDrawValue((cast(CheckButton)checkButton).getActive());
+		vscale.setDrawValue(checkButton.getActive());
+		hscale.setDrawValue(checkButton.getActive());
 	}
 }

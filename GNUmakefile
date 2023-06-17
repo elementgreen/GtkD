@@ -113,7 +113,6 @@ BINNAME_DEMO = TestWindow
 SOURCES_DEMO = $(shell find \
         demos/gtkD/TestWindow \
         -name '*.d' )
-OBJECTS_DEMO = $(shell echo $(SOURCES_DEMO) | sed -e 's/\.d/\.o/g') 
 
 #######################################################################
 
@@ -196,12 +195,12 @@ test: $(BINNAME_DEMO)
 # Create a versioned symlink so the demo is able to load it.
 
 $(BINNAME_DEMO): IMPORTS=-Igenerated/gtkd -Idemos/gtkD/TestWindow
-$(BINNAME_DEMO): $(OBJECTS_DEMO)
+$(BINNAME_DEMO): $(SOURCES_DEMO)
 	$(if $(wildcard $(SONAME_GTKD)),,$(if $(wildcard $(LIBNAME_GTKD)),,$(MAKE) $(LIBNAME_GTKD)))
 	$(if $(wildcard $(SONAME_GTKD)),$(eval LDFLAGS+= $(LINKERFLAG)-rpath=./))
 	$(if $(wildcard $(SONAME_GTKD)),$(if $(findstring "gdc","$(DC)"),$(eval LDFLAGS+=-shared-libphobos)))
 	$(if $(wildcard $(SONAME_GTKD)),$(if $(wildcard $(SONAME_GTKD).$(SO_VERSION)),,$(shell ln -s $(SONAME_GTKD) $(SONAME_GTKD).$(SO_VERSION))))
-	$(DC) $(OBJECTS_DEMO) $(output) $(if $(wildcard $(SONAME_GTKD)),$(LINKERFLAG)./libgtkd-$(MAJOR).$(SO_POSTFIX),$(LINKERFLAG)./libgtkd-$(MAJOR).a) $(LDFLAGS)
+	$(DC) $(SOURCES_DEMO) $(output) $(IMPORTS) $(if $(wildcard $(SONAME_GTKD)),$(LINKERFLAG)./libgtkd-$(MAJOR).$(SO_POSTFIX),$(LINKERFLAG)./libgtkd-$(MAJOR).a) $(LDFLAGS) -g
 
 #######################################################################
 

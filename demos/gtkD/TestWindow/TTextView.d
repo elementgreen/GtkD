@@ -24,17 +24,19 @@ private import gtk.Widget;
 private import gtk.TextView;
 private import gtk.TextBuffer;
 private import gtk.TextIter;
-private import gtk.VPaned;
+private import gtk.Paned;
 private import gtk.ScrolledWindow;
 private import gtk.TextChildAnchor;
 private import gtk.Button;
-private import gtk.Menu;
-private import gtk.MenuItem;
-private import gtk.HScale;
+private import gio.Menu;
+private import gio.MenuItem;
+private import gtk.Scale;
 private import gtk.Image;
+private import gtk.WidgetPaintable;
 private import gtk.Entry;
+private import gtk.Adjustment;
 
-private import gdk.Pixbuf;
+private import gdkpixbuf.Pixbuf;
 
 private import gtk.ComboBoxText;
 
@@ -59,9 +61,8 @@ class TTextView : Window
 	 */
 	this()
 	{
-		super("TextView");
+		setTitle("TextView");
 		setDefaultSize(450,450);
-		setBorderWidth(0);
 
 		createTextViews();
 
@@ -72,8 +73,7 @@ class TTextView : Window
 
 		attachWidgets(view1);
 		attachWidgets(view2);
-
-		showAll();
+		show();
 	}
 
 //	bit windowDeleteCallback(Window window, Event event)
@@ -94,7 +94,7 @@ class TTextView : Window
 	{
 		view1 = new TextView();
 		buffer = view1.getBuffer();
-		view2 = new TextView(buffer);
+		view2 = TextView.newWithBuffer(buffer);
 	}
 
 	/**
@@ -102,16 +102,19 @@ class TTextView : Window
 	 */
 	void setupWidgets()
 	{
-		VPaned vPaned = new VPaned();
-		vPaned.setBorderWidth(5);
-		add(vPaned);
+		Paned vPaned = new Paned(GtkOrientation.VERTICAL);
+		setChild(vPaned);
+		vPaned.setMarginStart(5);
+		vPaned.setMarginEnd(5);
+		vPaned.setMarginTop(5);
+		vPaned.setMarginBottom(5);
 
-		ScrolledWindow sw = new ScrolledWindow(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
-		sw.add(view1);
-		vPaned.add1(sw);
-		sw = new ScrolledWindow(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
-		sw.add(view2);
-		vPaned.add2(sw);
+		ScrolledWindow sw = new ScrolledWindow();
+		sw.setChild(view1);
+		vPaned.setStartChild(sw);
+		sw = new ScrolledWindow();
+		sw.setChild(view2);
+		vPaned.setEndChild(sw);
 	}
 
 	/**
@@ -235,7 +238,7 @@ class TTextView : Window
 		TextIter start = new TextIter();
 		TextIter end = new TextIter();
 		Pixbuf pixbuf;
-		Pixbuf scaled;
+		WidgetPaintable logo32, logo38;
 		TextChildAnchor anchor;
 		string filename;
 
@@ -246,10 +249,9 @@ class TTextView : Window
 
 		try
 		{
-			pixbuf = new Pixbuf("images/gtk-logo-rgb.gif");
-
-			scaled = pixbuf.scaleSimple(32, 32, InterpType.BILINEAR);
-			pixbuf = pixbuf.scaleSimple(38, 38, InterpType.BILINEAR);
+			pixbuf = Pixbuf.newFromFile("images/gtk-logo-rgb.gif");
+			logo32 = new WidgetPaintable(Image.newFromPixbuf(pixbuf.scaleSimple(32, 32, InterpType.BILINEAR)));
+			logo38 = new WidgetPaintable(Image.newFromPixbuf(pixbuf.scaleSimple(38, 38, InterpType.BILINEAR)));
 		}
 		catch (Exception)
 		{
@@ -308,9 +310,9 @@ class TTextView : Window
 		buffer.insert(iter, "The buffer can have images in it: ");
 		if ( pixbuf !is  null )
 		{
-			buffer.insertPixbuf(iter, scaled);
-			buffer.insertPixbuf(iter, pixbuf);
-			buffer.insertPixbuf(iter, scaled);
+			buffer.insertPaintable(iter, logo32);
+			buffer.insertPaintable(iter, logo38);
+			buffer.insertPaintable(iter, logo32);
 		}
 		else
 		{
@@ -418,7 +420,7 @@ class TTextView : Window
 
 			if (i == 0)
 			{
-				Button button = new Button("Click Me");
+				Button button = Button.newWithLabel("Click Me");
 				widget = button;
 			}
 			else if (i == 1)
@@ -432,13 +434,13 @@ class TTextView : Window
 			}
 			else if (i == 2)
 			{
-				HScale hScale = new HScale(0.0,100.0,5.0);
+				Scale hScale = Scale.newWithRange(GtkOrientation.HORIZONTAL,0.0,100.0,5.0);
 				hScale.setSizeRequest(70, -1);
 				widget = hScale;
 			}
 			else if (i == 3)
 			{
-				Image image = new Image("images/floppybuddy.gif");
+				Image image = Image.newFromFile("images/floppybuddy.gif");
 				widget = image;
 			}
 			else if (i == 4)
