@@ -1,3 +1,15 @@
+# GtkD Version 4 Port
+
+This is a temporary fork of the GtkD project for completion of the port to Gtk-4.
+
+**Please observe the following:**
+- Use the gtk4 branch
+- The generated D binding files are no longer stored in the repo
+- At the moment you will likely need up to date .gir files (/usr/share/gir-1.0/), like from Ubuntu 23.04, until the build system handles obtaining these in some manner
+- Depends on changes to gir-to-d which can be found in the wrap submodule, which must be checked out and built
+
+Much of the below information is likely outdated especially in regards to supported library versions.
+
 # GtkD
 
 GtkD is the Digital Mars D programming language OO wrapper for Gtk+ 3.22.  GtkD
