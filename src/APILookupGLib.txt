@@ -1454,6 +1454,36 @@ code: start
 	}
 code: end
 
+struct: Variant
+code: start
+	/**
+	 * Returns the string value of a #GVariant instance with a string
+	 * type.  This includes the types %G_VARIANT_TYPE_STRING,
+	 * %G_VARIANT_TYPE_OBJECT_PATH and %G_VARIANT_TYPE_SIGNATURE.
+	 *
+	 * The string will always be UTF-8 encoded, will never be %NULL, and will never
+	 * contain nul bytes.
+	 *
+   * Untrusted values will be validated and, if valid, a strlen() will be
+	 * performed. If invalid, a default value will be returned — for
+	 * %G_VARIANT_TYPE_OBJECT_PATH, this is `"/"`, and for other types it is the
+	 * empty string.
+	 *
+	 * It is an error to call this function with a @value of any type
+	 * other than those three.
+	 *
+	 * Returns: the string, UTF-8 encoded
+	 *
+	 * Since: 2.24
+	 */
+	public string getString()
+	{
+		size_t length;
+		auto str = g_variant_get_string(gVariant, &length);
+		return Str.toString(str, length);
+	}
+code: end
+
 struct:
 
 move: atomic_int_add Atomic int_add
