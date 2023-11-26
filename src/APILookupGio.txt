@@ -193,6 +193,10 @@ move: load NoExternal
 move: unload NoExternal
 move: query NoExternal
 
+struct: ListModel
+noCode: get_item
+move: get_object ListModel get_item
+
 struct: MenuItem
 noCode: new_section
 noCode: new_submenu
