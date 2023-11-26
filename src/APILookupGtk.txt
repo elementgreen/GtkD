@@ -406,6 +406,51 @@ code: start
 	}
 code: end
 
+struct: TreeListModel
+import: glib.ConstructionException
+noCode: new
+code: start
+
+  private ListModelIF delegate(ObjectG item) _createDeleg;
+
+	/**
+	 * Creates a new empty `TreeListModel` displaying @root
+	 * with all rows collapsed.
+	 *
+	 * Params:
+	 *     root = The `GListModel` to use as root
+	 *     passthrough = %TRUE to pass through items from the models
+	 *     autoexpand = %TRUE to set the autoexpand property and expand the @root model
+	 *     createFunc = Delegate to call to create the `GListModel` for the children
+	 *         of an item
+	 *
+	 * Returns: a newly created `TreeListModel`.
+	 *
+	 * Throws: ConstructionException GTK+ fails to create the object.
+	 */
+	public this(ListModelIF root, bool passthrough, bool autoexpand, ListModelIF delegate(ObjectG item) createDeleg)
+	{
+		extern(C) GListModel* createFunc(void* gobj, void* user_data)
+		{
+			auto treeListModel = cast(TreeListModel)user_data;
+			auto item = treeListModel._createDeleg(ObjectG.getDObject!(ObjectG)(cast(GObject*)gobj));
+			return item.getListModelStruct();
+		}
+
+		_createDeleg = createDeleg;
+
+		auto __p = gtk_tree_list_model_new((root is null) ? null : root.getListModelStruct(),
+		cast(int)passthrough, cast(int)autoexpand, &createFunc, cast(void*)this, null);
+
+		if(__p is null)
+		{
+			throw new ConstructionException("null returned by new");
+		}
+
+		this(cast(GtkTreeListModel*) __p, true);
+	}
+code: end
+
 struct: TreeModel
 code: start
 	/** */
