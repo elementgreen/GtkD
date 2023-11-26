@@ -66,18 +66,20 @@ struct: DrawingArea
 code: start
 	import cairo.Context;
 
+	private void delegate(Context, int, int, DrawingArea) _drawFuncDlg;
+
 	public void setDrawFunc(void delegate(Context, int, int, DrawingArea) dlg)
 	{
 		extern (C) void _drawFunc(GtkDrawingArea* drawing_area, cairo_t* cr, int width, int height,
 		void* user_data)
 		{
-			auto dlg = cast(typeof(&dlg))user_data;
 			auto ctx = ObjectG.getDObject!(Context)(cr);
 			auto da = ObjectG.getDObject!(DrawingArea)(drawing_area);
-			(*dlg)(ctx, width, height, da);
+			da._drawFuncDlg(ctx, width, height, da);
 		}
 
-		gtk_drawing_area_set_draw_func(gtkDrawingArea, &_drawFunc, cast(void*)&dlg, null);
+		_drawFuncDlg = dlg;
+		gtk_drawing_area_set_draw_func(gtkDrawingArea, &_drawFunc, null, null);
 	}
 code: end
 
