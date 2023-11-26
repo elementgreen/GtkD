@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.c.functions;
 public  import gtk.c.types;
 
@@ -60,8 +62,10 @@ public  import gtk.c.types;
  * 
  * `GtkMapListModel` will attempt to discard the mapped objects as soon as
  * they are no longer needed and recreate them if necessary.
+ * 
+ * `GtkMapListModel` passes through sections from the underlying model.
  */
-public class MapListModel : ObjectG, ListModelIF
+public class MapListModel : ObjectG, ListModelIF, SectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkMapListModel* gtkMapListModel;
@@ -91,6 +95,9 @@ public class MapListModel : ObjectG, ListModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkMapListModel);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkMapListModel);
 
 
 	/** */

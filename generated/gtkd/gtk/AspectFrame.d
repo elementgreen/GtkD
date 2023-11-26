@@ -40,6 +40,12 @@ public  import gtk.c.types;
  * # CSS nodes
  * 
  * `GtkAspectFrame` uses a CSS node with name `frame`.
+ * 
+ * # Accessibility
+ * 
+ * Until GTK 4.10, `GtkAspectFrame` used the `GTK_ACCESSIBLE_ROLE_GROUP` role.
+ * 
+ * Starting from GTK 4.12, `GtkAspectFrame` uses the `GTK_ACCESSIBLE_ROLE_GENERIC` role.
  */
 public class AspectFrame : Widget
 {

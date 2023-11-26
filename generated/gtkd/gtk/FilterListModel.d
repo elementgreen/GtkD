@@ -29,6 +29,8 @@ private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
 private import gtk.Filter;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.c.functions;
 public  import gtk.c.types;
 
@@ -40,11 +42,13 @@ public  import gtk.c.types;
  * It hides some elements from the other model according to
  * criteria given by a `GtkFilter`.
  * 
- * The model can be set up to do incremental searching, so that
+ * The model can be set up to do incremental filtering, so that
  * filtering long lists doesn't block the UI. See
  * [method@Gtk.FilterListModel.set_incremental] for details.
+ * 
+ * `GtkFilterListModel` passes through sections from the underlying model.
  */
-public class FilterListModel : ObjectG, ListModelIF
+public class FilterListModel : ObjectG, ListModelIF, SectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkFilterListModel* gtkFilterListModel;
@@ -74,6 +78,9 @@ public class FilterListModel : ObjectG, ListModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkFilterListModel);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkFilterListModel);
 
 
 	/** */

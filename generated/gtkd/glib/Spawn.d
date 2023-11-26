@@ -363,7 +363,8 @@ public class Spawn
 	 *     argv = child's argument vector
 	 *     envp = child's environment, or %NULL to inherit parent's
 	 *     flags = flags from #GSpawnFlags
-	 *     childSetup = function to run in the child just before exec()
+	 *     childSetup = function to run
+	 *         in the child just before `exec()`
 	 *     userData = user data for @child_setup
 	 *     childPid = return location for child process reference, or %NULL
 	 *
@@ -571,7 +572,8 @@ public class Spawn
 	 *     argv = child's argument vector, which must be non-empty and %NULL-terminated
 	 *     envp = child's environment, or %NULL to inherit parent's
 	 *     flags = flags from #GSpawnFlags
-	 *     childSetup = function to run in the child just before exec()
+	 *     childSetup = function to run
+	 *         in the child just before `exec()`
 	 *     userData = user data for @child_setup
 	 *     standardOutput = return location for child output, or %NULL
 	 *     standardError = return location for child error messages, or %NULL
@@ -612,7 +614,8 @@ public class Spawn
 	 *         it must be non-empty and %NULL-terminated
 	 *     envp = child's environment, or %NULL to inherit parent's, in the GLib file name encoding
 	 *     flags = flags from #GSpawnFlags
-	 *     childSetup = function to run in the child just before exec()
+	 *     childSetup = function to run
+	 *         in the child just before `exec()`
 	 *     userData = user data for @child_setup
 	 *     childPid = return location for child process ID, or %NULL
 	 *     stdinFd = file descriptor to use for child's stdin, or `-1`

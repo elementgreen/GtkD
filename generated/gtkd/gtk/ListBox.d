@@ -430,6 +430,18 @@ public class ListBox : Widget
 	}
 
 	/**
+	 * Removes all rows from @box.
+	 *
+	 * This function does nothing if @box is backed by a model.
+	 *
+	 * Since: 4.12
+	 */
+	public void removeAll()
+	{
+		gtk_list_box_remove_all(gtkListBox);
+	}
+
+	/**
 	 * Select all children of @box, if the selection mode allows it.
 	 */
 	public void selectAll()

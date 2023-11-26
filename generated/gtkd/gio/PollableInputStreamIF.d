@@ -37,6 +37,11 @@ private import glib.Source;
  * can be polled for readiness to read. This can be used when
  * interfacing with a non-GIO API that expects
  * UNIX-file-descriptor-style asynchronous I/O rather than GIO-style.
+ * 
+ * Some classes may implement #GPollableInputStream but have only certain
+ * instances of that class be pollable. If g_pollable_input_stream_can_poll()
+ * returns %FALSE, then the behavior of other #GPollableInputStream methods is
+ * undefined.
  *
  * Since: 2.28
  */
@@ -79,6 +84,9 @@ public interface PollableInputStreamIF{
 	 * triggers, so you should use g_pollable_input_stream_read_nonblocking()
 	 * rather than g_input_stream_read() from the callback.
 	 *
+	 * The behaviour of this method is undefined if
+	 * g_pollable_input_stream_can_poll() returns %FALSE for @stream.
+	 *
 	 * Params:
 	 *     cancellable = a #GCancellable, or %NULL
 	 *
@@ -97,6 +105,9 @@ public interface PollableInputStreamIF{
 	 * non-blocking behavior, you should always use
 	 * g_pollable_input_stream_read_nonblocking(), which will return a
 	 * %G_IO_ERROR_WOULD_BLOCK error rather than blocking.
+	 *
+	 * The behaviour of this method is undefined if
+	 * g_pollable_input_stream_can_poll() returns %FALSE for @stream.
 	 *
 	 * Returns: %TRUE if @stream is readable, %FALSE if not. If an error
 	 *     has occurred on @stream, this will result in
@@ -119,6 +130,9 @@ public interface PollableInputStreamIF{
 	 * if @cancellable has already been cancelled when you call, which
 	 * may happen if you call this method after a source triggers due
 	 * to having been cancelled.
+	 *
+	 * The behaviour of this method is undefined if
+	 * g_pollable_input_stream_can_poll() returns %FALSE for @stream.
 	 *
 	 * Params:
 	 *     buffer = a

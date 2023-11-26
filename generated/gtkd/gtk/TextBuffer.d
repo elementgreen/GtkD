@@ -88,6 +88,28 @@ public class TextBuffer : ObjectG
 	}
 
 	/**
+	 * Creates a new text buffer.
+	 *
+	 * Params:
+	 *     table = a tag table, or %null to create a new one (defaults to %null)
+	 *
+	 * Returns: a new text buffer
+	 *
+	 * Throws: ConstructionException GTK+ fails to create the object.
+	 */
+	public this(TextTagTable table = null)
+	{
+		auto __p = gtk_text_buffer_new((table is null) ? null : table.getTextTagTableStruct());
+
+		if(__p is null)
+		{
+			throw new ConstructionException("null returned by new");
+		}
+
+		this(cast(GtkTextBuffer*) __p, true);
+	}
+
+	/**
 	 * Inserts text into buffer at iter, applying the list of tags to
 	 * the newly-inserted text. The last tag specified must be NULL to
 	 * terminate the list. Equivalent to calling gtk_text_buffer_insert(),
@@ -232,28 +254,6 @@ public class TextBuffer : ObjectG
 	public static GType getType()
 	{
 		return gtk_text_buffer_get_type();
-	}
-
-	/**
-	 * Creates a new text buffer.
-	 *
-	 * Params:
-	 *     table = a tag table, or %NULL to create a new one
-	 *
-	 * Returns: a new text buffer
-	 *
-	 * Throws: ConstructionException GTK+ fails to create the object.
-	 */
-	public this(TextTagTable table)
-	{
-		auto __p = gtk_text_buffer_new((table is null) ? null : table.getTextTagTableStruct());
-
-		if(__p is null)
-		{
-			throw new ConstructionException("null returned by new");
-		}
-
-		this(cast(GtkTextBuffer*) __p, true);
 	}
 
 	/**

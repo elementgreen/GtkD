@@ -79,6 +79,11 @@ public class OptionGroup
 	/**
 	 * Creates a new #GOptionGroup.
 	 *
+	 * @description is typically used to provide a title for the group. If so, it
+	 * is recommended that it’s written in title case, and has a trailing colon so
+	 * that it matches the style of built-in GLib group titles such as
+	 * ‘Application Options:’.
+	 *
 	 * Params:
 	 *     name = the name for the option group, this is used to provide
 	 *         help for the options in this group with `--help-`@name

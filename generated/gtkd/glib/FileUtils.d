@@ -96,8 +96,12 @@ public struct FileUtils
 	 *
 	 * It is a bug to call this function with an invalid file descriptor.
 	 *
-	 * Since 2.76, this function is guaranteed to be async-signal-safe if (and only
-	 * if) @error is %NULL and @fd is a valid open file descriptor.
+	 * On POSIX platforms since GLib 2.76, this function is async-signal safe
+	 * if (and only if) @error is %NULL and @fd is a valid open file descriptor.
+	 * This makes it safe to call from a signal handler or a #GSpawnChildSetupFunc
+	 * under those conditions.
+	 * See [`signal(7)`](man:signal(7)) and
+	 * [`signal-safety(7)`](man:signal-safety(7)) for more details.
 	 *
 	 * Params:
 	 *     fd = A file descriptor

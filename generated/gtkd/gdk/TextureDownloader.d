@@ -139,14 +139,14 @@ public class TextureDownloader
 	 * be stored in the stride value.
 	 *
 	 * This function will abort if it tries to download a large texture and
-	 * fails to allocate memory. If you think that may happen, you should
-	 * handle memory allocation yourself and use
-	 * gdk_texture_downloader_download_into() once allocation succeeded.
+	 * fails to allocate memory. If you think that may happen, you should handle
+	 * memory allocation yourself and use [method@Gdk.TextureDownloader.download_into]
+	 * once allocation succeeded.
 	 *
 	 * Params:
-	 *     outStride = The stride of the resulting data in bytes.
+	 *     outStride = The stride of the resulting data in bytes
 	 *
-	 * Returns: The downloaded pixels.
+	 * Returns: The downloaded pixels
 	 *
 	 * Since: 4.10
 	 */

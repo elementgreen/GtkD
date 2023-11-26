@@ -46,7 +46,7 @@ private import pango.PgAttributeList;
  * space as well as it can.
  * 
  * Users of this widget should take care to plan behaviour for the common case
- * where the text doesn't fit exactly in the allocated space, .
+ * where the text doesn't fit exactly in the allocated space.
  *
  * Since: 4.8
  */

@@ -253,7 +253,8 @@ public class BBTree
 	 *     key = the key to insert
 	 *     value = the value corresponding to the key
 	 *
-	 * Returns: the inserted (or set) node.
+	 * Returns: the inserted (or set) node or %NULL
+	 *     if insertion would overflow the tree node counter.
 	 *
 	 * Since: 2.68
 	 */
@@ -361,6 +362,11 @@ public class BBTree
 	 * Gets the number of nodes in a #GTree.
 	 *
 	 * Returns: the number of nodes in @tree
+	 *
+	 *     The node counter value type is really a #guint,
+	 *     but it is returned as a #gint due to backward
+	 *     compatibility issues (can be cast back to #guint to
+	 *     support its full range of values).
 	 */
 	public int nnodes()
 	{
@@ -491,7 +497,8 @@ public class BBTree
 	 *     key = the key to insert
 	 *     value = the value corresponding to the key
 	 *
-	 * Returns: the inserted (or set) node.
+	 * Returns: the inserted (or set) node or %NULL
+	 *     if insertion would overflow the tree node counter.
 	 *
 	 * Since: 2.68
 	 */

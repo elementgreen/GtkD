@@ -1134,6 +1134,13 @@ public class Task : ObjectG, AsyncResultIF
 	 * tasks), but don't want them to all run at once, you should only queue a
 	 * limited number of them (around ten) at a time.
 	 *
+	 * Be aware that if your task depends on other tasks to complete, use of this
+	 * function could lead to a livelock if the other tasks also use this function
+	 * and enough of them (around 10) execute in a dependency chain, as that will
+	 * exhaust the thread pool. If this situation is possible, consider using a
+	 * separate worker thread or thread pool explicitly, rather than using
+	 * g_task_run_in_thread().
+	 *
 	 * Params:
 	 *     taskFunc = a #GTaskThreadFunc
 	 *

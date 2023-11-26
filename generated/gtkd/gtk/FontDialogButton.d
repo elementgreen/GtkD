@@ -28,12 +28,14 @@ private import glib.ConstructionException;
 private import glib.Str;
 private import glib.c.functions;
 private import gobject.ObjectG;
+private import gobject.Signals;
 private import gtk.FontDialog;
 private import gtk.Widget;
 private import gtk.c.functions;
 public  import gtk.c.types;
 private import pango.PgFontDescription;
 private import pango.PgLanguage;
+private import std.algorithm;
 
 
 /**
@@ -334,5 +336,18 @@ public class FontDialogButton : Widget
 	public void setUseSize(bool useSize)
 	{
 		gtk_font_dialog_button_set_use_size(gtkFontDialogButton, useSize);
+	}
+
+	/**
+	 * Emitted when the font dialog button is activated.
+	 *
+	 * The `::activate` signal on `GtkFontDialogButton` is an action signal
+	 * and emitting it causes the button to pop up its dialog.
+	 *
+	 * Since: 4.14
+	 */
+	gulong addOnActivate(void delegate(FontDialogButton) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
+	{
+		return Signals.connect(this, "activate", dlg, connectFlags ^ ConnectFlags.SWAPPED);
 	}
 }

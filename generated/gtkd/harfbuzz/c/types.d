@@ -140,9 +140,6 @@ public alias uint hb_mask_t;
  * An integral type representing an OpenType 'name' table name identifier.
  * There are predefined name IDs, as well as name IDs return from other
  * API.  These can be used to fetch name strings from a font face.
- *
- * For more information on these fields, see the
- * [OpenType spec](https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids).
  */
 public alias uint hb_ot_name_id_t;
 
@@ -1764,7 +1761,7 @@ alias hb_glyph_flags_t glyph_flags_t;
  * HarfBuzz and doing that just once (no reuse!),
  *
  * - If the font is mmap()ed, it's okay to use
- * @HB_MEMORY_READONLY_MAY_MAKE_WRITABLE, however, using that mode
+ * @HB_MEMORY_MODE_READONLY_MAY_MAKE_WRITABLE, however, using that mode
  * correctly is very tricky.  Use @HB_MEMORY_MODE_READONLY instead.
  */
 public enum hb_memory_mode_t
@@ -2323,6 +2320,125 @@ public enum hb_ot_metrics_tag_t
 alias hb_ot_metrics_tag_t ot_metrics_tag_t;
 
 /**
+ * An enum type representing the pre-defined name IDs.
+ *
+ * For more information on these fields, see the
+ * [OpenType spec](https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids).
+ *
+ * Since: 7.0.0
+ */
+public enum hb_ot_name_id_predefined_t
+{
+	/**
+	 * Copyright notice
+	 */
+	COPYRIGHT = 0,
+	/**
+	 * Font Family name
+	 */
+	FONT_FAMILY = 1,
+	/**
+	 * Font Subfamily name
+	 */
+	FONT_SUBFAMILY = 2,
+	/**
+	 * Unique font identifier
+	 */
+	UNIQUE_ID = 3,
+	/**
+	 * Full font name that reflects
+	 * all family and relevant subfamily descriptors
+	 */
+	FULL_NAME = 4,
+	/**
+	 * Version string
+	 */
+	VERSION_STRING = 5,
+	/**
+	 * PostScript name for the font
+	 */
+	POSTSCRIPT_NAME = 6,
+	/**
+	 * Trademark
+	 */
+	TRADEMARK = 7,
+	/**
+	 * Manufacturer Name
+	 */
+	MANUFACTURER = 8,
+	/**
+	 * Designer
+	 */
+	DESIGNER = 9,
+	/**
+	 * Description
+	 */
+	DESCRIPTION = 10,
+	/**
+	 * URL of font vendor
+	 */
+	VENDOR_URL = 11,
+	/**
+	 * URL of typeface designer
+	 */
+	DESIGNER_URL = 12,
+	/**
+	 * License Description
+	 */
+	LICENSE = 13,
+	/**
+	 * URL where additional licensing
+	 * information can be found
+	 */
+	LICENSE_URL = 14,
+	/**
+	 * Typographic Family name
+	 */
+	TYPOGRAPHIC_FAMILY = 16,
+	/**
+	 * Typographic Subfamily name
+	 */
+	TYPOGRAPHIC_SUBFAMILY = 17,
+	/**
+	 * Compatible Full Name for MacOS
+	 */
+	MAC_FULL_NAME = 18,
+	/**
+	 * Sample text
+	 */
+	SAMPLE_TEXT = 19,
+	/**
+	 * PostScript CID findfont name
+	 */
+	CID_FINDFONT_NAME = 20,
+	/**
+	 * WWS Family Name
+	 */
+	WWS_FAMILY = 21,
+	/**
+	 * WWS Subfamily Name
+	 */
+	WWS_SUBFAMILY = 22,
+	/**
+	 * Light Background Palette
+	 */
+	LIGHT_BACKGROUND = 23,
+	/**
+	 * Dark Background Palette
+	 */
+	DARK_BACKGROUND = 24,
+	/**
+	 * Variations PostScript Name Prefix
+	 */
+	VARIATIONS_PS_PREFIX = 25,
+	/**
+	 * Value to represent a nonexistent name ID.
+	 */
+	INVALID = 65535,
+}
+alias hb_ot_name_id_predefined_t ot_name_id_predefined_t;
+
+/**
  * Flags for #hb_ot_var_axis_info_t.
  *
  * Since: 2.2.0
@@ -2335,6 +2451,193 @@ public enum hb_ot_var_axis_flags_t
 	HIDDEN = 1,
 }
 alias hb_ot_var_axis_flags_t ot_var_axis_flags_t;
+
+/**
+ * The values of this enumeration describe the compositing modes
+ * that can be used when combining temporary redirected drawing
+ * with the backdrop.
+ *
+ * See the OpenType spec [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details.
+ *
+ * Since: 7.0.0
+ */
+public enum hb_paint_composite_mode_t
+{
+	/**
+	 * clear destination layer (bounded)
+	 */
+	CLEAR = 0,
+	/**
+	 * replace destination layer (bounded)
+	 */
+	SRC = 1,
+	/**
+	 * ignore the source
+	 */
+	DEST = 2,
+	/**
+	 * draw source layer on top of destination layer
+	 * (bounded)
+	 */
+	SRC_OVER = 3,
+	/**
+	 * draw destination on top of source
+	 */
+	DEST_OVER = 4,
+	/**
+	 * draw source where there was destination content
+	 * (unbounded)
+	 */
+	SRC_IN = 5,
+	/**
+	 * leave destination only where there was
+	 * source content (unbounded)
+	 */
+	DEST_IN = 6,
+	/**
+	 * draw source where there was no destination
+	 * content (unbounded)
+	 */
+	SRC_OUT = 7,
+	/**
+	 * leave destination only where there was no
+	 * source content
+	 */
+	DEST_OUT = 8,
+	/**
+	 * draw source on top of destination content and
+	 * only there
+	 */
+	SRC_ATOP = 9,
+	/**
+	 * leave destination on top of source content
+	 * and only there (unbounded)
+	 */
+	DEST_ATOP = 10,
+	/**
+	 * source and destination are shown where there is only
+	 * one of them
+	 */
+	XOR = 11,
+	/**
+	 * source and destination layers are accumulated
+	 */
+	PLUS = 12,
+	/**
+	 * source and destination are complemented and
+	 * multiplied. This causes the result to be at least as light as the lighter
+	 * inputs.
+	 */
+	SCREEN = 13,
+	/**
+	 * multiplies or screens, depending on the
+	 * lightness of the destination color.
+	 */
+	OVERLAY = 14,
+	/**
+	 * replaces the destination with the source if it
+	 * is darker, otherwise keeps the source.
+	 */
+	DARKEN = 15,
+	/**
+	 * replaces the destination with the source if it
+	 * is lighter, otherwise keeps the source.
+	 */
+	LIGHTEN = 16,
+	/**
+	 * brightens the destination color to reflect
+	 * the source color.
+	 */
+	COLOR_DODGE = 17,
+	/**
+	 * darkens the destination color to reflect
+	 * the source color.
+	 */
+	COLOR_BURN = 18,
+	/**
+	 * Multiplies or screens, dependent on source
+	 * color.
+	 */
+	HARD_LIGHT = 19,
+	/**
+	 * Darkens or lightens, dependent on source
+	 * color.
+	 */
+	SOFT_LIGHT = 20,
+	/**
+	 * Takes the difference of the source and
+	 * destination color.
+	 */
+	DIFFERENCE = 21,
+	/**
+	 * Produces an effect similar to difference, but
+	 * with lower contrast.
+	 */
+	EXCLUSION = 22,
+	/**
+	 * source and destination layers are multiplied.
+	 * This causes the result to be at least as dark as the darker inputs.
+	 */
+	MULTIPLY = 23,
+	/**
+	 * Creates a color with the hue of the source
+	 * and the saturation and luminosity of the target.
+	 */
+	HSL_HUE = 24,
+	/**
+	 * Creates a color with the saturation
+	 * of the source and the hue and luminosity of the target. Painting with
+	 * this mode onto a gray area produces no change.
+	 */
+	HSL_SATURATION = 25,
+	/**
+	 * Creates a color with the hue and saturation
+	 * of the source and the luminosity of the target. This preserves the gray
+	 * levels of the target and is useful for coloring monochrome images or
+	 * tinting color images.
+	 */
+	HSL_COLOR = 26,
+	/**
+	 * Creates a color with the luminosity of
+	 * the source and the hue and saturation of the target. This produces an
+	 * inverse effect to @HB_PAINT_COMPOSITE_MODE_HSL_COLOR.
+	 */
+	HSL_LUMINOSITY = 27,
+}
+alias hb_paint_composite_mode_t paint_composite_mode_t;
+
+/**
+ * The values of this enumeration determine how color values
+ * outside the minimum and maximum defined offset on a #hb_color_line_t
+ * are determined.
+ *
+ * See the OpenType spec [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details.
+ *
+ * Since: 7.0.0
+ */
+public enum hb_paint_extend_t
+{
+	/**
+	 * Outside the defined interval,
+	 * the color of the closest color stop is used.
+	 */
+	PAD = 0,
+	/**
+	 * The color line is repeated over
+	 * repeated multiples of the defined interval
+	 */
+	REPEAT = 1,
+	/**
+	 * The color line is repeated over
+	 * repeated intervals, as for the repeat mode.
+	 * However, in each repeated interval, the ordering of
+	 * color stops is the reverse of the adjacent interval.
+	 */
+	REFLECT = 2,
+}
+alias hb_paint_extend_t paint_extend_t;
 
 /**
  * Data type for scripts. Each #hb_script_t's value is an #hb_tag_t corresponding
@@ -3229,9 +3532,9 @@ public enum hb_unicode_combining_class_t
 	 */
 	CCC130 = 130,
 	/**
-	 * [Tibetan]
+	 * [Tibetan] Since: 7.2.0
 	 */
-	CCC133 = 132,
+	CCC132 = 132,
 	/**
 	 * Marks attached at the bottom left
 	 */
@@ -3460,6 +3763,57 @@ struct hb_blob_t;
  * and output glyphs and their information after shaping.
  */
 struct hb_buffer_t;
+
+/**
+ * A struct containing color information for a gradient.
+ *
+ * Since: 7.0.0
+ */
+struct hb_color_line_t
+{
+	void* data;
+	hb_color_line_get_color_stops_func_t getColorStops;
+	void* getColorStopsUserData;
+	hb_color_line_get_extend_func_t getExtend;
+	void* getExtendUserData;
+	void* reserved0;
+	void* reserved1;
+	void* reserved2;
+	void* reserved3;
+	void* reserved5;
+	void* reserved6;
+	void* reserved7;
+	void* reserved8;
+}
+
+/**
+ * Information about a color stop on a color line.
+ *
+ * Color lines typically have offsets ranging between 0 and 1,
+ * but that is not required.
+ *
+ * Note: despite @color being unpremultiplied here, interpolation in
+ * gradients shall happen in premultiplied space. See the OpenType spec
+ * [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details.
+ *
+ * Since: 7.0.0
+ */
+struct hb_color_stop_t
+{
+	/**
+	 * the offset of the color stop
+	 */
+	float offset;
+	/**
+	 * whether the color is the foreground
+	 */
+	hb_bool_t isForeground;
+	/**
+	 * the color, unpremultiplied
+	 */
+	hb_color_t color;
+}
 
 /**
  * Glyph draw callbacks.
@@ -3851,6 +4205,32 @@ struct hb_ot_var_axis_t
 }
 
 /**
+ * Glyph paint callbacks.
+ *
+ * The callbacks assume that the caller maintains a stack
+ * of current transforms, clips and intermediate surfaces,
+ * as evidenced by the pairs of push/pop callbacks. The
+ * push/pop calls will be properly nested, so it is fine
+ * to store the different kinds of object on a single stack.
+ *
+ * Not all callbacks are required for all kinds of glyphs.
+ * For rendering COLRv0 or non-color outline glyphs, the
+ * gradient callbacks are not needed, and the composite
+ * callback only needs to handle simple alpha compositing
+ * (#HB_PAINT_COMPOSITE_MODE_SRC_OVER).
+ *
+ * The paint-image callback is only needed for glyphs
+ * with image blobs in the CBDT, sbix or SVG tables.
+ *
+ * The custom-palette-color callback is only necessary if
+ * you want to override colors from the font palette with
+ * custom colors.
+ *
+ * Since: 7.0.0
+ */
+struct hb_paint_funcs_t;
+
+/**
  * The structure that holds various text properties of an #hb_buffer_t. Can be
  * set and retrieved using hb_buffer_set_segment_properties() and
  * hb_buffer_get_segment_properties(), respectively.
@@ -3973,6 +4353,38 @@ struct hb_variation_t
 public alias extern(C) hb_bool_t function(hb_buffer_t* buffer, hb_font_t* font, const(char)* message, void* userData) hb_buffer_message_func_t;
 
 /**
+ * A virtual method for the #hb_color_line_t to fetch color stops.
+ *
+ * Params:
+ *     colorLine = a #hb_color_line_t object
+ *     colorLineData = the data accompanying @color_line
+ *     start = the index of the first color stop to return
+ *     count = Input = the maximum number of feature tags to return;
+ *         Output = the actual number of feature tags returned (may be zero)
+ *     colorStops = Array of #hb_color_stop_t to populate
+ *     userData = the data accompanying this method
+ *
+ * Returns: the total number of color stops in @color_line
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) uint function(hb_color_line_t* colorLine, void* colorLineData, uint start, uint* count, hb_color_stop_t* colorStops, void* userData) hb_color_line_get_color_stops_func_t;
+
+/**
+ * A virtual method for the @hb_color_line_t to fetches the extend mode.
+ *
+ * Params:
+ *     colorLine = a #hb_color_line_t object
+ *     colorLineData = the data accompanying @color_line
+ *     userData = the data accompanying this method
+ *
+ * Returns: the extend mode of @color_line
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) hb_paint_extend_t function(hb_color_line_t* colorLine, void* colorLineData, void* userData) hb_color_line_get_extend_func_t;
+
+/**
  * A virtual method for destroy user-data callbacks.
  *
  * Params:
@@ -3986,9 +4398,9 @@ public alias extern(C) void function(void* userData) hb_destroy_func_t;
  *
  * Params:
  *     dfuncs = draw functions object
- *     drawData = The data accompanying the draw functions
+ *     drawData = The data accompanying the draw functions in hb_font_draw_glyph()
  *     st = current draw state
- *     userData = User data pointer passed by the caller
+ *     userData = User data pointer passed to hb_draw_funcs_set_close_path_func()
  *
  * Since: 4.0.0
  */
@@ -4000,7 +4412,7 @@ public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb
  *
  * Params:
  *     dfuncs = draw functions object
- *     drawData = The data accompanying the draw functions
+ *     drawData = The data accompanying the draw functions in hb_font_draw_glyph()
  *     st = current draw state
  *     control1X = X component of first control point
  *     control1Y = Y component of first control point
@@ -4008,7 +4420,7 @@ public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb
  *     control2Y = Y component of second control point
  *     toX = X component of target point
  *     toY = Y component of target point
- *     userData = User data pointer passed by the caller
+ *     userData = User data pointer passed to hb_draw_funcs_set_cubic_to_func()
  *
  * Since: 4.0.0
  */
@@ -4020,11 +4432,11 @@ public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb
  *
  * Params:
  *     dfuncs = draw functions object
- *     drawData = The data accompanying the draw functions
+ *     drawData = The data accompanying the draw functions in hb_font_draw_glyph()
  *     st = current draw state
  *     toX = X component of target point
  *     toY = Y component of target point
- *     userData = User data pointer passed by the caller
+ *     userData = User data pointer passed to hb_draw_funcs_set_line_to_func()
  *
  * Since: 4.0.0
  */
@@ -4036,11 +4448,11 @@ public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb
  *
  * Params:
  *     dfuncs = draw functions object
- *     drawData = The data accompanying the draw functions
+ *     drawData = The data accompanying the draw functions in hb_font_draw_glyph()
  *     st = current draw state
  *     toX = X component of target point
  *     toY = Y component of target point
- *     userData = User data pointer passed by the caller
+ *     userData = User data pointer passed to hb_draw_funcs_set_move_to_func()
  *
  * Since: 4.0.0
  */
@@ -4052,17 +4464,32 @@ public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb
  *
  * Params:
  *     dfuncs = draw functions object
- *     drawData = The data accompanying the draw functions
+ *     drawData = The data accompanying the draw functions in hb_font_draw_glyph()
  *     st = current draw state
  *     controlX = X component of control point
  *     controlY = Y component of control point
  *     toX = X component of target point
  *     toY = Y component of target point
- *     userData = User data pointer passed by the caller
+ *     userData = User data pointer passed to hb_draw_funcs_set_quadratic_to_func()
  *
  * Since: 4.0.0
  */
 public alias extern(C) void function(hb_draw_funcs_t* dfuncs, void* drawData, hb_draw_state_t* st, float controlX, float controlY, float toX, float toY, void* userData) hb_draw_quadratic_to_func_t;
+
+/**
+ * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ *
+ * Params:
+ *     font = #hb_font_t to work upon
+ *     fontData = @font user data pointer
+ *     glyph = The glyph ID to query
+ *     drawFuncs = The draw functions to send the shape data to
+ *     drawData = The data accompanying the draw functions
+ *     userData = User data pointer passed by the caller
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_font_t* font, void* fontData, hb_codepoint_t glyph, hb_draw_funcs_t* drawFuncs, void* drawData, void* userData) hb_font_draw_glyph_func_t;
 
 /**
  * This method should retrieve the extents for a font.
@@ -4234,6 +4661,8 @@ public alias extern(C) hb_bool_t function(hb_font_t* font, void* fontData, hb_co
 /**
  * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
  *
+ * Deprecated: Use #hb_font_draw_glyph_func_t instead
+ *
  * Params:
  *     font = #hb_font_t to work upon
  *     fontData = @font user data pointer
@@ -4302,6 +4731,311 @@ public alias extern(C) uint function(hb_font_t* font, void* fontData, uint count
  * Returns: `true` if data found, `false` otherwise
  */
 public alias extern(C) hb_bool_t function(hb_font_t* font, void* fontData, hb_codepoint_t unicode, hb_codepoint_t variationSelector, hb_codepoint_t* glyph, void* userData) hb_font_get_variation_glyph_func_t;
+
+/**
+ * A virtual method for the #hb_font_funcs_t of an #hb_font_t object.
+ *
+ * Params:
+ *     font = #hb_font_t to work upon
+ *     fontData = @font user data pointer
+ *     glyph = The glyph ID to query
+ *     paintFuncs = The paint functions to use
+ *     paintData = The data accompanying the paint functions
+ *     paletteIndex = The color palette to use
+ *     foreground = The foreground color
+ *     userData = User data pointer passed by the caller
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_font_t* font, void* fontData, hb_codepoint_t glyph, hb_paint_funcs_t* paintFuncs, void* paintData, uint paletteIndex, hb_color_t foreground, void* userData) hb_font_paint_glyph_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to paint a
+ * color everywhere within the current clip.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     isForeground = whether the color is the foreground
+ *     color = The color to use, unpremultiplied
+ *     userData = User data pointer passed to hb_paint_funcs_set_color_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_bool_t isForeground, hb_color_t color, void* userData) hb_paint_color_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to fetch a color from the custom
+ * color palette.
+ *
+ * Custom palette colors override the colors from the fonts selected color
+ * palette. It is not necessary to override all palette entries; for entries
+ * that should be taken from the font palette, return `false`.
+ *
+ * This function might get called multiple times, but the custom palette is
+ * expected to remain unchanged for duration of a hb_font_paint_glyph() call.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     colorIndex = the color index
+ *     color = fetched color
+ *     userData = User data pointer passed to hb_paint_funcs_set_pop_group_func()
+ *
+ * Returns: `true` if found, `false` otherwise
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) hb_bool_t function(hb_paint_funcs_t* funcs, void* paintData, uint colorIndex, hb_color_t* color, void* userData) hb_paint_custom_palette_color_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to paint a glyph image.
+ *
+ * This method is called for glyphs with image blobs in the CBDT,
+ * sbix or SVG tables. The @format identifies the kind of data that
+ * is contained in @image. Possible values include #HB_PAINT_IMAGE_FORMAT_PNG,
+ * #HB_PAINT_IMAGE_FORMAT_SVG and #HB_PAINT_IMAGE_FORMAT_BGRA.
+ *
+ * The image dimensions and glyph extents are provided if available,
+ * and should be used to size and position the image.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     image = the image data
+ *     width = width of the raster image in pixels, or 0
+ *     height = height of the raster image in pixels, or 0
+ *     format = the image format as a tag
+ *     slant = the synthetic slant ratio to be applied to the image during rendering
+ *     extents = glyph extents for desired rendering
+ *     userData = User data pointer passed to hb_paint_funcs_set_image_func()
+ *
+ * Returns: Whether the operation was successful.
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) hb_bool_t function(hb_paint_funcs_t* funcs, void* paintData, hb_blob_t* image, uint width, uint height, hb_tag_t format, float slant, hb_glyph_extents_t* extents, void* userData) hb_paint_image_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to paint a linear
+ * gradient everywhere within the current clip.
+ *
+ * The @color_line object contains information about the colors of the gradients.
+ * It is only valid for the duration of the callback, you cannot keep it around.
+ *
+ * The coordinates of the points are interpreted according
+ * to the current transform.
+ *
+ * See the OpenType spec [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details on how the points define the direction
+ * of the gradient, and how to interpret the @color_line.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     colorLine = Color information for the gradient
+ *     x0 = X coordinate of the first point
+ *     y0 = Y coordinate of the first point
+ *     x1 = X coordinate of the second point
+ *     y1 = Y coordinate of the second point
+ *     x2 = X coordinate of the third point
+ *     y2 = Y coordinate of the third point
+ *     userData = User data pointer passed to hb_paint_funcs_set_linear_gradient_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_color_line_t* colorLine, float x0, float y0, float x1, float y1, float x2, float y2, void* userData) hb_paint_linear_gradient_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to undo
+ * the effect of a prior call to the #hb_paint_funcs_push_clip_glyph_func_t
+ * or #hb_paint_funcs_push_clip_rectangle_func_t vfuncs.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     userData = User data pointer passed to hb_paint_funcs_set_pop_clip_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, void* userData) hb_paint_pop_clip_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to undo
+ * the effect of a prior call to the #hb_paint_funcs_push_group_func_t
+ * vfunc.
+ *
+ * This call stops the redirection to the intermediate surface,
+ * and then composites it on the previous surface, using the
+ * compositing mode passed to this call.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     mode = the compositing mode to use
+ *     userData = User data pointer passed to hb_paint_funcs_set_pop_group_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_paint_composite_mode_t mode, void* userData) hb_paint_pop_group_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to undo
+ * the effect of a prior call to the #hb_paint_funcs_push_transform_func_t
+ * vfunc.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     userData = User data pointer passed to hb_paint_funcs_set_pop_transform_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, void* userData) hb_paint_pop_transform_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to clip
+ * subsequent paint calls to the outline of a glyph.
+ *
+ * The coordinates of the glyph outline are interpreted according
+ * to the current transform.
+ *
+ * This clip is applied in addition to the current clip,
+ * and remains in effect until a matching call to
+ * the #hb_paint_funcs_pop_clip_func_t vfunc.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     glyph = the glyph ID
+ *     font = the font
+ *     userData = User data pointer passed to hb_paint_funcs_set_push_clip_glyph_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_codepoint_t glyph, hb_font_t* font, void* userData) hb_paint_push_clip_glyph_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to clip
+ * subsequent paint calls to a rectangle.
+ *
+ * The coordinates of the rectangle are interpreted according
+ * to the current transform.
+ *
+ * This clip is applied in addition to the current clip,
+ * and remains in effect until a matching call to
+ * the #hb_paint_funcs_pop_clip_func_t vfunc.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     xmin = min X for the rectangle
+ *     ymin = min Y for the rectangle
+ *     xmax = max X for the rectangle
+ *     ymax = max Y for the rectangle
+ *     userData = User data pointer passed to hb_paint_funcs_set_push_clip_rectangle_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, float xmin, float ymin, float xmax, float ymax, void* userData) hb_paint_push_clip_rectangle_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to use
+ * an intermediate surface for subsequent paint calls.
+ *
+ * The drawing will be redirected to an intermediate surface
+ * until a matching call to the #hb_paint_funcs_pop_group_func_t
+ * vfunc.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     userData = User data pointer passed to hb_paint_funcs_set_push_group_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, void* userData) hb_paint_push_group_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to apply
+ * a transform to subsequent paint calls.
+ *
+ * This transform is applied after the current transform,
+ * and remains in effect until a matching call to
+ * the #hb_paint_funcs_pop_transform_func_t vfunc.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     xx = xx component of the transform matrix
+ *     yx = yx component of the transform matrix
+ *     xy = xy component of the transform matrix
+ *     yy = yy component of the transform matrix
+ *     dx = dx component of the transform matrix
+ *     dy = dy component of the transform matrix
+ *     userData = User data pointer passed to hb_paint_funcs_set_push_transform_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, float xx, float yx, float xy, float yy, float dx, float dy, void* userData) hb_paint_push_transform_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to paint a radial
+ * gradient everywhere within the current clip.
+ *
+ * The @color_line object contains information about the colors of the gradients.
+ * It is only valid for the duration of the callback, you cannot keep it around.
+ *
+ * The coordinates of the points are interpreted according
+ * to the current transform.
+ *
+ * See the OpenType spec [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details on how the points define the direction
+ * of the gradient, and how to interpret the @color_line.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     colorLine = Color information for the gradient
+ *     x0 = X coordinate of the first circle's center
+ *     y0 = Y coordinate of the first circle's center
+ *     r0 = radius of the first circle
+ *     x1 = X coordinate of the second circle's center
+ *     y1 = Y coordinate of the second circle's center
+ *     r1 = radius of the second circle
+ *     userData = User data pointer passed to hb_paint_funcs_set_radial_gradient_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_color_line_t* colorLine, float x0, float y0, float r0, float x1, float y1, float r1, void* userData) hb_paint_radial_gradient_func_t;
+
+/**
+ * A virtual method for the #hb_paint_funcs_t to paint a sweep
+ * gradient everywhere within the current clip.
+ *
+ * The @color_line object contains information about the colors of the gradients.
+ * It is only valid for the duration of the callback, you cannot keep it around.
+ *
+ * The coordinates of the points are interpreted according
+ * to the current transform.
+ *
+ * See the OpenType spec [COLR](https://learn.microsoft.com/en-us/typography/opentype/spec/colr)
+ * section for details on how the points define the direction
+ * of the gradient, and how to interpret the @color_line.
+ *
+ * Params:
+ *     funcs = paint functions object
+ *     paintData = The data accompanying the paint functions in hb_font_paint_glyph()
+ *     colorLine = Color information for the gradient
+ *     x0 = X coordinate of the circle's center
+ *     y0 = Y coordinate of the circle's center
+ *     startAngle = the start angle, in radians
+ *     endAngle = the end angle, in radians
+ *     userData = User data pointer passed to hb_paint_funcs_set_sweep_gradient_func()
+ *
+ * Since: 7.0.0
+ */
+public alias extern(C) void function(hb_paint_funcs_t* funcs, void* paintData, hb_color_line_t* colorLine, float x0, float y0, float startAngle, float endAngle, void* userData) hb_paint_sweep_gradient_func_t;
 
 /**
  * Callback function for hb_face_create_for_tables().
@@ -4465,6 +5199,12 @@ enum BUFFER_REPLACEMENT_CODEPOINT_DEFAULT = 65533;
 alias HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT = BUFFER_REPLACEMENT_CODEPOINT_DEFAULT;
 
 /**
+ * Unused #hb_codepoint_t value.
+ */
+enum CODEPOINT_INVALID = 4294967295;
+alias HB_CODEPOINT_INVALID = CODEPOINT_INVALID;
+
+/**
  * Special setting for #hb_feature_t.start to apply the feature from the start
  * of the buffer.
  */
@@ -4472,16 +5212,18 @@ enum FEATURE_GLOBAL_START = 0;
 alias HB_FEATURE_GLOBAL_START = FEATURE_GLOBAL_START;
 
 /**
+ * Constant signifying that a font does not have any
+ * named-instance index set.  This is the default of
+ * a font.
+ */
+enum FONT_NO_VAR_NAMED_INSTANCE = 4294967295;
+alias HB_FONT_NO_VAR_NAMED_INSTANCE = FONT_NO_VAR_NAMED_INSTANCE;
+
+/**
  * An unset #hb_language_t.
  */
 enum LANGUAGE_INVALID = 0;
 alias HB_LANGUAGE_INVALID = LANGUAGE_INVALID;
-
-/**
- * Unset #hb_map_t value.
- */
-enum MAP_VALUE_INVALID = 4294967295;
-alias HB_MAP_VALUE_INVALID = MAP_VALUE_INVALID;
 
 /**
  * Special value for language index indicating default or unsupported language.
@@ -4526,10 +5268,10 @@ enum OT_VAR_NO_AXIS_INDEX = 4294967295;
 alias HB_OT_VAR_NO_AXIS_INDEX = OT_VAR_NO_AXIS_INDEX;
 
 /**
- * Unset #hb_set_t value.
+ * [Tibetan]
  */
-enum SET_VALUE_INVALID = 4294967295;
-alias HB_SET_VALUE_INVALID = SET_VALUE_INVALID;
+enum UNICODE_COMBINING_CLASS_CCC133 = 133;
+alias HB_UNICODE_COMBINING_CLASS_CCC133 = UNICODE_COMBINING_CLASS_CCC133;
 
 /**
  * Maximum valid Unicode code point.
@@ -4543,14 +5285,14 @@ alias HB_UNICODE_MAX = UNICODE_MAX;
 enum UNICODE_MAX_DECOMPOSITION_LEN = 19;
 alias HB_UNICODE_MAX_DECOMPOSITION_LEN = UNICODE_MAX_DECOMPOSITION_LEN;
 
-enum VERSION_MAJOR = 6;
+enum VERSION_MAJOR = 8;
 alias HB_VERSION_MAJOR = VERSION_MAJOR;
 
-enum VERSION_MICRO = 0;
+enum VERSION_MICRO = 1;
 alias HB_VERSION_MICRO = VERSION_MICRO;
 
 enum VERSION_MINOR = 0;
 alias HB_VERSION_MINOR = VERSION_MINOR;
 
-enum VERSION_STRING = "6.0.0";
+enum VERSION_STRING = "8.0.1";
 alias HB_VERSION_STRING = VERSION_STRING;

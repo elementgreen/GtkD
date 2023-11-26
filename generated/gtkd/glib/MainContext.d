@@ -125,7 +125,7 @@ public class MainContext
 	 *
 	 * You must be the owner of a context before you
 	 * can call g_main_context_prepare(), g_main_context_query(),
-	 * g_main_context_check(), g_main_context_dispatch().
+	 * g_main_context_check(), g_main_context_dispatch(), g_main_context_release().
 	 *
 	 * Since 2.76 @context can be %NULL to use the global-default
 	 * main context.
@@ -510,6 +510,9 @@ public class MainContext
 	 * with g_main_context_acquire(). If the context was acquired multiple
 	 * times, the ownership will be released only when g_main_context_release()
 	 * is called as many times as it was acquired.
+	 *
+	 * You must have successfully acquired the context with
+	 * g_main_context_acquire() before you may call this function.
 	 */
 	public void release()
 	{

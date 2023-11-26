@@ -1336,12 +1336,15 @@ public struct Str
 	 *     maxTokens = the maximum number of pieces to split @string into.
 	 *         If this is less than 1, the string is split completely.
 	 *
-	 * Returns: a newly-allocated %NULL-terminated array of strings. Use
-	 *     g_strfreev() to free it.
+	 * Returns: a newly-allocated %NULL-terminated array of
+	 *     strings. Use g_strfreev() to free it.
 	 */
 	public static string[] strsplit(string string_, string delimiter, int maxTokens)
 	{
-		return Str.toStringArray(g_strsplit(Str.toStringz(string_), Str.toStringz(delimiter), maxTokens));
+		auto retStr = g_strsplit(Str.toStringz(string_), Str.toStringz(delimiter), maxTokens);
+
+		scope(exit) Str.freeStringArray(retStr);
+		return Str.toStringArray(retStr);
 	}
 
 	/**
@@ -1375,20 +1378,23 @@ public struct Str
 	 *     maxTokens = The maximum number of tokens to split @string into.
 	 *         If this is less than 1, the string is split completely
 	 *
-	 * Returns: a newly-allocated %NULL-terminated array of strings. Use
-	 *     g_strfreev() to free it.
+	 * Returns: a newly-allocated %NULL-terminated array of
+	 *     strings. Use g_strfreev() to free it.
 	 *
 	 * Since: 2.4
 	 */
 	public static string[] strsplitSet(string string_, string delimiters, int maxTokens)
 	{
-		return Str.toStringArray(g_strsplit_set(Str.toStringz(string_), Str.toStringz(delimiters), maxTokens));
+		auto retStr = g_strsplit_set(Str.toStringz(string_), Str.toStringz(delimiters), maxTokens);
+
+		scope(exit) Str.freeStringArray(retStr);
+		return Str.toStringArray(retStr);
 	}
 
 	/**
 	 * Searches the string @haystack for the first occurrence
 	 * of the string @needle, limiting the length of the search
-	 * to @haystack_len.
+	 * to @haystack_len or a nul terminator byte (whichever is reached first).
 	 *
 	 * Params:
 	 *     haystack = a nul-terminated string

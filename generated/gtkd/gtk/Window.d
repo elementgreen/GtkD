@@ -94,7 +94,9 @@ private import std.algorithm;
  * 
  * # Accessibility
  * 
- * `GtkWindow` uses the %GTK_ACCESSIBLE_ROLE_WINDOW role.
+ * Until GTK 4.10, `GtkWindow` used the `GTK_ACCESSIBLE_ROLE_WINDOW` role.
+ * 
+ * Since GTK 4.12, `GtkWindow` uses the `GTK_ACCESSIBLE_ROLE_APPLICATION` role.
  * 
  * # Actions
  * 
@@ -675,6 +677,21 @@ public class Window : Widget, NativeIF, RootIF, ShortcutManagerIF
 	}
 
 	/**
+	 * Retrieves the current suspended state of @window.
+	 *
+	 * A window being suspended means it's currently not visible to the user, for
+	 * example by being on a inactive workspace, minimized, obstructed.
+	 *
+	 * Returns: whether the window is suspended.
+	 *
+	 * Since: 4.12
+	 */
+	public bool isSuspended()
+	{
+		return gtk_window_is_suspended(gtkWindow) != 0;
+	}
+
+	/**
 	 * Asks to maximize @window, so that it fills the screen.
 	 *
 	 * Note that you shouldn’t assume the window is definitely maximized
@@ -934,6 +951,9 @@ public class Window : Widget, NativeIF, RootIF, ShortcutManagerIF
 	/**
 	 * Sets whether “focus rectangles” are supposed to be visible.
 	 *
+	 * This property is maintained by GTK based on user input,
+	 * and should not be set by applications.
+	 *
 	 * Params:
 	 *     setting = the new value
 	 */
@@ -987,6 +1007,9 @@ public class Window : Widget, NativeIF, RootIF, ShortcutManagerIF
 
 	/**
 	 * Sets whether mnemonics are supposed to be visible.
+	 *
+	 * This property is maintained by GTK based on user input,
+	 * and should not be set by applications.
 	 *
 	 * Params:
 	 *     setting = the new value

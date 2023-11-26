@@ -24,8 +24,11 @@
 
 module gdk.DragSurfaceT;
 
+public  import gdk.DragSurfaceSize;
 public  import gdk.c.functions;
 public  import gdk.c.types;
+public  import gobject.Signals;
+public  import std.algorithm;
 
 
 /**
@@ -54,5 +57,30 @@ public template DragSurfaceT(TStruct)
 	public bool present(int width, int height)
 	{
 		return gdk_drag_surface_present(getDragSurfaceStruct(), width, height) != 0;
+	}
+
+	/**
+	 * Emitted when the size for the surface needs to be computed, when it is
+	 * present.
+	 *
+	 * This signal will normally be emitted during the native surface layout
+	 * cycle when the surface size needs to be recomputed.
+	 *
+	 * It is the responsibility of the drag surface user to handle this signal
+	 * and compute the desired size of the surface, storing the computed size
+	 * in the [struct@Gdk.DragSurfaceSize] object that is passed to the signal
+	 * handler, using [method@Gdk.DragSurfaceSize.set_size].
+	 *
+	 * Failing to set a size so will result in an arbitrary size being used as
+	 * a result.
+	 *
+	 * Params:
+	 *     size = the size of the drag surface
+	 *
+	 * Since: 4.12
+	 */
+	gulong addOnComputeSize(void delegate(DragSurfaceSize, DragSurfaceIF) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
+	{
+		return Signals.connect(this, "compute-size", dlg, connectFlags ^ ConnectFlags.SWAPPED);
 	}
 }

@@ -159,7 +159,8 @@ public class OutputStream : ObjectG
 	 * Params:
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional cancellable object
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void closeAsync(int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -235,7 +236,8 @@ public class OutputStream : ObjectG
 	 * Params:
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void flushAsync(int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -369,8 +371,9 @@ public class OutputStream : ObjectG
 	 *     flags = a set of #GOutputStreamSpliceFlags.
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback.
-	 *     userData = user data passed to @callback.
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
+	 *     userData = the data to pass to callback function
 	 */
 	public void spliceAsync(InputStream source, GOutputStreamSpliceFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
 	{
@@ -551,7 +554,8 @@ public class OutputStream : ObjectG
 	 *     buffer = the buffer containing the data to write
 	 *     ioPriority = the io priority of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.44
@@ -638,7 +642,8 @@ public class OutputStream : ObjectG
 	 *     buffer = the buffer containing the data to write.
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void writeAsync(ubyte[] buffer, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -700,7 +705,8 @@ public class OutputStream : ObjectG
 	 *     bytes = The bytes to write
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void writeBytesAsync(Bytes bytes, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -879,7 +885,8 @@ public class OutputStream : ObjectG
 	 *     vectors = the buffer containing the #GOutputVectors to write.
 	 *     ioPriority = the I/O priority of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.60
@@ -961,7 +968,8 @@ public class OutputStream : ObjectG
 	 *     vectors = the buffer containing the #GOutputVectors to write.
 	 *     ioPriority = the I/O priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.60

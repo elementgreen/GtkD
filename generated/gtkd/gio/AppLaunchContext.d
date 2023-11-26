@@ -152,7 +152,7 @@ public class AppLaunchContext : ObjectG
 	 *
 	 * Params:
 	 *     info = a #GAppInfo
-	 *     files = a #GList of of #GFile objects
+	 *     files = a #GList of #GFile objects
 	 *
 	 * Returns: a startup notification ID for the application, or %NULL if
 	 *     not supported.

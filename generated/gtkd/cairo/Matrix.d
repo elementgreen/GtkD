@@ -105,9 +105,28 @@ public class Matrix
 		this.cairo_matrix = cairo_matrix;
 	}
 	
+	/** Create a Cairo transform matrix */
+	public this()
+	{
+		this(new cairo_matrix_t);
+	}
+
 	/**
+	 * Create a matrix and initialize to an affine transformation
+	 * Params:
+	 * xx = xx component of the affine transformation
+	 * yx = yx component of the affine transformation
+	 * xy = xy component of the affine transformation
+	 * yy = yy component of the affine transformation
+	 * x0 = X translation component of the affine transformation
+	 * y0 = Y translation component of the affine transformation
 	 */
-	
+	public this(double xx, double yx, double xy, double yy, double x0, double y0)
+	{
+		this();
+    init(xx, yx, xy, yy, x0, y0);
+	}
+
 	/**
 	 * Sets matrix to be the affine transformation given by
 	 * xx, yx, xy, yy, x0, y0. The transformation is given

@@ -115,18 +115,28 @@ public template ListModelT(TStruct)
 	 * %NULL is never returned for an index that is smaller than the length
 	 * of the list.
 	 *
+	 * This function is meant to be used by language bindings in place
+	 * of g_list_model_get_item().
+	 *
 	 * See also: g_list_model_get_n_items()
 	 *
 	 * Params:
 	 *     position = the position of the item to fetch
 	 *
-	 * Returns: the item at @position.
+	 * Returns: the object at @position.
 	 *
 	 * Since: 2.44
 	 */
-	public void* getItem(uint position)
+	public ObjectG getItem(uint position)
 	{
-		return g_list_model_get_item(getListModelStruct(), position);
+		auto __p = g_list_model_get_object(getListModelStruct(), position);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(ObjectG)(cast(GObject*) __p, true);
 	}
 
 	/**
@@ -162,39 +172,6 @@ public template ListModelT(TStruct)
 	public uint getNItems()
 	{
 		return g_list_model_get_n_items(getListModelStruct());
-	}
-
-	/**
-	 * Get the item at @position.
-	 *
-	 * If @position is greater than the number of items in @list, %NULL is
-	 * returned.
-	 *
-	 * %NULL is never returned for an index that is smaller than the length
-	 * of the list.
-	 *
-	 * This function is meant to be used by language bindings in place
-	 * of g_list_model_get_item().
-	 *
-	 * See also: g_list_model_get_n_items()
-	 *
-	 * Params:
-	 *     position = the position of the item to fetch
-	 *
-	 * Returns: the object at @position.
-	 *
-	 * Since: 2.44
-	 */
-	public ObjectG getObject(uint position)
-	{
-		auto __p = g_list_model_get_object(getListModelStruct(), position);
-
-		if(__p is null)
-		{
-			return null;
-		}
-
-		return ObjectG.getDObject!(ObjectG)(cast(GObject*) __p, true);
 	}
 
 	/**

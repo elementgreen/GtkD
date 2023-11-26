@@ -252,6 +252,9 @@ public class Image : Widget
 	 * The `GtkImage` created will not react to state changes. Should you
 	 * want that, you should use [ctor@Gtk.Image.new_from_icon_name].
 	 *
+	 * Deprecated: Use [ctor@Gtk.Image.new_from_paintable] and
+	 * [ctor@Gdk.Texture.new_for_pixbuf] instead
+	 *
 	 * Params:
 	 *     pixbuf = a `GdkPixbuf`
 	 *
@@ -462,6 +465,8 @@ public class Image : Widget
 	 * Note: This is a helper for [method@Gtk.Image.set_from_paintable],
 	 * and you can't get back the exact pixbuf once this is called,
 	 * only a paintable.
+	 *
+	 * Deprecated: Use [method@Gtk.Image.set_from_paintable] instead
 	 *
 	 * Params:
 	 *     pixbuf = a `GdkPixbuf` or `NULL`

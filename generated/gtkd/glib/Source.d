@@ -673,7 +673,7 @@ public class Source
 	 *
 	 * The source name should describe in a human-readable way
 	 * what the source does. For example, "X11 event queue"
-	 * or "GTK+ repaint idle handler" or whatever it is.
+	 * or "GTK repaint idle handler" or whatever it is.
 	 *
 	 * It is permitted to call this function multiple times, but is not
 	 * recommended due to the potential performance impact.  For example,

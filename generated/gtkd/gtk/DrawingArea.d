@@ -66,16 +66,13 @@ private import std.algorithm;
  * gpointer        data)
  * {
  * GdkRGBA color;
- * GtkStyleContext *context;
- * 
- * context = gtk_widget_get_style_context (GTK_WIDGET (area));
  * 
  * cairo_arc (cr,
  * width / 2.0, height / 2.0,
  * MIN (width, height) / 2.0,
  * 0, 2 * G_PI);
  * 
- * gtk_style_context_get_color (context,
+ * gtk_widget_get_color (GTK_WIDGET (area),
  * &color);
  * gdk_cairo_set_source_rgba (cr, &color);
  * 
@@ -146,18 +143,20 @@ public class DrawingArea : Widget
 
 	import cairo.Context;
 
+	private void delegate(Context, int, int, DrawingArea) _drawFuncDlg;
+
 	public void setDrawFunc(void delegate(Context, int, int, DrawingArea) dlg)
 	{
 		extern (C) void _drawFunc(GtkDrawingArea* drawing_area, cairo_t* cr, int width, int height,
 		void* user_data)
 		{
-			auto dlg = cast(typeof(&dlg))user_data;
 			auto ctx = ObjectG.getDObject!(Context)(cr);
 			auto da = ObjectG.getDObject!(DrawingArea)(drawing_area);
-			(*dlg)(ctx, width, height, da);
+			da._drawFuncDlg(ctx, width, height, da);
 		}
 
-		gtk_drawing_area_set_draw_func(gtkDrawingArea, &_drawFunc, cast(void*)&dlg, null);
+		_drawFuncDlg = dlg;
+		gtk_drawing_area_set_draw_func(gtkDrawingArea, &_drawFunc, null, null);
 	}
 
 	/**

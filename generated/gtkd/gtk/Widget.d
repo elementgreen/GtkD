@@ -211,7 +211,7 @@ private import std.algorithm;
  * GTK also supports baseline vertical alignment of widgets. This
  * means that widgets are positioned such that the typographical baseline of
  * widgets in the same row are aligned. This happens if a widget supports
- * baselines, has a vertical alignment of %GTK_ALIGN_BASELINE, and is inside
+ * baselines, has a vertical alignment using baselines, and is inside
  * a widget that supports baselines and has a natural “row” that it aligns to
  * the baseline, or a baseline assigned to it by the grandparent.
  * 
@@ -221,7 +221,7 @@ private import std.algorithm;
  * 
  * If a widget ends up baseline aligned it will be allocated all the space in
  * the parent as if it was %GTK_ALIGN_FILL, but the selected baseline can be
- * found via [id@gtk_widget_get_allocated_baseline]. If the baseline has a
+ * found via [id@gtk_widget_get_baseline]. If the baseline has a
  * value other than -1 you need to align the widget such that the baseline
  * appears at the position.
  * 
@@ -615,7 +615,7 @@ public void activateDefault()
 /**
  * Adds a style class to @widget.
  *
- * After calling this function, the widgets style will match
+ * After calling this function, the widget’s style will match
  * for @css_class, according to CSS matching rules.
  *
  * Use [method@Gtk.Widget.remove_css_class] to remove the
@@ -742,7 +742,9 @@ public bool childFocus(GtkDirectionType direction)
 /**
  * Computes the bounds for @widget in the coordinate space of @target.
  *
- * FIXME: Explain what "bounds" are.
+ * The bounds of widget are (the bounding box of) the region that it is
+ * expected to draw in. See the [coordinate system](coordinates.html)
+ * overview to learn more.
  *
  * If the operation is successful, %TRUE is returned. If @widget has no
  * bounds or the bounds cannot be expressed in @target's coordinate space
@@ -827,6 +829,9 @@ public bool computePoint(Widget target, Point point, out Point outPoint)
  * The transform can not be computed in certain cases, for example
  * when @widget and @target do not share a common ancestor. In that
  * case @out_transform gets set to the identity matrix.
+ *
+ * To learn more about widget coordinate systems, see the coordinate
+ * system [overview](coordinates.html).
  *
  * Params:
  *     target = the target widget that the matrix will transform to
@@ -986,6 +991,8 @@ public void errorBell()
  * for the `GtkWidget`Class.snapshot() function, and when allocating
  * child widgets in `GtkWidget`Class.size_allocate().
  *
+ * Deprecated: Use [method@Gtk.Widget.get_baseline] instead
+ *
  * Returns: the baseline of the @widget, or -1 if none
  */
 public int getAllocatedBaseline()
@@ -996,6 +1003,11 @@ public int getAllocatedBaseline()
 /**
  * Returns the height that has currently been allocated to @widget.
  *
+ * To learn more about widget sizes, see the coordinate
+ * system [overview](coordinates.html).
+ *
+ * Deprecated: Use [method@Gtk.Widget.get_height] instead
+ *
  * Returns: the height of the @widget
  */
 public int getAllocatedHeight()
@@ -1005,6 +1017,11 @@ public int getAllocatedHeight()
 
 /**
  * Returns the width that has currently been allocated to @widget.
+ *
+ * To learn more about widget sizes, see the coordinate
+ * system [overview](coordinates.html).
+ *
+ * Deprecated: Use [method@Gtk.Widget.get_width] instead
  *
  * Returns: the width of the @widget
  */
@@ -1029,6 +1046,9 @@ public int getAllocatedWidth()
  * So a layout container is guaranteed that its children stay inside
  * the assigned bounds, but not that they have exactly the bounds the
  * container assigned.
+ *
+ * Deprecated: Use [method@Gtk.Widget.compute_bounds],
+ * [method@Gtk.Widget.get_width] or [method@Gtk.Widget.get_height] instead.
  *
  * Params:
  *     allocation = a pointer to a `GtkAllocation` to copy to
@@ -1064,6 +1084,22 @@ public Widget getAncestor(GType widgetType)
 	}
 
 	return ObjectG.getDObject!(Widget)(cast(GtkWidget*) __p);
+}
+
+/**
+ * Returns the baseline that has currently been allocated to @widget.
+ *
+ * This function is intended to be used when implementing handlers
+ * for the `GtkWidget`Class.snapshot() function, and when allocating
+ * child widgets in `GtkWidget`Class.size_allocate().
+ *
+ * Returns: the baseline of the @widget, or -1 if none
+ *
+ * Since: 4.12
+ */
+public int getBaseline()
+{
+	return gtk_widget_get_baseline(gtkWidget);
 }
 
 /**
@@ -1129,11 +1165,11 @@ public Clipboard getClipboard()
 }
 
 /**
- * Gets the current foreground color for the widgets
+ * Gets the current foreground color for the widget’s
  * CSS style.
  *
  * This function should only be used in snapshot
- * implementations that need need to do custom
+ * implementations that need to do custom
  * drawing with the foreground color.
  *
  * Params:
@@ -1234,7 +1270,7 @@ public Display getDisplay()
 }
 
 /**
- * Returns the widgets first child.
+ * Returns the widget’s first child.
  *
  * This API is primarily meant for widget implementations.
  *
@@ -1377,9 +1413,10 @@ public FrameClock getFrameClock()
  * Gets the horizontal alignment of @widget.
  *
  * For backwards compatibility reasons this method will never return
- * %GTK_ALIGN_BASELINE, but instead it will convert it to
- * %GTK_ALIGN_FILL. Baselines are not supported for horizontal
- * alignment.
+ * one of the baseline alignments, but instead it will convert it to
+ * `GTK_ALIGN_FILL` or `GTK_ALIGN_CENTER`.
+ *
+ * Baselines are not supported for horizontal alignment.
  *
  * Returns: the horizontal alignment of @widget
  */
@@ -1406,6 +1443,9 @@ public bool getHasTooltip()
  * should be using in [vfunc@Gtk.Widget.snapshot].
  *
  * For pointer events, see [method@Gtk.Widget.contains].
+ *
+ * To learn more about widget sizes, see the coordinate
+ * system [overview](coordinates.html).
  *
  * Returns: The height of @widget
  */
@@ -1459,7 +1499,7 @@ public bool getHexpandSet()
 }
 
 /**
- * Returns the widgets last child.
+ * Returns the widget’s last child.
  *
  * This API is primarily meant for widget implementations.
  *
@@ -1582,7 +1622,7 @@ public NativeIF getNative()
 }
 
 /**
- * Returns the widgets next sibling.
+ * Returns the widget’s next sibling.
  *
  * This API is primarily meant for widget implementations.
  *
@@ -1613,7 +1653,7 @@ public double getOpacity()
 }
 
 /**
- * Returns the widgets overflow value.
+ * Returns the widget’s overflow value.
  *
  * Returns: The widget's overflow.
  */
@@ -1696,7 +1736,7 @@ public void getPreferredSize(out Requisition minimumSize, out Requisition natura
 }
 
 /**
- * Returns the widgets previous sibling.
+ * Returns the widget’s previous sibling.
  *
  * This API is primarily meant for widget implementations.
  *
@@ -1866,6 +1906,9 @@ public Settings getSettings()
  * writing orientation-independent code, such as when
  * implementing [iface@Gtk.Orientable] widgets.
  *
+ * To learn more about widget sizes, see the coordinate
+ * system [overview](coordinates.html).
+ *
  * Params:
  *     orientation = the orientation to query
  *
@@ -1922,7 +1965,7 @@ public GtkStateFlags getStateFlags()
  *
  * Deprecated: Style contexts will be removed in GTK 5
  *
- * Returns: the widgets `GtkStyleContext`
+ * Returns: the widget’s `GtkStyleContext`
  */
 public StyleContext getStyleContext()
 {
@@ -2058,6 +2101,9 @@ public bool getVisible()
  * should be using in [vfunc@Gtk.Widget.snapshot].
  *
  * For pointer events, see [method@Gtk.Widget.contains].
+ *
+ * To learn more about widget sizes, see the coordinate
+ * system [overview](coordinates.html).
  *
  * Returns: The width of @widget
  */
@@ -3404,6 +3450,8 @@ public void snapshotChild(Widget child, Snapshot snapshot)
  * In order to perform this operation, both widget must share
  * a common ancestor.
  *
+ * Deprecated: Use gtk_widget_compute_point() instead
+ *
  * Params:
  *     destWidget = a `GtkWidget`
  *     srcX = X position relative to @src_widget
@@ -3575,7 +3623,7 @@ gulong addOnMoveFocus(void delegate(GtkDirectionType, Widget) dlg, ConnectFlags 
 }
 
 /**
- * Emitted when the widgets tooltip is about to be shown.
+ * Emitted when the widget’s tooltip is about to be shown.
  *
  * This happens when the [property@Gtk.Widget:has-tooltip] property
  * is %TRUE and the hover timeout has expired with the cursor hovering

@@ -814,10 +814,50 @@ public enum GdkMemoryFormat
 	 */
 	R32G32B32A32_FLOAT = 17,
 	/**
+	 * 2 bytes; for grayscale, alpha. The color
+	 * values are premultiplied with the alpha value. Since: 4.12
+	 */
+	G8A8_PREMULTIPLIED = 18,
+	/**
+	 * 2 bytes; for grayscale, alpha. Since: 4.12
+	 */
+	G8A8 = 19,
+	/**
+	 * One byte; for grayscale. The data is opaque.
+	 * Since: 4.12
+	 */
+	G8 = 20,
+	/**
+	 * 2 guint16 values; for grayscale, alpha.
+	 * The color values are premultiplied with the alpha value. Since: 4.12
+	 */
+	G16A16_PREMULTIPLIED = 21,
+	/**
+	 * 2 guint16 values; for grayscale, alpha. Since: 4.12
+	 */
+	G16A16 = 22,
+	/**
+	 * One guint16 value; for grayscale. The data is opaque.
+	 * Since: 4.12
+	 */
+	G16 = 23,
+	/**
+	 * One byte; for alpha.
+	 * Since: 4.12
+	 */
+	A8 = 24,
+	/**
+	 * One guint16 value; for alpha.
+	 * Since: 4.12
+	 */
+	A16 = 25,
+	A16_FLOAT = 26,
+	A32_FLOAT = 27,
+	/**
 	 * The number of formats. This value will change as
 	 * more formats get added, so do not rely on its concrete integer.
 	 */
-	N_FORMATS = 18,
+	N_FORMATS = 28,
 }
 alias GdkMemoryFormat MemoryFormat;
 
@@ -1051,7 +1091,7 @@ public enum GdkSeatCapabilities
 	/**
 	 * The union of all capabilities
 	 */
-	ALL = 15,
+	ALL = 31,
 }
 alias GdkSeatCapabilities SeatCapabilities;
 
@@ -1238,6 +1278,10 @@ public enum GdkToplevelState
 	 * whether the left edge is resizable
 	 */
 	LEFT_RESIZABLE = 32768,
+	/**
+	 * the surface is not visible to the user
+	 */
+	SUSPENDED = 65536,
 }
 alias GdkToplevelState ToplevelState;
 
@@ -1404,6 +1448,8 @@ struct GdkDragSurface;
  */
 struct GdkDragSurfaceInterface;
 
+struct GdkDragSurfaceSize;
+
 struct GdkDrawContext;
 
 struct GdkDrop;
@@ -1431,6 +1477,10 @@ struct GdkFrameTimings;
 struct GdkGLContext;
 
 struct GdkGLTexture;
+
+struct GdkGLTextureBuilder;
+
+struct GdkGLTextureBuilderClass;
 
 struct GdkGLTextureClass;
 

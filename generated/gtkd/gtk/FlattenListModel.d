@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.c.functions;
 public  import gtk.c.types;
 
@@ -35,10 +37,10 @@ public  import gtk.c.types;
 /**
  * `GtkFlattenListModel` is a list model that concatenates other list models.
  * 
- * `GtkFlattenListModel` takes a list model containing list models,
- * and flattens it into a single model.
+ * `GtkFlattenListModel` takes a list model containing list models, and flattens
+ * it into a single model. Each list model becomes a section in the single model.
  */
-public class FlattenListModel : ObjectG, ListModelIF
+public class FlattenListModel : ObjectG, ListModelIF, SectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkFlattenListModel* gtkFlattenListModel;
@@ -68,6 +70,9 @@ public class FlattenListModel : ObjectG, ListModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkFlattenListModel);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkFlattenListModel);
 
 
 	/** */

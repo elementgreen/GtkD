@@ -65,7 +65,9 @@ public  import gtk.c.types;
  * 
  * # Accessibility
  * 
- * `GtkBox` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * Until GTK 4.10, `GtkBox` used the `GTK_ACCESSIBLE_ROLE_GROUP` role.
+ * 
+ * Starting from GTK 4.12, `GtkBox` uses the `GTK_ACCESSIBLE_ROLE_GENERIC` role.
  */
 public class Box : Widget, OrientableIF
 {
@@ -137,6 +139,18 @@ public class Box : Widget, OrientableIF
 	public void append(Widget child)
 	{
 		gtk_box_append(gtkBox, (child is null) ? null : child.getWidgetStruct());
+	}
+
+	/**
+	 * Gets the value set by gtk_box_set_baseline_child().
+	 *
+	 * Returns: the baseline child
+	 *
+	 * Since: 4.12
+	 */
+	public int getBaselineChild()
+	{
+		return gtk_box_get_baseline_child(gtkBox);
 	}
 
 	/**
@@ -224,6 +238,21 @@ public class Box : Widget, OrientableIF
 	public void reorderChildAfter(Widget child, Widget sibling)
 	{
 		gtk_box_reorder_child_after(gtkBox, (child is null) ? null : child.getWidgetStruct(), (sibling is null) ? null : sibling.getWidgetStruct());
+	}
+
+	/**
+	 * Sets the baseline child of a box.
+	 *
+	 * This affects only vertical boxes.
+	 *
+	 * Params:
+	 *     child = a child, or -1
+	 *
+	 * Since: 4.12
+	 */
+	public void setBaselineChild(int child)
+	{
+		gtk_box_set_baseline_child(gtkBox, child);
 	}
 
 	/**

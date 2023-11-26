@@ -27,6 +27,7 @@ module gtk.Viewport;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
 private import gtk.Adjustment;
+private import gtk.ScrollInfo;
 private import gtk.ScrollableIF;
 private import gtk.ScrollableT;
 private import gtk.Widget;
@@ -50,7 +51,9 @@ public  import gtk.c.types;
  * 
  * # Accessibility
  * 
- * `GtkViewport` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * Until GTK 4.10, `GtkViewport` used the `GTK_ACCESSIBLE_ROLE_GROUP` role.
+ * 
+ * Starting from GTK 4.12, `GtkViewport` uses the `GTK_ACCESSIBLE_ROLE_GENERIC` role.
  */
 public class Viewport : Widget, ScrollableIF
 {
@@ -142,6 +145,24 @@ public class Viewport : Widget, ScrollableIF
 	public bool getScrollToFocus()
 	{
 		return gtk_viewport_get_scroll_to_focus(gtkViewport) != 0;
+	}
+
+	/**
+	 * Scrolls a descendant of the viewport into view.
+	 *
+	 * The viewport and the descendant must be visible and mapped for
+	 * this function to work, otherwise no scrolling will be performed.
+	 *
+	 * Params:
+	 *     descendant = a descendant widget of the viewport
+	 *     scroll = details of how to perform
+	 *         the scroll operation or NULL to scroll into view
+	 *
+	 * Since: 4.12
+	 */
+	public void scrollTo(Widget descendant, ScrollInfo scroll)
+	{
+		gtk_viewport_scroll_to(gtkViewport, (descendant is null) ? null : descendant.getWidgetStruct(), (scroll is null) ? null : scroll.getScrollInfoStruct(true));
 	}
 
 	/**

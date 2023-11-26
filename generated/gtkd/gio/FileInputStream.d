@@ -138,7 +138,8 @@ public class FileInputStream : InputStream, SeekableIF
 	 *     attributes = a file attribute query string.
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void queryInfoAsync(string attributes, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)

@@ -29,6 +29,8 @@ private import glib.ConstructionException;
 private import gobject.ObjectG;
 private import gobject.Signals;
 private import gtk.ColumnViewColumn;
+private import gtk.ListItemFactory;
+private import gtk.ScrollInfo;
 private import gtk.ScrollableIF;
 private import gtk.ScrollableT;
 private import gtk.SelectionModelIF;
@@ -213,6 +215,25 @@ public class ColumnView : Widget, ScrollableIF
 	}
 
 	/**
+	 * Gets the factory that's currently used to populate section headers.
+	 *
+	 * Returns: The factory in use
+	 *
+	 * Since: 4.12
+	 */
+	public ListItemFactory getHeaderFactory()
+	{
+		auto __p = gtk_column_view_get_header_factory(gtkColumnView);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(ListItemFactory)(cast(GtkListItemFactory*) __p);
+	}
+
+	/**
 	 * Gets the model that's currently used to read the items displayed.
 	 *
 	 * Returns: The model in use
@@ -237,6 +258,25 @@ public class ColumnView : Widget, ScrollableIF
 	public bool getReorderable()
 	{
 		return gtk_column_view_get_reorderable(gtkColumnView) != 0;
+	}
+
+	/**
+	 * Gets the factory set via [method@Gtk.ColumnView.set_row_factory].
+	 *
+	 * Returns: The factory
+	 *
+	 * Since: 4.12
+	 */
+	public ListItemFactory getRowFactory()
+	{
+		auto __p = gtk_column_view_get_row_factory(gtkColumnView);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(ListItemFactory)(cast(GtkListItemFactory*) __p);
 	}
 
 	/**
@@ -308,6 +348,18 @@ public class ColumnView : Widget, ScrollableIF
 	}
 
 	/**
+	 * Gets the behavior set for the <kbd>Tab</kbd> key.
+	 *
+	 * Returns: The behavior of the <kbd>Tab</kbd> key
+	 *
+	 * Since: 4.12
+	 */
+	public GtkListTabBehavior getTabBehavior()
+	{
+		return gtk_column_view_get_tab_behavior(gtkColumnView);
+	}
+
+	/**
 	 * Inserts a column at the given position in the columns of @self.
 	 *
 	 * If @column is already a column of @self, it will be repositioned.
@@ -333,6 +385,28 @@ public class ColumnView : Widget, ScrollableIF
 	}
 
 	/**
+	 * Scroll to the row at the given position - or cell if a column is
+	 * given - and performs the actions specified in @flags.
+	 *
+	 * This function works no matter if the listview is shown or focused.
+	 * If it isn't, then the changes will take effect once that happens.
+	 *
+	 * Params:
+	 *     pos = position of the item
+	 *     column = The column to scroll to
+	 *         or %NULL to not scroll columns.
+	 *     flags = actions to perform
+	 *     scroll = details of how to perform
+	 *         the scroll operation or %NULL to scroll into view
+	 *
+	 * Since: 4.12
+	 */
+	public void scrollTo(uint pos, ColumnViewColumn column, GtkListScrollFlags flags, ScrollInfo scroll)
+	{
+		gtk_column_view_scroll_to(gtkColumnView, pos, (column is null) ? null : column.getColumnViewColumnStruct(), flags, (scroll is null) ? null : scroll.getScrollInfoStruct(true));
+	}
+
+	/**
 	 * Sets whether selections can be changed by dragging with the mouse.
 	 *
 	 * Params:
@@ -341,6 +415,23 @@ public class ColumnView : Widget, ScrollableIF
 	public void setEnableRubberband(bool enableRubberband)
 	{
 		gtk_column_view_set_enable_rubberband(gtkColumnView, enableRubberband);
+	}
+
+	/**
+	 * Sets the `GtkListItemFactory` to use for populating the
+	 * [class@Gtk.ListHeader] objects used in section headers.
+	 *
+	 * If this factory is set to %NULL, the list will not show
+	 * section headers.
+	 *
+	 * Params:
+	 *     factory = the factory to use
+	 *
+	 * Since: 4.12
+	 */
+	public void setHeaderFactory(ListItemFactory factory)
+	{
+		gtk_column_view_set_header_factory(gtkColumnView, (factory is null) ? null : factory.getListItemFactoryStruct());
 	}
 
 	/**
@@ -365,6 +456,25 @@ public class ColumnView : Widget, ScrollableIF
 	public void setReorderable(bool reorderable)
 	{
 		gtk_column_view_set_reorderable(gtkColumnView, reorderable);
+	}
+
+	/**
+	 * Sets the factory used for configuring rows. The factory must be for configuring
+	 * [class@Gtk.ColumnViewRow] objects.
+	 *
+	 * If this factory is not set - which is the default - then the defaults will be used.
+	 *
+	 * This factory is not used to set the widgets displayed in the individual cells. For
+	 * that see [method@GtkColumnViewColumn.set_factory] and [class@GtkColumnViewCell].
+	 *
+	 * Params:
+	 *     factory = The row factory
+	 *
+	 * Since: 4.12
+	 */
+	public void setRowFactory(ListItemFactory factory)
+	{
+		gtk_column_view_set_row_factory(gtkColumnView, (factory is null) ? null : factory.getListItemFactoryStruct());
 	}
 
 	/**
@@ -401,6 +511,19 @@ public class ColumnView : Widget, ScrollableIF
 	public void setSingleClickActivate(bool singleClickActivate)
 	{
 		gtk_column_view_set_single_click_activate(gtkColumnView, singleClickActivate);
+	}
+
+	/**
+	 * Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+	 *
+	 * Params:
+	 *     tabBehavior = The desired tab behavior
+	 *
+	 * Since: 4.12
+	 */
+	public void setTabBehavior(GtkListTabBehavior tabBehavior)
+	{
+		gtk_column_view_set_tab_behavior(gtkColumnView, tabBehavior);
 	}
 
 	/**

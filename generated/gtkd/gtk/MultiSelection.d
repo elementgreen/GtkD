@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.SelectionModelIF;
 private import gtk.SelectionModelT;
 private import gtk.c.functions;
@@ -38,7 +40,7 @@ public  import gtk.c.types;
  * `GtkMultiSelection` is a `GtkSelectionModel` that allows selecting multiple
  * elements.
  */
-public class MultiSelection : ObjectG, ListModelIF, SelectionModelIF
+public class MultiSelection : ObjectG, ListModelIF, SectionModelIF, SelectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkMultiSelection* gtkMultiSelection;
@@ -68,6 +70,9 @@ public class MultiSelection : ObjectG, ListModelIF, SelectionModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkMultiSelection);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkMultiSelection);
 
 	// add the SelectionModel capabilities
 	mixin SelectionModelT!(GtkMultiSelection);

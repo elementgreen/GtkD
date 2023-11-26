@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.SelectionModelIF;
 private import gtk.SelectionModelT;
 private import gtk.c.functions;
@@ -43,7 +45,7 @@ public  import gtk.c.types;
  * stays selected. In particular, this means that changing the sort order of an
  * underlying sort model will preserve the selection.
  */
-public class SingleSelection : ObjectG, ListModelIF, SelectionModelIF
+public class SingleSelection : ObjectG, ListModelIF, SectionModelIF, SelectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkSingleSelection* gtkSingleSelection;
@@ -73,6 +75,9 @@ public class SingleSelection : ObjectG, ListModelIF, SelectionModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkSingleSelection);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkSingleSelection);
 
 	// add the SelectionModel capabilities
 	mixin SelectionModelT!(GtkSingleSelection);

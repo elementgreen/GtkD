@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.c.functions;
 public  import gtk.c.types;
 
@@ -38,8 +40,10 @@ public  import gtk.c.types;
  * This is useful when implementing paging by setting the size to the number
  * of elements per page and updating the offset whenever a different page is
  * opened.
+ * 
+ * `GtkSliceListModel` passes through sections from the underlying model.
  */
-public class SliceListModel : ObjectG, ListModelIF
+public class SliceListModel : ObjectG, ListModelIF, SectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkSliceListModel* gtkSliceListModel;
@@ -69,6 +73,9 @@ public class SliceListModel : ObjectG, ListModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkSliceListModel);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkSliceListModel);
 
 
 	/** */

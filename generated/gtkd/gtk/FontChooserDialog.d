@@ -52,6 +52,11 @@ public  import gtk.c.types;
  * interface exposes the buttons with the names “select_button”
  * and “cancel_button”.
  * 
+ * ## CSS nodes
+ * 
+ * `GtkFontChooserDialog` has a single CSS node with the name `window` and style
+ * class `.fontchooser`.
+ * 
  * Deprecated: Use [class@Gtk.FontDialog] instead
  */
 public class FontChooserDialog : Dialog, FontChooserIF

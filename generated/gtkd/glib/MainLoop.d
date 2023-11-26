@@ -34,7 +34,7 @@ private import gtkd.Loader;
 
 /**
  * The `GMainLoop` struct is an opaque data type
- * representing the main event loop of a GLib or GTK+ application.
+ * representing the main event loop of a GLib or GTK application.
  */
 public class MainLoop
 {

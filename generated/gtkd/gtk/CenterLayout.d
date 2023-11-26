@@ -150,6 +150,18 @@ public class CenterLayout : LayoutManager
 	}
 
 	/**
+	 * Gets whether @self shrinks the center widget after other children.
+	 *
+	 * Returns: whether to shrink the center widget after others
+	 *
+	 * Since: 4.12
+	 */
+	public bool getShrinkCenterLast()
+	{
+		return gtk_center_layout_get_shrink_center_last(gtkCenterLayout) != 0;
+	}
+
+	/**
 	 * Returns the start widget of the layout.
 	 *
 	 * Returns: The current start widget of @self
@@ -212,6 +224,26 @@ public class CenterLayout : LayoutManager
 	public void setOrientation(GtkOrientation orientation)
 	{
 		gtk_center_layout_set_orientation(gtkCenterLayout, orientation);
+	}
+
+	/**
+	 * Sets whether to shrink the center widget after other children.
+	 *
+	 * By default, when there's no space to give all three children their
+	 * natural widths, the start and end widgets start shrinking and the
+	 * center child keeps natural width until they reach minimum width.
+	 *
+	 * If set to `FALSE`, start and end widgets keep natural width and the
+	 * center widget starts shrinking instead.
+	 *
+	 * Params:
+	 *     shrinkCenterLast = whether to shrink the center widget after others
+	 *
+	 * Since: 4.12
+	 */
+	public void setShrinkCenterLast(bool shrinkCenterLast)
+	{
+		gtk_center_layout_set_shrink_center_last(gtkCenterLayout, shrinkCenterLast);
 	}
 
 	/**

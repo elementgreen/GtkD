@@ -29,6 +29,7 @@ private import gobject.ObjectG;
 private import gobject.Signals;
 private import gtk.ListBase;
 private import gtk.ListItemFactory;
+private import gtk.ScrollInfo;
 private import gtk.SelectionModelIF;
 private import gtk.Widget;
 private import gtk.c.functions;
@@ -215,6 +216,38 @@ public class GridView : ListBase
 	}
 
 	/**
+	 * Gets the behavior set for the <kbd>Tab</kbd> key.
+	 *
+	 * Returns: The behavior of the <kbd>Tab</kbd> key
+	 *
+	 * Since: 4.12
+	 */
+	public GtkListTabBehavior getTabBehavior()
+	{
+		return gtk_grid_view_get_tab_behavior(gtkGridView);
+	}
+
+	/**
+	 * Scrolls to the item at the given position and performs the actions
+	 * specified in @flags.
+	 *
+	 * This function works no matter if the gridview is shown or focused.
+	 * If it isn't, then the changes will take effect once that happens.
+	 *
+	 * Params:
+	 *     pos = position of the item
+	 *     flags = actions to perform
+	 *     scroll = details of how to perform
+	 *         the scroll operation or %NULL to scroll into view
+	 *
+	 * Since: 4.12
+	 */
+	public void scrollTo(uint pos, GtkListScrollFlags flags, ScrollInfo scroll)
+	{
+		gtk_grid_view_scroll_to(gtkGridView, pos, flags, (scroll is null) ? null : scroll.getScrollInfoStruct(true));
+	}
+
+	/**
 	 * Sets whether selections can be changed by dragging with the mouse.
 	 *
 	 * Params:
@@ -291,6 +324,19 @@ public class GridView : ListBase
 	public void setSingleClickActivate(bool singleClickActivate)
 	{
 		gtk_grid_view_set_single_click_activate(gtkGridView, singleClickActivate);
+	}
+
+	/**
+	 * Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+	 *
+	 * Params:
+	 *     tabBehavior = The desired tab behavior
+	 *
+	 * Since: 4.12
+	 */
+	public void setTabBehavior(GtkListTabBehavior tabBehavior)
+	{
+		gtk_grid_view_set_tab_behavior(gtkGridView, tabBehavior);
 	}
 
 	/**

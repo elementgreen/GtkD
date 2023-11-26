@@ -146,7 +146,8 @@ public class UnixConnection : SocketConnection
 	 *
 	 * Params:
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.32
@@ -276,7 +277,8 @@ public class UnixConnection : SocketConnection
 	 *
 	 * Params:
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.32

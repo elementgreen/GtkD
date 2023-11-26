@@ -493,7 +493,7 @@ public struct Util
 	 * in contrast to g_get_application_name().
 	 *
 	 * If you are using #GApplication the program name is set in
-	 * g_application_run(). In case of GDK or GTK+ it is set in
+	 * g_application_run(). In case of GDK or GTK it is set in
 	 * gdk_init(), which is called by gtk_init() and the
 	 * #GtkApplication::startup handler. The program name is found by
 	 * taking the last component of @argv[0].
@@ -831,7 +831,7 @@ public struct Util
 	/**
 	 * Parses a string containing debugging options
 	 * into a %guint containing bit flags. This is used
-	 * within GDK and GTK+ to parse the debug options passed on the
+	 * within GDK and GTK to parse the debug options passed on the
 	 * command line or through environment variables.
 	 *
 	 * If @string is equal to "all", all flags are set. Any flags
@@ -1013,7 +1013,7 @@ public struct Util
 	 * in contrast to g_set_application_name().
 	 *
 	 * If you are using #GApplication the program name is set in
-	 * g_application_run(). In case of GDK or GTK+ it is set in
+	 * g_application_run(). In case of GDK or GTK it is set in
 	 * gdk_init(), which is called by gtk_init() and the
 	 * #GtkApplication::startup handler. The program name is found by
 	 * taking the last component of @argv[0].

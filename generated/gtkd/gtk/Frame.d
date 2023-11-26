@@ -76,6 +76,10 @@ public  import gtk.c.types;
  * `GtkFrame` has a main CSS node with name “frame”, which is used to draw the
  * visible border. You can set the appearance of the border using CSS properties
  * like “border-style” on this node.
+ * 
+ * # Accessibility
+ * 
+ * `GtkFrame` uses the `GTK_ACCESSIBLE_ROLE_GROUP` role.
  */
 public class Frame : Widget
 {

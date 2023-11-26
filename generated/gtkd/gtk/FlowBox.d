@@ -399,6 +399,18 @@ public class FlowBox : Widget, OrientableIF
 	}
 
 	/**
+	 * Removes all children from @box.
+	 *
+	 * This function does nothing if @box is backed by a model.
+	 *
+	 * Since: 4.12
+	 */
+	public void removeAll()
+	{
+		gtk_flow_box_remove_all(gtkFlowBox);
+	}
+
+	/**
 	 * Select all children of @box, if the selection
 	 * mode allows it.
 	 */

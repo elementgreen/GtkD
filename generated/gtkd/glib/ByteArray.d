@@ -149,8 +149,10 @@ public class ByteArray
 	}
 
 	/**
-	 * Create byte array containing the data. The data will be owned by the array
-	 * and will be freed with g_free(), i.e. it could be allocated using g_strdup().
+	 * Creates a byte array containing the @data.
+	 * After this call, @data belongs to the #GByteArray and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * Do not use it if @len is greater than %G_MAXUINT. #GByteArray
 	 * stores the length of its data in #guint, which may be shorter than

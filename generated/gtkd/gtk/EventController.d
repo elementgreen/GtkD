@@ -46,7 +46,7 @@ public  import gtk.c.types;
  * 
  * See the chapter on [input handling](input-handling.html) for
  * an overview of the basic concepts, such as the capture and bubble
- * phases of even propagation.
+ * phases of event propagation.
  */
 public class EventController : ObjectG
 {

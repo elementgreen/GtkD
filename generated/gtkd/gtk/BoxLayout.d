@@ -110,6 +110,19 @@ public class BoxLayout : LayoutManager, OrientableIF
 	}
 
 	/**
+	 * Gets the value set by gtk_box_layout_set_baseline_child().
+	 *
+	 * Returns: the index of the child that determines the baseline
+	 *     in vertical layout, or -1
+	 *
+	 * Since: 4.12
+	 */
+	public int getBaselineChild()
+	{
+		return gtk_box_layout_get_baseline_child(gtkBoxLayout);
+	}
+
+	/**
 	 * Gets the value set by gtk_box_layout_set_baseline_position().
 	 *
 	 * Returns: the baseline position
@@ -137,6 +150,20 @@ public class BoxLayout : LayoutManager, OrientableIF
 	public uint getSpacing()
 	{
 		return gtk_box_layout_get_spacing(gtkBoxLayout);
+	}
+
+	/**
+	 * Sets the index of the child that determines the baseline
+	 * in vertical layout.
+	 *
+	 * Params:
+	 *     child = the child position, or -1
+	 *
+	 * Since: 4.12
+	 */
+	public void setBaselineChild(int child)
+	{
+		gtk_box_layout_set_baseline_child(gtkBoxLayout, child);
 	}
 
 	/**

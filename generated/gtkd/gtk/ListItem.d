@@ -24,6 +24,8 @@
 
 module gtk.ListItem;
 
+private import glib.Str;
+private import glib.c.functions;
 private import gobject.ObjectG;
 private import gtk.Widget;
 private import gtk.c.functions;
@@ -31,13 +33,14 @@ public  import gtk.c.types;
 
 
 /**
- * `GtkListItem` is used by list widgets to represent items in a `GListModel`.
+ * `GtkListItem` is used by list widgets to represent items in a
+ * [iface@Gio.ListModel].
  * 
- * The `GtkListItem`s are managed by the list widget (with its factory)
+ * `GtkListItem` objects are managed by the list widget (with its factory)
  * and cannot be created by applications, but they need to be populated
  * by application code. This is done by calling [method@Gtk.ListItem.set_child].
  * 
- * `GtkListItem`s exist in 2 stages:
+ * `GtkListItem` objects exist in 2 stages:
  * 
  * 1. The unbound stage where the listitem is not currently connected to
  * an item in the list. In that case, the [property@Gtk.ListItem:item]
@@ -82,6 +85,30 @@ public class ListItem : ObjectG
 	}
 
 	/**
+	 * Gets the accessible description of @self.
+	 *
+	 * Returns: the accessible description
+	 *
+	 * Since: 4.12
+	 */
+	public string getAccessibleDescription()
+	{
+		return Str.toString(gtk_list_item_get_accessible_description(gtkListItem));
+	}
+
+	/**
+	 * Gets the accessible label of @self.
+	 *
+	 * Returns: the accessible label
+	 *
+	 * Since: 4.12
+	 */
+	public string getAccessibleLabel()
+	{
+		return Str.toString(gtk_list_item_get_accessible_label(gtkListItem));
+	}
+
+	/**
 	 * Checks if a list item has been set to be activatable via
 	 * gtk_list_item_set_activatable().
 	 *
@@ -108,6 +135,19 @@ public class ListItem : ObjectG
 		}
 
 		return ObjectG.getDObject!(Widget)(cast(GtkWidget*) __p);
+	}
+
+	/**
+	 * Checks if a list item has been set to be focusable via
+	 * gtk_list_item_set_focusable().
+	 *
+	 * Returns: %TRUE if the item is focusable
+	 *
+	 * Since: 4.12
+	 */
+	public bool getFocusable()
+	{
+		return gtk_list_item_get_focusable(gtkListItem) != 0;
 	}
 
 	/**
@@ -168,6 +208,34 @@ public class ListItem : ObjectG
 	}
 
 	/**
+	 * Sets the accessible description for the list item,
+	 * which may be used by e.g. screen readers.
+	 *
+	 * Params:
+	 *     description = the description
+	 *
+	 * Since: 4.12
+	 */
+	public void setAccessibleDescription(string description)
+	{
+		gtk_list_item_set_accessible_description(gtkListItem, Str.toStringz(description));
+	}
+
+	/**
+	 * Sets the accessible label for the list item,
+	 * which may be used by e.g. screen readers.
+	 *
+	 * Params:
+	 *     label = the label
+	 *
+	 * Since: 4.12
+	 */
+	public void setAccessibleLabel(string label)
+	{
+		gtk_list_item_set_accessible_label(gtkListItem, Str.toStringz(label));
+	}
+
+	/**
 	 * Sets @self to be activatable.
 	 *
 	 * If an item is activatable, double-clicking on the item, using
@@ -199,6 +267,27 @@ public class ListItem : ObjectG
 	public void setChild(Widget child)
 	{
 		gtk_list_item_set_child(gtkListItem, (child is null) ? null : child.getWidgetStruct());
+	}
+
+	/**
+	 * Sets @self to be focusable.
+	 *
+	 * If an item is focusable, it can be focused using the keyboard.
+	 * This works similar to [method@Gtk.Widget.set_focusable].
+	 *
+	 * Note that if items are not focusable, the keyboard cannot be used to activate
+	 * them and selecting only works if one of the listitem's children is focusable.
+	 *
+	 * By default, list items are focusable.
+	 *
+	 * Params:
+	 *     focusable = if the item should be focusable
+	 *
+	 * Since: 4.12
+	 */
+	public void setFocusable(bool focusable)
+	{
+		gtk_list_item_set_focusable(gtkListItem, focusable);
 	}
 
 	/**

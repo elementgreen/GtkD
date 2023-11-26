@@ -313,6 +313,8 @@ public class Event
 	/**
 	 * Extract the event surface relative x/y coordinates from an event.
 	 *
+	 * This position is in [surface coordinates](coordinates.html).
+	 *
 	 * Params:
 	 *     x = location to put event surface x coordinate
 	 *     y = location to put event surface y coordinate

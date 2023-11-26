@@ -536,7 +536,7 @@ public struct Type
 	 * flags.  Since GLib 2.36, the type system is initialised automatically
 	 * and this function does nothing.
 	 *
-	 * If you need to enable debugging features, use the GOBJECT_DEBUG
+	 * If you need to enable debugging features, use the `GOBJECT_DEBUG`
 	 * environment variable.
 	 *
 	 * Deprecated: the type system is now initialised automatically
@@ -664,11 +664,15 @@ public struct Type
 
 	/**
 	 * Queries the type system for information about a specific type.
+	 *
 	 * This function will fill in a user-provided structure to hold
 	 * type-specific information. If an invalid #GType is passed in, the
 	 * @type member of the #GTypeQuery is 0. All members filled into the
 	 * #GTypeQuery structure should be considered constant and have to be
 	 * left untouched.
+	 *
+	 * Since GLib 2.78, this function allows queries on dynamic types. Previously
+	 * it only supported static types.
 	 *
 	 * Params:
 	 *     type = #GType of a static, classed type
@@ -818,8 +822,8 @@ public struct Type
 	/**
 	 * Returns the number of instances allocated of the particular type;
 	 * this is only available if GLib is built with debugging support and
-	 * the instance_count debug flag is set (by setting the GOBJECT_DEBUG
-	 * variable to include instance-count).
+	 * the `instance-count` debug flag is set (by setting the `GOBJECT_DEBUG`
+	 * variable to include `instance-count`).
 	 *
 	 * Params:
 	 *     type = a #GType

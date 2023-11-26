@@ -439,12 +439,18 @@ public struct Signals
 
 	/**
 	 * Blocks all handlers on an instance that match a certain selection criteria.
-	 * The criteria mask is passed as an OR-ed combination of #GSignalMatchType
-	 * flags, and the criteria values are passed as arguments.
-	 * Passing at least one of the %G_SIGNAL_MATCH_CLOSURE, %G_SIGNAL_MATCH_FUNC
+	 *
+	 * The criteria mask is passed as a combination of #GSignalMatchType flags, and
+	 * the criteria values are passed as arguments. A handler must match on all
+	 * flags set in @mask to be blocked (i.e. the match is conjunctive).
+	 *
+	 * Passing at least one of the %G_SIGNAL_MATCH_ID, %G_SIGNAL_MATCH_CLOSURE,
+	 * %G_SIGNAL_MATCH_FUNC
 	 * or %G_SIGNAL_MATCH_DATA match flags is required for successful matches.
 	 * If no handlers were found, 0 is returned, the number of blocked handlers
 	 * otherwise.
+	 *
+	 * Support for %G_SIGNAL_MATCH_ID was added in GLib 2.78.
 	 *
 	 * Params:
 	 *     instance_ = The instance to block handlers from.
@@ -478,13 +484,19 @@ public struct Signals
 
 	/**
 	 * Disconnects all handlers on an instance that match a certain
-	 * selection criteria. The criteria mask is passed as an OR-ed
-	 * combination of #GSignalMatchType flags, and the criteria values are
-	 * passed as arguments.  Passing at least one of the
-	 * %G_SIGNAL_MATCH_CLOSURE, %G_SIGNAL_MATCH_FUNC or
+	 * selection criteria.
+	 *
+	 * The criteria mask is passed as a combination of #GSignalMatchType flags, and
+	 * the criteria values are passed as arguments. A handler must match on all
+	 * flags set in @mask to be disconnected (i.e. the match is conjunctive).
+	 *
+	 * Passing at least one of the %G_SIGNAL_MATCH_ID, %G_SIGNAL_MATCH_CLOSURE,
+	 * %G_SIGNAL_MATCH_FUNC or
 	 * %G_SIGNAL_MATCH_DATA match flags is required for successful
 	 * matches.  If no handlers were found, 0 is returned, the number of
 	 * disconnected handlers otherwise.
+	 *
+	 * Support for %G_SIGNAL_MATCH_ID was added in GLib 2.78.
 	 *
 	 * Params:
 	 *     instance_ = The instance to remove handlers from.
@@ -505,13 +517,20 @@ public struct Signals
 
 	/**
 	 * Unblocks all handlers on an instance that match a certain selection
-	 * criteria. The criteria mask is passed as an OR-ed combination of
-	 * #GSignalMatchType flags, and the criteria values are passed as arguments.
-	 * Passing at least one of the %G_SIGNAL_MATCH_CLOSURE, %G_SIGNAL_MATCH_FUNC
+	 * criteria.
+	 *
+	 * The criteria mask is passed as a combination of #GSignalMatchType flags, and
+	 * the criteria values are passed as arguments. A handler must match on all
+	 * flags set in @mask to be unblocked (i.e. the match is conjunctive).
+	 *
+	 * Passing at least one of the %G_SIGNAL_MATCH_ID, %G_SIGNAL_MATCH_CLOSURE,
+	 * %G_SIGNAL_MATCH_FUNC
 	 * or %G_SIGNAL_MATCH_DATA match flags is required for successful matches.
 	 * If no handlers were found, 0 is returned, the number of unblocked handlers
 	 * otherwise. The match criteria should not apply to any handlers that are
 	 * not currently blocked.
+	 *
+	 * Support for %G_SIGNAL_MATCH_ID was added in GLib 2.78.
 	 *
 	 * Params:
 	 *     instance_ = The instance to unblock handlers from.

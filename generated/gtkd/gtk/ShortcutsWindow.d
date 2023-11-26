@@ -73,6 +73,11 @@ private import std.algorithm;
  * and "Terminal Shortcuts".
  * 
  * The .ui file for this example can be found [here](https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-builder.ui).
+ * 
+ * ## CSS nodes
+ * 
+ * `GtkShortcutsWindow` has a single CSS node with the name `window` and style
+ * class `.shortcuts`.
  */
 public class ShortcutsWindow : Window
 {

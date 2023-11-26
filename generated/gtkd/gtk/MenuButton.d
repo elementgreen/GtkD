@@ -172,15 +172,30 @@ public class MenuButton : Widget
 	}
 
 	/**
-	 * Gets whether to show a dropdown arrow even when using an icon.
+	 * Gets whether to show a dropdown arrow even when using an icon or a custom
+	 * child.
 	 *
-	 * Returns: whether to show a dropdown arrow even when using an icon
+	 * Returns: whether to show a dropdown arrow even when using an icon or a custom
+	 *     child.
 	 *
 	 * Since: 4.4
 	 */
 	public bool getAlwaysShowArrow()
 	{
 		return gtk_menu_button_get_always_show_arrow(gtkMenuButton) != 0;
+	}
+
+	/**
+	 * Retrieves whether the button can be smaller than the natural
+	 * size of its contents.
+	 *
+	 * Returns: true if the button can shrink, and false otherwise
+	 *
+	 * Since: 4.12
+	 */
+	public bool getCanShrink()
+	{
+		return gtk_menu_button_get_can_shrink(gtkMenuButton) != 0;
 	}
 
 	/**
@@ -320,7 +335,7 @@ public class MenuButton : Widget
 	}
 
 	/**
-	 * Sets whether menu button acts is active.
+	 * Sets whether the menu button is active.
 	 *
 	 * Params:
 	 *     active = whether the menu button is active
@@ -338,12 +353,31 @@ public class MenuButton : Widget
 	 *
 	 * Params:
 	 *     alwaysShowArrow = whether to show a dropdown arrow even when using an icon
+	 *         or a custom child
 	 *
 	 * Since: 4.4
 	 */
 	public void setAlwaysShowArrow(bool alwaysShowArrow)
 	{
 		gtk_menu_button_set_always_show_arrow(gtkMenuButton, alwaysShowArrow);
+	}
+
+	/**
+	 * Sets whether the button size can be smaller than the natural size of
+	 * its contents.
+	 *
+	 * For text buttons, setting @can_shrink to true will ellipsize the label.
+	 *
+	 * For icon buttons, this function has no effect.
+	 *
+	 * Params:
+	 *     canShrink = whether the button can shrink
+	 *
+	 * Since: 4.12
+	 */
+	public void setCanShrink(bool canShrink)
+	{
+		gtk_menu_button_set_can_shrink(gtkMenuButton, canShrink);
 	}
 
 	/**

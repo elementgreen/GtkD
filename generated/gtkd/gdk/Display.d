@@ -580,8 +580,7 @@ public class Display : ObjectG
 	}
 
 	/**
-	 * Appends the given event onto the front of the event
-	 * queue for @display.
+	 * Adds the given event to the event queue for @display.
 	 *
 	 * Deprecated: This function is only useful in very
 	 * special situations and should not be used by applications.

@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.Sorter;
 private import gtk.c.functions;
 public  import gtk.c.types;
@@ -53,8 +55,15 @@ public  import gtk.c.types;
  * If you run into performance issues with `GtkSortListModel`,
  * it is strongly recommended that you write your own sorting list
  * model.
+ * 
+ * `GtkSortListModel` allows sorting the items into sections. It
+ * implements `GtkSectionModel` and when [property@Gtk.SortListModel:section-sorter]
+ * is set, it will sort all items with that sorter and items comparing
+ * equal with it will be put into the same section.
+ * The [property@Gtk.SortListModel:sorter] will then be used to sort items
+ * inside their sections.
  */
-public class SortListModel : ObjectG, ListModelIF
+public class SortListModel : ObjectG, ListModelIF, SectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkSortListModel* gtkSortListModel;
@@ -84,6 +93,9 @@ public class SortListModel : ObjectG, ListModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkSortListModel);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkSortListModel);
 
 
 	/** */
@@ -171,6 +183,26 @@ public class SortListModel : ObjectG, ListModelIF
 	}
 
 	/**
+	 * Gets the section sorter that is used to sort items of @self into
+	 * sections.
+	 *
+	 * Returns: the sorter of #self
+	 *
+	 * Since: 4.12
+	 */
+	public Sorter getSectionSorter()
+	{
+		auto __p = gtk_sort_list_model_get_section_sorter(gtkSortListModel);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(Sorter)(cast(GtkSorter*) __p);
+	}
+
+	/**
 	 * Gets the sorter that is used to sort @self.
 	 *
 	 * Returns: the sorter of #self
@@ -224,6 +256,19 @@ public class SortListModel : ObjectG, ListModelIF
 	public void setModel(ListModelIF model)
 	{
 		gtk_sort_list_model_set_model(gtkSortListModel, (model is null) ? null : model.getListModelStruct());
+	}
+
+	/**
+	 * Sets a new section sorter on @self.
+	 *
+	 * Params:
+	 *     sorter = the `GtkSorter` to sort @model with
+	 *
+	 * Since: 4.12
+	 */
+	public void setSectionSorter(Sorter sorter)
+	{
+		gtk_sort_list_model_set_section_sorter(gtkSortListModel, (sorter is null) ? null : sorter.getSorterStruct());
 	}
 
 	/**

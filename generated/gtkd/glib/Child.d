@@ -141,6 +141,14 @@ public struct Child
 	 * mechanism, including `waitpid(pid, ...)` or a second child-watch
 	 * source for the same @pid
 	 * * the application must not ignore `SIGCHLD`
+	 * * Before 2.78, the application could not send a signal (`kill()`) to the
+	 * watched @pid in a race free manner. Since 2.78, you can do that while the
+	 * associated #GMainContext is acquired.
+	 * * Before 2.78, even after destroying the #GSource, you could not
+	 * be sure that @pid wasn't already reaped. Hence, it was also not
+	 * safe to `kill()` or `waitpid()` on the process ID after the child watch
+	 * source was gone. Destroying the source before it fired made it
+	 * impossible to reliably reap the process.
 	 *
 	 * If any of those conditions are not met, this and related APIs will
 	 * not work correctly. This can often be diagnosed via a GLib warning

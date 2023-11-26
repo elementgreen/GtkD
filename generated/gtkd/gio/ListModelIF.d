@@ -118,16 +118,19 @@ public interface ListModelIF{
 	 * %NULL is never returned for an index that is smaller than the length
 	 * of the list.
 	 *
+	 * This function is meant to be used by language bindings in place
+	 * of g_list_model_get_item().
+	 *
 	 * See also: g_list_model_get_n_items()
 	 *
 	 * Params:
 	 *     position = the position of the item to fetch
 	 *
-	 * Returns: the item at @position.
+	 * Returns: the object at @position.
 	 *
 	 * Since: 2.44
 	 */
-	public void* getItem(uint position);
+	public ObjectG getItem(uint position);
 
 	/**
 	 * Gets the type of the items in @list.
@@ -157,29 +160,6 @@ public interface ListModelIF{
 	 * Since: 2.44
 	 */
 	public uint getNItems();
-
-	/**
-	 * Get the item at @position.
-	 *
-	 * If @position is greater than the number of items in @list, %NULL is
-	 * returned.
-	 *
-	 * %NULL is never returned for an index that is smaller than the length
-	 * of the list.
-	 *
-	 * This function is meant to be used by language bindings in place
-	 * of g_list_model_get_item().
-	 *
-	 * See also: g_list_model_get_n_items()
-	 *
-	 * Params:
-	 *     position = the position of the item to fetch
-	 *
-	 * Returns: the object at @position.
-	 *
-	 * Since: 2.44
-	 */
-	public ObjectG getObject(uint position);
 
 	/**
 	 * Emits the #GListModel::items-changed signal on @list.

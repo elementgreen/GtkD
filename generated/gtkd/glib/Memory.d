@@ -66,6 +66,12 @@ public struct Memory
 	 * If you know the allocated size of @mem, calling g_free_sized() may be faster,
 	 * depending on the libc implementation in use.
 	 *
+	 * Starting from GLib 2.78, this may happen automatically in case a GCC
+	 * compatible compiler is used with some optimization level and the allocated
+	 * size is known at compile time (see [documentation of
+	 * `__builtin_object_size()`](https://gcc.gnu.org/onlinedocs/gcc/Object-Size-Checking.html)
+	 * to understand its caveats).
+	 *
 	 * If @mem is %NULL it simply returns, so there is no need to check @mem
 	 * against %NULL before calling this function.
 	 *

@@ -48,6 +48,10 @@ private import std.algorithm;
  * #GNetworkAddress and #GNetworkService provide wrappers around
  * #GResolver functionality that also implement #GSocketConnectable,
  * making it easy to connect to a remote host/service.
+ * 
+ * The default resolver (see g_resolver_get_default()) has a timeout of 30s set
+ * on it since GLib 2.78. Earlier versions of GLib did not support resolver
+ * timeouts.
  */
 public class Resolver : ObjectG
 {
@@ -135,6 +139,18 @@ public class Resolver : ObjectG
 		}
 
 		return ObjectG.getDObject!(Resolver)(cast(GResolver*) __p, true);
+	}
+
+	/**
+	 * Get the timeout applied to all resolver lookups. See #GResolver:timeout.
+	 *
+	 * Returns: the resolver timeout, in milliseconds, or `0` for no timeout
+	 *
+	 * Since: 2.78
+	 */
+	public uint getTimeout()
+	{
+		return g_resolver_get_timeout(gResolver);
 	}
 
 	/**
@@ -674,6 +690,19 @@ public class Resolver : ObjectG
 	public void setDefault()
 	{
 		g_resolver_set_default(gResolver);
+	}
+
+	/**
+	 * Set the timeout applied to all resolver lookups. See #GResolver:timeout.
+	 *
+	 * Params:
+	 *     timeoutMs = timeout in milliseconds, or `0` for no timeouts
+	 *
+	 * Since: 2.78
+	 */
+	public void setTimeout(uint timeoutMs)
+	{
+		g_resolver_set_timeout(gResolver, timeoutMs);
 	}
 
 	/**

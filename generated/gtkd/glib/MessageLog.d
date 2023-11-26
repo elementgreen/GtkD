@@ -188,7 +188,7 @@ public struct MessageLog
 	 * | G_LOG_FLAG_RECURSION, my_log_handler, NULL);
 	 * ]|
 	 *
-	 * This example adds a log handler for all critical messages from GTK+:
+	 * This example adds a log handler for all critical messages from GTK:
 	 *
 	 * |[<!-- language="C" -->
 	 * g_log_set_handler ("Gtk", G_LOG_LEVEL_CRITICAL | G_LOG_FLAG_FATAL

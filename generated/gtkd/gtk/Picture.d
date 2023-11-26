@@ -219,6 +219,9 @@ public class Picture : Widget
 	 *
 	 * The pixbuf must not be modified after passing it to this function.
 	 *
+	 * Deprecated: Use [ctor@Gtk.Picture.new_for_paintable] and
+	 * [ctor@Gdk.Texture.new_for_pixbuf] instead
+	 *
 	 * Params:
 	 *     pixbuf = a `GdkPixbuf`
 	 *
@@ -468,6 +471,8 @@ public class Picture : Widget
 	 * See [ctor@Gtk.Picture.new_for_pixbuf] for details.
 	 *
 	 * This is a utility function that calls [method@Gtk.Picture.set_paintable].
+	 *
+	 * Deprecated: Use [method@Gtk.Picture.set_paintable] instead
 	 *
 	 * Params:
 	 *     pixbuf = a `GdkPixbuf`

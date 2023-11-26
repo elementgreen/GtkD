@@ -147,6 +147,31 @@ public enum AtkLayer
 alias AtkLayer Layer;
 
 /**
+ * Enumeration used to indicate a type of live region and how assertive it
+ * should be in terms of speaking notifications. Currently, this is only used
+ * for "notification" events, but it may be used for additional purposes
+ * in the future.
+ *
+ * Since: 2.50
+ */
+public enum AtkLive
+{
+	/**
+	 * No live region.
+	 */
+	NONE = 0,
+	/**
+	 * This live region should be considered polite.
+	 */
+	POLITE = 1,
+	/**
+	 * This live region should be considered assertive.
+	 */
+	ASSERTIVE = 2,
+}
+alias AtkLive Live;
+
+/**
  * Describes the type of the relation
  */
 public enum AtkRelationType
@@ -3185,7 +3210,7 @@ public alias extern(C) void function(AtkObject* obj, AtkPropertyValues* vals) At
  * application compile time, rather than from the library linked
  * against at application run time.
  */
-enum BINARY_AGE = 24810;
+enum BINARY_AGE = 25010;
 alias ATK_BINARY_AGE = BINARY_AGE;
 
 /**
@@ -3217,7 +3242,7 @@ alias ATK_MICRO_VERSION = MICRO_VERSION;
  * application compile time, rather than from the library linked
  * against at application run time.
  */
-enum MINOR_VERSION = 48;
+enum MINOR_VERSION = 50;
 alias ATK_MINOR_VERSION = MINOR_VERSION;
 
 /**

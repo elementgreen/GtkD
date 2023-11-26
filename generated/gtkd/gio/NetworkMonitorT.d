@@ -115,8 +115,8 @@ public template NetworkMonitorT(TStruct)
 	 * Params:
 	 *     connectable = a #GSocketConnectable
 	 *     cancellable = a #GCancellable, or %NULL
-	 *     callback = a #GAsyncReadyCallback to call when the
-	 *         request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void canReachAsync(SocketConnectableIF connectable, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)

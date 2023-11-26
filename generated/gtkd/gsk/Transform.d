@@ -233,7 +233,8 @@ public class Transform
 	}
 
 	/**
-	 * Rotates @next @angle degrees in 2D - or in 3D-speak, around the z axis.
+	 * Rotates @next @angle degrees in 2D - or in 3D-speak, around the Z axis.
+	 * The rotation happens around the origin point of (0, 0).
 	 *
 	 * Params:
 	 *     angle = the rotation angle, in degrees (clockwise)

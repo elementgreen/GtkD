@@ -318,6 +318,35 @@ public class Variant
 			g_variant_unref(gVariant);
 	}
 
+	/**
+	 * Returns the string value of a #GVariant instance with a string
+	 * type.  This includes the types %G_VARIANT_TYPE_STRING,
+	 * %G_VARIANT_TYPE_OBJECT_PATH and %G_VARIANT_TYPE_SIGNATURE.
+	 *
+	 * The string will always be UTF-8 encoded, will never be %NULL, and will never
+	 * contain nul bytes.
+	 *
+	 * Untrusted values will be validated and, if valid, a strlen() will be
+	 * performed. If invalid, a default value will be returned — for
+	 * %G_VARIANT_TYPE_OBJECT_PATH, this is `"/"`, and for other types it is the
+	 * empty string.
+	 *
+	 * It is an error to call this function with a @value of any type
+	 * other than those three.
+	 *
+	 * Returns: the string, UTF-8 encoded
+	 *
+	 * Since: 2.24
+	 */
+	public string getString()
+	{
+		size_t length;
+		auto str = g_variant_get_string(gVariant, &length);
+		return Str.toString(str, length);
+	}
+
+	/**
+	 */
 
 	/**
 	 * Creates a new #GVariant array from @children.
@@ -757,8 +786,8 @@ public class Variant
 	}
 
 	/**
-	 * Creates a D-Bus object path #GVariant with the contents of @string.
-	 * @string must be a valid D-Bus object path.  Use
+	 * Creates a D-Bus object path #GVariant with the contents of @object_path.
+	 * @object_path must be a valid D-Bus object path.  Use
 	 * g_variant_is_object_path() if you're not sure.
 	 *
 	 * Params:
@@ -930,8 +959,9 @@ public class Variant
 	 * @string must be valid UTF-8, and must not be %NULL. To encode
 	 * potentially-%NULL strings, use this with g_variant_new_maybe().
 	 *
-	 * This function consumes @string.  g_free() will be called on @string
-	 * when it is no longer required.
+	 * After this call, @string belongs to the #GVariant and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * You must not modify or access @string in any other way after passing
 	 * it to this function.  It is even possible that @string is immediately

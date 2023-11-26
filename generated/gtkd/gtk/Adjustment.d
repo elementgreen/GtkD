@@ -35,7 +35,7 @@ private import std.algorithm;
 /**
  * `GtkAdjustment` is a model for a numeric value.
  * 
- * The `GtkAdjustment has an associated lower and upper bound.
+ * The `GtkAdjustment` has an associated lower and upper bound.
  * It also contains step and page increments, and a page size.
  * 
  * Adjustments are used within several GTK widgets, including

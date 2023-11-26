@@ -29,11 +29,11 @@ import harfbuzz.c.types;
 import gtkd.Loader;
 
 version (Windows)
-	static immutable LIBRARY_HARFBUZZ = ["gobject-0.dll;gobject.dll;gobject.dll"];
+	static immutable LIBRARY_HARFBUZZ = ["gobject-0.dll;gobject.dll;gobject.dll", "libharfbuzz-0.dll;harfbuzz.dll;harfbuzz.dll"];
 else version (OSX)
-	static immutable LIBRARY_HARFBUZZ = ["gobject.0.dylib"];
+	static immutable LIBRARY_HARFBUZZ = ["gobject.0.dylib", "libharfbuzz.0.dylib"];
 else
-	static immutable LIBRARY_HARFBUZZ = ["libharfbuzz-gobject.so.0"];
+	static immutable LIBRARY_HARFBUZZ = ["libharfbuzz-gobject.so.0", "libharfbuzz.so.0"];
 
 shared static this()
 {
@@ -45,9 +45,21 @@ shared static this()
 
 	Linker.link(hb_gobject_buffer_get_type, "hb_gobject_buffer_get_type", LIBRARY_HARFBUZZ);
 
+	// harfbuzz.color_line_t
+
+	Linker.link(hb_gobject_color_line_get_type, "hb_gobject_color_line_get_type", LIBRARY_HARFBUZZ);
+
+	// harfbuzz.color_stop_t
+
+	Linker.link(hb_gobject_color_stop_get_type, "hb_gobject_color_stop_get_type", LIBRARY_HARFBUZZ);
+
 	// harfbuzz.draw_funcs_t
 
 	Linker.link(hb_gobject_draw_funcs_get_type, "hb_gobject_draw_funcs_get_type", LIBRARY_HARFBUZZ);
+
+	// harfbuzz.draw_state_t
+
+	Linker.link(hb_gobject_draw_state_get_type, "hb_gobject_draw_state_get_type", LIBRARY_HARFBUZZ);
 
 	// harfbuzz.face_t
 
@@ -90,6 +102,14 @@ shared static this()
 
 	Linker.link(hb_gobject_ot_math_glyph_variant_get_type, "hb_gobject_ot_math_glyph_variant_get_type", LIBRARY_HARFBUZZ);
 
+	// harfbuzz.ot_var_axis_info_t
+
+	Linker.link(hb_gobject_ot_var_axis_info_get_type, "hb_gobject_ot_var_axis_info_get_type", LIBRARY_HARFBUZZ);
+
+	// harfbuzz.paint_funcs_t
+
+	Linker.link(hb_gobject_paint_funcs_get_type, "hb_gobject_paint_funcs_get_type", LIBRARY_HARFBUZZ);
+
 	// harfbuzz.segment_properties_t
 
 	Linker.link(hb_gobject_segment_properties_get_type, "hb_gobject_segment_properties_get_type", LIBRARY_HARFBUZZ);
@@ -126,9 +146,21 @@ __gshared extern(C)
 
 	GType function() c_hb_gobject_buffer_get_type;
 
+	// harfbuzz.color_line_t
+
+	GType function() c_hb_gobject_color_line_get_type;
+
+	// harfbuzz.color_stop_t
+
+	GType function() c_hb_gobject_color_stop_get_type;
+
 	// harfbuzz.draw_funcs_t
 
 	GType function() c_hb_gobject_draw_funcs_get_type;
+
+	// harfbuzz.draw_state_t
+
+	GType function() c_hb_gobject_draw_state_get_type;
 
 	// harfbuzz.face_t
 
@@ -171,6 +203,14 @@ __gshared extern(C)
 
 	GType function() c_hb_gobject_ot_math_glyph_variant_get_type;
 
+	// harfbuzz.ot_var_axis_info_t
+
+	GType function() c_hb_gobject_ot_var_axis_info_get_type;
+
+	// harfbuzz.paint_funcs_t
+
+	GType function() c_hb_gobject_paint_funcs_get_type;
+
 	// harfbuzz.segment_properties_t
 
 	GType function() c_hb_gobject_segment_properties_get_type;
@@ -205,9 +245,21 @@ alias c_hb_gobject_blob_get_type hb_gobject_blob_get_type;
 
 alias c_hb_gobject_buffer_get_type hb_gobject_buffer_get_type;
 
+// harfbuzz.color_line_t
+
+alias c_hb_gobject_color_line_get_type hb_gobject_color_line_get_type;
+
+// harfbuzz.color_stop_t
+
+alias c_hb_gobject_color_stop_get_type hb_gobject_color_stop_get_type;
+
 // harfbuzz.draw_funcs_t
 
 alias c_hb_gobject_draw_funcs_get_type hb_gobject_draw_funcs_get_type;
+
+// harfbuzz.draw_state_t
+
+alias c_hb_gobject_draw_state_get_type hb_gobject_draw_state_get_type;
 
 // harfbuzz.face_t
 
@@ -249,6 +301,14 @@ alias c_hb_gobject_ot_math_glyph_part_get_type hb_gobject_ot_math_glyph_part_get
 // harfbuzz.ot_math_glyph_variant_t
 
 alias c_hb_gobject_ot_math_glyph_variant_get_type hb_gobject_ot_math_glyph_variant_get_type;
+
+// harfbuzz.ot_var_axis_info_t
+
+alias c_hb_gobject_ot_var_axis_info_get_type hb_gobject_ot_var_axis_info_get_type;
+
+// harfbuzz.paint_funcs_t
+
+alias c_hb_gobject_paint_funcs_get_type hb_gobject_paint_funcs_get_type;
 
 // harfbuzz.segment_properties_t
 

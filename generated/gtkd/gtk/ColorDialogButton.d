@@ -27,10 +27,12 @@ module gtk.ColorDialogButton;
 private import gdk.RGBA;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gobject.Signals;
 private import gtk.ColorDialog;
 private import gtk.Widget;
 private import gtk.c.functions;
 public  import gtk.c.types;
+private import std.algorithm;
 
 
 /**
@@ -186,5 +188,18 @@ public class ColorDialogButton : Widget
 	public void setRgba(RGBA color)
 	{
 		gtk_color_dialog_button_set_rgba(gtkColorDialogButton, (color is null) ? null : color.getRGBAStruct());
+	}
+
+	/**
+	 * Emitted when the color dialog button is activated.
+	 *
+	 * The `::activate` signal on `GtkColorDialogButton` is an action signal
+	 * and emitting it causes the button to pop up its dialog.
+	 *
+	 * Since: 4.14
+	 */
+	gulong addOnActivate(void delegate(ColorDialogButton) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
+	{
+		return Signals.connect(this, "activate", dlg, connectFlags ^ ConnectFlags.SWAPPED);
 	}
 }

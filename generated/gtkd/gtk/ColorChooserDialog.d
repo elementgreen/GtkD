@@ -52,6 +52,11 @@ public  import gtk.c.types;
  * 
  * `GtkColorChooserDialog` has been deprecated in favor of [class@Gtk.ColorDialog].
  * 
+ * ## CSS nodes
+ * 
+ * `GtkColorChooserDialog` has a single CSS node with the name `window` and style
+ * class `.colorchooser`.
+ * 
  * Deprecated: Use [class@Gtk.ColorDialog] instead
  */
 public class ColorChooserDialog : Dialog, ColorChooserIF

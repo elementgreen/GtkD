@@ -115,6 +115,34 @@ public class StringG
 	}
 
 	/**
+	 * Creates a new #GString, initialized with the given string.
+	 *
+	 * After this call, @init belongs to the #GString and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
+	 *
+	 * Params:
+	 *     init = initial text used as the string.
+	 *         Ownership of the string is transferred to the #GString.
+	 *         Passing %NULL creates an empty string.
+	 *
+	 * Returns: the new #GString
+	 *
+	 * Since: 2.78
+	 */
+	public static StringG newTake(string init)
+	{
+		auto __p = g_string_new_take(Str.toStringz(init));
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return new StringG(cast(GString*) __p, true);
+	}
+
+	/**
 	 * Creates a new #GString, with enough space for @dfl_size
 	 * bytes. This is useful if you are going to add a lot of
 	 * text to the string and don't want it to be reallocated

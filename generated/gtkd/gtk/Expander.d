@@ -54,7 +54,7 @@ private import std.algorithm;
  * expanded widget yourself, such as when you want to actually create
  * the widget at expansion time. In this case, create a `GtkExpander`
  * but do not add a child to it. The expander widget has an
- * [property@Gtk.Expander:expanded[ property which can be used to
+ * [property@Gtk.Expander:expanded] property which can be used to
  * monitor its expansion state. You should watch this property with
  * a signal connection as follows:
  * 
@@ -120,9 +120,10 @@ private import std.algorithm;
  * ╰── <child>
  * ```
  * 
- * `GtkExpander` has three CSS nodes, the main node with the name expander-widget,
- * a subnode with name title and node below it with name expander. The arrow of an
- * expander that is showing its child gets the :checked pseudoclass added to it.
+ * `GtkExpander` has a main node `expander-widget`, and subnode `box` containing
+ * the title and child widget. The box subnode `title` contains node `expander`,
+ * i.e. the expand/collapse arrow; then the label widget if any. The arrow of an
+ * expander that is showing its child gets the `:checked` pseudoclass set on it.
  * 
  * # Accessibility
  * 

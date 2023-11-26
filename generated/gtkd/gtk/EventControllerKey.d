@@ -169,7 +169,7 @@ public class EventControllerKey : EventController
 	 * Params:
 	 *     keyval = the pressed key.
 	 *     keycode = the raw code of the pressed key.
-	 *     state = the bitmask, representing the state of modifier keys and pointer buttons. See `GdkModifierType`.
+	 *     state = the bitmask, representing the state of modifier keys and pointer buttons.
 	 *
 	 * Returns: %TRUE if the key press was handled, %FALSE otherwise.
 	 */
@@ -184,7 +184,7 @@ public class EventControllerKey : EventController
 	 * Params:
 	 *     keyval = the released key.
 	 *     keycode = the raw code of the released key.
-	 *     state = the bitmask, representing the state of modifier keys and pointer buttons. See `GdkModifierType`.
+	 *     state = the bitmask, representing the state of modifier keys and pointer buttons.
 	 */
 	gulong addOnKeyReleased(void delegate(uint, uint, GdkModifierType, EventControllerKey) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
 	{
@@ -195,7 +195,8 @@ public class EventControllerKey : EventController
 	 * Emitted whenever the state of modifier keys and pointer buttons change.
 	 *
 	 * Params:
-	 *     keyval = the released key.
+	 *     state = the bitmask, representing the new state of modifier keys and
+	 *         pointer buttons.
 	 */
 	gulong addOnModifiers(bool delegate(GdkModifierType, EventControllerKey) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
 	{

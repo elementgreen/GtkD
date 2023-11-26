@@ -178,7 +178,8 @@ public class FileIOStream : IOStream, SeekableIF
 	 *     attributes = a file attribute query string.
 	 *     ioPriority = the [I/O priority][gio-GIOScheduler] of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22

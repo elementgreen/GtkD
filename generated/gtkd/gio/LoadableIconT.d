@@ -96,8 +96,8 @@ public template LoadableIconT(TStruct)
 	 * Params:
 	 *     size = an integer.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback to call when the
-	 *         request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void loadAsync(int size, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)

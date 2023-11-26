@@ -77,6 +77,7 @@ shared static this()
 	Linker.link(g_action_map_add_action_entries, "g_action_map_add_action_entries", LIBRARY_GIO);
 	Linker.link(g_action_map_lookup_action, "g_action_map_lookup_action", LIBRARY_GIO);
 	Linker.link(g_action_map_remove_action, "g_action_map_remove_action", LIBRARY_GIO);
+	Linker.link(g_action_map_remove_action_entries, "g_action_map_remove_action_entries", LIBRARY_GIO);
 
 	// gio.AppInfo
 
@@ -815,6 +816,7 @@ shared static this()
 
 	Linker.link(g_file_get_type, "g_file_get_type", LIBRARY_GIO);
 	Linker.link(g_file_new_build_filename, "g_file_new_build_filename", LIBRARY_GIO);
+	Linker.link(g_file_new_build_filenamev, "g_file_new_build_filenamev", LIBRARY_GIO);
 	Linker.link(g_file_new_for_commandline_arg, "g_file_new_for_commandline_arg", LIBRARY_GIO);
 	Linker.link(g_file_new_for_commandline_arg_and_cwd, "g_file_new_for_commandline_arg_and_cwd", LIBRARY_GIO);
 	Linker.link(g_file_new_for_path, "g_file_new_for_path", LIBRARY_GIO);
@@ -1025,6 +1027,7 @@ shared static this()
 	Linker.link(g_file_info_get_attribute_boolean, "g_file_info_get_attribute_boolean", LIBRARY_GIO);
 	Linker.link(g_file_info_get_attribute_byte_string, "g_file_info_get_attribute_byte_string", LIBRARY_GIO);
 	Linker.link(g_file_info_get_attribute_data, "g_file_info_get_attribute_data", LIBRARY_GIO);
+	Linker.link(g_file_info_get_attribute_file_path, "g_file_info_get_attribute_file_path", LIBRARY_GIO);
 	Linker.link(g_file_info_get_attribute_int32, "g_file_info_get_attribute_int32", LIBRARY_GIO);
 	Linker.link(g_file_info_get_attribute_int64, "g_file_info_get_attribute_int64", LIBRARY_GIO);
 	Linker.link(g_file_info_get_attribute_object, "g_file_info_get_attribute_object", LIBRARY_GIO);
@@ -1060,6 +1063,7 @@ shared static this()
 	Linker.link(g_file_info_set_attribute, "g_file_info_set_attribute", LIBRARY_GIO);
 	Linker.link(g_file_info_set_attribute_boolean, "g_file_info_set_attribute_boolean", LIBRARY_GIO);
 	Linker.link(g_file_info_set_attribute_byte_string, "g_file_info_set_attribute_byte_string", LIBRARY_GIO);
+	Linker.link(g_file_info_set_attribute_file_path, "g_file_info_set_attribute_file_path", LIBRARY_GIO);
 	Linker.link(g_file_info_set_attribute_int32, "g_file_info_set_attribute_int32", LIBRARY_GIO);
 	Linker.link(g_file_info_set_attribute_int64, "g_file_info_set_attribute_int64", LIBRARY_GIO);
 	Linker.link(g_file_info_set_attribute_mask, "g_file_info_set_attribute_mask", LIBRARY_GIO);
@@ -1274,10 +1278,9 @@ shared static this()
 	// gio.ListModel
 
 	Linker.link(g_list_model_get_type, "g_list_model_get_type", LIBRARY_GIO);
-	Linker.link(g_list_model_get_item, "g_list_model_get_item", LIBRARY_GIO);
+	Linker.link(g_list_model_get_object, "g_list_model_get_object", LIBRARY_GIO);
 	Linker.link(g_list_model_get_item_type, "g_list_model_get_item_type", LIBRARY_GIO);
 	Linker.link(g_list_model_get_n_items, "g_list_model_get_n_items", LIBRARY_GIO);
-	Linker.link(g_list_model_get_object, "g_list_model_get_object", LIBRARY_GIO);
 	Linker.link(g_list_model_items_changed, "g_list_model_items_changed", LIBRARY_GIO);
 
 	// gio.ListStore
@@ -1632,6 +1635,7 @@ shared static this()
 	Linker.link(g_resolver_free_addresses, "g_resolver_free_addresses", LIBRARY_GIO);
 	Linker.link(g_resolver_free_targets, "g_resolver_free_targets", LIBRARY_GIO);
 	Linker.link(g_resolver_get_default, "g_resolver_get_default", LIBRARY_GIO);
+	Linker.link(g_resolver_get_timeout, "g_resolver_get_timeout", LIBRARY_GIO);
 	Linker.link(g_resolver_lookup_by_address, "g_resolver_lookup_by_address", LIBRARY_GIO);
 	Linker.link(g_resolver_lookup_by_address_async, "g_resolver_lookup_by_address_async", LIBRARY_GIO);
 	Linker.link(g_resolver_lookup_by_address_finish, "g_resolver_lookup_by_address_finish", LIBRARY_GIO);
@@ -1648,6 +1652,7 @@ shared static this()
 	Linker.link(g_resolver_lookup_service_async, "g_resolver_lookup_service_async", LIBRARY_GIO);
 	Linker.link(g_resolver_lookup_service_finish, "g_resolver_lookup_service_finish", LIBRARY_GIO);
 	Linker.link(g_resolver_set_default, "g_resolver_set_default", LIBRARY_GIO);
+	Linker.link(g_resolver_set_timeout, "g_resolver_set_timeout", LIBRARY_GIO);
 
 	// gio.Resource
 
@@ -2589,6 +2594,7 @@ __gshared extern(C)
 	void function(GActionMap* actionMap, GActionEntry* entries, int nEntries, void* userData) c_g_action_map_add_action_entries;
 	GAction* function(GActionMap* actionMap, const(char)* actionName) c_g_action_map_lookup_action;
 	void function(GActionMap* actionMap, const(char)* actionName) c_g_action_map_remove_action;
+	void function(GActionMap* actionMap, GActionEntry* entries, int nEntries) c_g_action_map_remove_action_entries;
 
 	// gio.AppInfo
 
@@ -3327,6 +3333,7 @@ __gshared extern(C)
 
 	GType function() c_g_file_get_type;
 	GFile* function(char* firstElement, ... ) c_g_file_new_build_filename;
+	GFile* function(char** args) c_g_file_new_build_filenamev;
 	GFile* function(char* arg) c_g_file_new_for_commandline_arg;
 	GFile* function(char* arg, char* cwd) c_g_file_new_for_commandline_arg_and_cwd;
 	GFile* function(char* path) c_g_file_new_for_path;
@@ -3537,6 +3544,7 @@ __gshared extern(C)
 	int function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_boolean;
 	const(char)* function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_byte_string;
 	int function(GFileInfo* info, const(char)* attribute, GFileAttributeType* type, void** valuePp, GFileAttributeStatus* status) c_g_file_info_get_attribute_data;
+	char* function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_file_path;
 	int function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_int32;
 	long function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_int64;
 	GObject* function(GFileInfo* info, const(char)* attribute) c_g_file_info_get_attribute_object;
@@ -3563,7 +3571,7 @@ __gshared extern(C)
 	long function(GFileInfo* info) c_g_file_info_get_size;
 	int function(GFileInfo* info) c_g_file_info_get_sort_order;
 	GIcon* function(GFileInfo* info) c_g_file_info_get_symbolic_icon;
-	const(char)* function(GFileInfo* info) c_g_file_info_get_symlink_target;
+	char* function(GFileInfo* info) c_g_file_info_get_symlink_target;
 	int function(GFileInfo* info, const(char)* attribute) c_g_file_info_has_attribute;
 	int function(GFileInfo* info, const(char)* nameSpace) c_g_file_info_has_namespace;
 	char** function(GFileInfo* info, const(char)* nameSpace) c_g_file_info_list_attributes;
@@ -3572,6 +3580,7 @@ __gshared extern(C)
 	void function(GFileInfo* info, const(char)* attribute, GFileAttributeType type, void* valueP) c_g_file_info_set_attribute;
 	void function(GFileInfo* info, const(char)* attribute, int attrValue) c_g_file_info_set_attribute_boolean;
 	void function(GFileInfo* info, const(char)* attribute, const(char)* attrValue) c_g_file_info_set_attribute_byte_string;
+	void function(GFileInfo* info, const(char)* attribute, char* attrValue) c_g_file_info_set_attribute_file_path;
 	void function(GFileInfo* info, const(char)* attribute, int attrValue) c_g_file_info_set_attribute_int32;
 	void function(GFileInfo* info, const(char)* attribute, long attrValue) c_g_file_info_set_attribute_int64;
 	void function(GFileInfo* info, GFileAttributeMatcher* mask) c_g_file_info_set_attribute_mask;
@@ -3595,7 +3604,7 @@ __gshared extern(C)
 	void function(GFileInfo* info, long size) c_g_file_info_set_size;
 	void function(GFileInfo* info, int sortOrder) c_g_file_info_set_sort_order;
 	void function(GFileInfo* info, GIcon* icon) c_g_file_info_set_symbolic_icon;
-	void function(GFileInfo* info, const(char)* symlinkTarget) c_g_file_info_set_symlink_target;
+	void function(GFileInfo* info, char* symlinkTarget) c_g_file_info_set_symlink_target;
 	void function(GFileInfo* info) c_g_file_info_unset_attribute_mask;
 
 	// gio.FileInputStream
@@ -3786,10 +3795,9 @@ __gshared extern(C)
 	// gio.ListModel
 
 	GType function() c_g_list_model_get_type;
-	void* function(GListModel* list, uint position) c_g_list_model_get_item;
+	GObject* function(GListModel* list, uint position) c_g_list_model_get_object;
 	GType function(GListModel* list) c_g_list_model_get_item_type;
 	uint function(GListModel* list) c_g_list_model_get_n_items;
-	GObject* function(GListModel* list, uint position) c_g_list_model_get_object;
 	void function(GListModel* list, uint position, uint removed, uint added) c_g_list_model_items_changed;
 
 	// gio.ListStore
@@ -4144,6 +4152,7 @@ __gshared extern(C)
 	void function(GList* addresses) c_g_resolver_free_addresses;
 	void function(GList* targets) c_g_resolver_free_targets;
 	GResolver* function() c_g_resolver_get_default;
+	uint function(GResolver* resolver) c_g_resolver_get_timeout;
 	char* function(GResolver* resolver, GInetAddress* address, GCancellable* cancellable, GError** err) c_g_resolver_lookup_by_address;
 	void function(GResolver* resolver, GInetAddress* address, GCancellable* cancellable, GAsyncReadyCallback callback, void* userData) c_g_resolver_lookup_by_address_async;
 	char* function(GResolver* resolver, GAsyncResult* result, GError** err) c_g_resolver_lookup_by_address_finish;
@@ -4160,6 +4169,7 @@ __gshared extern(C)
 	void function(GResolver* resolver, const(char)* service, const(char)* protocol, const(char)* domain, GCancellable* cancellable, GAsyncReadyCallback callback, void* userData) c_g_resolver_lookup_service_async;
 	GList* function(GResolver* resolver, GAsyncResult* result, GError** err) c_g_resolver_lookup_service_finish;
 	void function(GResolver* resolver) c_g_resolver_set_default;
+	void function(GResolver* resolver, uint timeoutMs) c_g_resolver_set_timeout;
 
 	// gio.Resource
 
@@ -5099,6 +5109,7 @@ alias c_g_action_map_add_action g_action_map_add_action;
 alias c_g_action_map_add_action_entries g_action_map_add_action_entries;
 alias c_g_action_map_lookup_action g_action_map_lookup_action;
 alias c_g_action_map_remove_action g_action_map_remove_action;
+alias c_g_action_map_remove_action_entries g_action_map_remove_action_entries;
 
 // gio.AppInfo
 
@@ -5837,6 +5848,7 @@ alias c_g_emblemed_icon_get_icon g_emblemed_icon_get_icon;
 
 alias c_g_file_get_type g_file_get_type;
 alias c_g_file_new_build_filename g_file_new_build_filename;
+alias c_g_file_new_build_filenamev g_file_new_build_filenamev;
 alias c_g_file_new_for_commandline_arg g_file_new_for_commandline_arg;
 alias c_g_file_new_for_commandline_arg_and_cwd g_file_new_for_commandline_arg_and_cwd;
 alias c_g_file_new_for_path g_file_new_for_path;
@@ -6047,6 +6059,7 @@ alias c_g_file_info_get_attribute_as_string g_file_info_get_attribute_as_string;
 alias c_g_file_info_get_attribute_boolean g_file_info_get_attribute_boolean;
 alias c_g_file_info_get_attribute_byte_string g_file_info_get_attribute_byte_string;
 alias c_g_file_info_get_attribute_data g_file_info_get_attribute_data;
+alias c_g_file_info_get_attribute_file_path g_file_info_get_attribute_file_path;
 alias c_g_file_info_get_attribute_int32 g_file_info_get_attribute_int32;
 alias c_g_file_info_get_attribute_int64 g_file_info_get_attribute_int64;
 alias c_g_file_info_get_attribute_object g_file_info_get_attribute_object;
@@ -6082,6 +6095,7 @@ alias c_g_file_info_set_access_date_time g_file_info_set_access_date_time;
 alias c_g_file_info_set_attribute g_file_info_set_attribute;
 alias c_g_file_info_set_attribute_boolean g_file_info_set_attribute_boolean;
 alias c_g_file_info_set_attribute_byte_string g_file_info_set_attribute_byte_string;
+alias c_g_file_info_set_attribute_file_path g_file_info_set_attribute_file_path;
 alias c_g_file_info_set_attribute_int32 g_file_info_set_attribute_int32;
 alias c_g_file_info_set_attribute_int64 g_file_info_set_attribute_int64;
 alias c_g_file_info_set_attribute_mask g_file_info_set_attribute_mask;
@@ -6296,10 +6310,9 @@ alias c_g_input_stream_skip_finish g_input_stream_skip_finish;
 // gio.ListModel
 
 alias c_g_list_model_get_type g_list_model_get_type;
-alias c_g_list_model_get_item g_list_model_get_item;
+alias c_g_list_model_get_object g_list_model_get_object;
 alias c_g_list_model_get_item_type g_list_model_get_item_type;
 alias c_g_list_model_get_n_items g_list_model_get_n_items;
-alias c_g_list_model_get_object g_list_model_get_object;
 alias c_g_list_model_items_changed g_list_model_items_changed;
 
 // gio.ListStore
@@ -6654,6 +6667,7 @@ alias c_g_resolver_get_type g_resolver_get_type;
 alias c_g_resolver_free_addresses g_resolver_free_addresses;
 alias c_g_resolver_free_targets g_resolver_free_targets;
 alias c_g_resolver_get_default g_resolver_get_default;
+alias c_g_resolver_get_timeout g_resolver_get_timeout;
 alias c_g_resolver_lookup_by_address g_resolver_lookup_by_address;
 alias c_g_resolver_lookup_by_address_async g_resolver_lookup_by_address_async;
 alias c_g_resolver_lookup_by_address_finish g_resolver_lookup_by_address_finish;
@@ -6670,6 +6684,7 @@ alias c_g_resolver_lookup_service g_resolver_lookup_service;
 alias c_g_resolver_lookup_service_async g_resolver_lookup_service_async;
 alias c_g_resolver_lookup_service_finish g_resolver_lookup_service_finish;
 alias c_g_resolver_set_default g_resolver_set_default;
+alias c_g_resolver_set_timeout g_resolver_set_timeout;
 
 // gio.Resource
 

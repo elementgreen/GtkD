@@ -409,7 +409,8 @@ public enum GtkAccessibleRole
 	 */
 	DIALOG = 11,
 	/**
-	 * Unused
+	 * Content that assistive technology users may want to
+	 * browse in a reading mode.
 	 */
 	DOCUMENT = 12,
 	/**
@@ -421,7 +422,8 @@ public enum GtkAccessibleRole
 	 */
 	FORM = 14,
 	/**
-	 * Unused
+	 * A nameless container that has no semantic meaning
+	 * of its own. This is the role that GTK uses by default for widgets.
 	 */
 	GENERIC = 15,
 	/**
@@ -433,8 +435,8 @@ public enum GtkAccessibleRole
 	 */
 	GRID_CELL = 17,
 	/**
-	 * An element that groups multiple widgets. GTK uses
-	 * this role for various containers, like [class@Box], [class@Viewport], and [class@HeaderBar].
+	 * An element that groups multiple related widgets. GTK uses
+	 * this role for various containers, like [class@Gtk.HeaderBar] or [class@Gtk.Notebook].
 	 */
 	GROUP = 18,
 	/**
@@ -523,6 +525,7 @@ public enum GtkAccessibleRole
 	NAVIGATION = 39,
 	/**
 	 * An element that is not represented to accessibility technologies.
+	 * This role is synonymous to @GTK_ACCESSIBLE_ROLE_PRESENTATION.
 	 */
 	NONE = 40,
 	/**
@@ -535,6 +538,7 @@ public enum GtkAccessibleRole
 	OPTION = 42,
 	/**
 	 * An element that is not represented to accessibility technologies.
+	 * This role is synonymous to @GTK_ACCESSIBLE_ROLE_NONE.
 	 */
 	PRESENTATION = 43,
 	/**
@@ -676,12 +680,12 @@ public enum GtkAccessibleRole
 	 */
 	TREE_ITEM = 75,
 	/**
-	 * An interactive component of a graphical user
-	 * interface. This is the role that GTK uses by default for widgets.
+	 * Abstract role for interactive components of a
+	 * graphical user interface
 	 */
 	WIDGET = 76,
 	/**
-	 * An application window.
+	 * Abstract role for windows.
 	 */
 	WINDOW = 77,
 	/**
@@ -690,6 +694,12 @@ public enum GtkAccessibleRole
 	 * Since: 4.10
 	 */
 	TOGGLE_BUTTON = 78,
+	/**
+	 * A toplevel element of a graphical user interface.
+	 * This is the role that GTK uses by default for windows.
+	 * Since: 4.12
+	 */
+	APPLICATION = 79,
 }
 alias GtkAccessibleRole AccessibleRole;
 
@@ -769,6 +779,12 @@ public enum GtkAccessibleState
 	 * is selected. Value type: boolean or undefined
 	 */
 	SELECTED = 7,
+	/**
+	 * Indicates that a widget with the
+	 * GTK_ACCESSIBLE_ROLE_LINK has been visited. Value type: boolean.
+	 * Since: 4.12
+	 */
+	VISITED = 8,
 }
 alias GtkAccessibleState AccessibleState;
 
@@ -807,12 +823,13 @@ alias GtkAccessibleTristate AccessibleTristate;
  * could be scaled and stretched, it could be centered, or it could be
  * positioned to one side of the space.
  *
- * Note that in horizontal context %GTK_ALIGN_START and %GTK_ALIGN_END
+ * Note that in horizontal context `GTK_ALIGN_START` and `GTK_ALIGN_END`
  * are interpreted relative to text direction.
  *
- * %GTK_ALIGN_BASELINE support is optional for containers and widgets, and
- * it is only supported for vertical alignment.  When it's not supported by
- * a child or a container it is treated as %GTK_ALIGN_FILL.
+ * Baseline support is optional for containers and widgets, and is only available
+ * for vertical alignment. `GTK_ALIGN_BASELINE_CENTER and `GTK_ALIGN_BASELINE_FILL`
+ * are treated similar to `GTK_ALIGN_CENTER` and `GTK_ALIGN_FILL`, except that it
+ * positions the widget to line up the baselines, where that is supported.
  */
 public enum GtkAlign
 {
@@ -834,10 +851,18 @@ public enum GtkAlign
 	 */
 	CENTER = 3,
 	/**
+	 * a different name for `GTK_ALIGN_BASELINE`. Since 4.12
+	 */
+	BASELINE_FILL = 4,
+	/**
 	 * align the widget according to the baseline.
-	 * See [class@Gtk.Widget].
+	 * See [class@Gtk.Widget]. Deprecated: 4.12: Use `GTK_ALIGN_BASELINE_FILL` instead
 	 */
 	BASELINE = 4,
+	/**
+	 * stretch to fill all space, but align the baseline. Since 4.12
+	 */
+	BASELINE_CENTER = 5,
 }
 alias GtkAlign Align;
 
@@ -1582,10 +1607,6 @@ public enum GtkDebugFlags
 	 * Open the GTK inspector
 	 */
 	INTERACTIVE = 1024,
-	/**
-	 * Pretend the pointer is a touchscreen
-	 */
-	TOUCHSCREEN = 2048,
 	/**
 	 * Information about actions and menu models
 	 */
@@ -2456,6 +2477,60 @@ public enum GtkLicense
 	MPL_2_0 = 17,
 }
 alias GtkLicense License;
+
+/**
+ * List of actions to perform when scrolling to items in
+ * a list widget.
+ *
+ * Since: 4.12
+ */
+public enum GtkListScrollFlags
+{
+	/**
+	 * Don't do anything extra
+	 */
+	NONE = 0,
+	/**
+	 * Focus the target item
+	 */
+	FOCUS = 1,
+	/**
+	 * Select the target item and
+	 * unselect all other items.
+	 */
+	SELECT = 2,
+}
+alias GtkListScrollFlags ListScrollFlags;
+
+/**
+ * Used to configure the focus behavior in the `GTK_DIR_TAB_FORWARD`
+ * and `GTK_DIR_TAB_BACKWARD` direction, like the <kbd>Tab</kbd> key
+ * in a [class@Gtk.ListView].
+ *
+ * Since: 4.12
+ */
+public enum GtkListTabBehavior
+{
+	/**
+	 * Cycle through all focusable items of the list
+	 */
+	ALL = 0,
+	/**
+	 * Cycle through a single list element, then move
+	 * focus out of the list. Moving focus between items needs to be
+	 * done with the arrow keys.
+	 */
+	ITEM = 1,
+	/**
+	 * Cycle only through a single cell, then
+	 * move focus out of the list. Moving focus between cells needs to
+	 * be done with the arrow keys. This is only relevant for
+	 * cell-based widgets like #GtkColumnView, otherwise it behaves
+	 * like `GTK_LIST_TAB_ITEM`.
+	 */
+	CELL = 2,
+}
+alias GtkListTabBehavior ListTabBehavior;
 
 /**
  * The type of message being displayed in a [class@MessageDialog].
@@ -5075,11 +5150,19 @@ struct GtkColorDialogClass
 
 struct GtkColumnView;
 
+struct GtkColumnViewCell;
+
+struct GtkColumnViewCellClass;
+
 struct GtkColumnViewClass;
 
 struct GtkColumnViewColumn;
 
 struct GtkColumnViewColumnClass;
+
+struct GtkColumnViewRow;
+
+struct GtkColumnViewRowClass;
 
 struct GtkColumnViewSorter;
 
@@ -5953,6 +6036,10 @@ struct GtkListBoxRowClass
 	void*[8] padding;
 }
 
+struct GtkListHeader;
+
+struct GtkListHeaderClass;
+
 struct GtkListItem;
 
 struct GtkListItemClass;
@@ -6552,6 +6639,8 @@ struct GtkScaleClass
 	void*[8] padding;
 }
 
+struct GtkScrollInfo;
+
 struct GtkScrollable;
 
 struct GtkScrollableInterface
@@ -6574,6 +6663,22 @@ struct GtkScrolledWindow;
 struct GtkSearchBar;
 
 struct GtkSearchEntry;
+
+struct GtkSectionModel;
+
+/**
+ * The list of virtual functions for the `GtkSectionModel` interface.
+ * No function must be implemented, but unless `GtkSectionModel::get_section()`
+ * is implemented, the whole model will just be a single section.
+ *
+ * Since: 4.12
+ */
+struct GtkSectionModelInterface
+{
+	GTypeInterface gIface;
+	/** */
+	extern(C) void function(GtkSectionModel* self, uint position, uint* outStart, uint* outEnd) getSection;
+}
 
 struct GtkSelectionFilterModel;
 
@@ -8303,7 +8408,7 @@ alias GTK_ACCESSIBLE_VALUE_UNDEFINED = ACCESSIBLE_VALUE_UNDEFINED;
  * application compile time, rather than from the library linked
  * against at application run time.
  */
-enum BINARY_AGE = 1003;
+enum BINARY_AGE = 1203;
 alias GTK_BINARY_AGE = BINARY_AGE;
 
 enum IM_MODULE_EXTENSION_POINT_NAME = "gtk-im-module";
@@ -8385,7 +8490,7 @@ alias GTK_MICRO_VERSION = MICRO_VERSION;
  * application compile time, rather than from the library linked
  * against at application run time.
  */
-enum MINOR_VERSION = 10;
+enum MINOR_VERSION = 12;
 alias GTK_MINOR_VERSION = MINOR_VERSION;
 
 /**

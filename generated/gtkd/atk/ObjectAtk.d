@@ -501,6 +501,8 @@ public class ObjectAtk : ObjectG
 	 * The "announcement" signal can be emitted to pass an announcement on to
 	 * be read by a screen reader.
 	 *
+	 * Depcrecated (2.50): Use AtkObject::notification instead.
+	 *
 	 * Params:
 	 *     arg1 = the text to be announced.
 	 *
@@ -543,6 +545,22 @@ public class ObjectAtk : ObjectG
 	gulong addOnFocus(void delegate(bool, ObjectAtk) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
 	{
 		return Signals.connect(this, "focus-event", dlg, connectFlags ^ ConnectFlags.SWAPPED);
+	}
+
+	/**
+	 * The "notification" signal can be emitted to pass an announcement on to
+	 * be read by a screen reader.
+	 *
+	 * Params:
+	 *     arg1 = the text to be announced.
+	 *     arg2 = an #AtkLive specifying the politeness of the notification.
+	 *         Should be either ATK_LIVE_POLITE or ATK_LIVE_ASSERTIVE.
+	 *
+	 * Since: 2.50
+	 */
+	gulong addOnNotification(void delegate(string, int, ObjectAtk) dlg, ConnectFlags connectFlags=cast(ConnectFlags)0)
+	{
+		return Signals.connect(this, "notification", dlg, connectFlags ^ ConnectFlags.SWAPPED);
 	}
 
 	/**

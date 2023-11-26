@@ -29,6 +29,7 @@ private import gobject.ObjectG;
 private import gobject.Signals;
 private import gtk.ListBase;
 private import gtk.ListItemFactory;
+private import gtk.ScrollInfo;
 private import gtk.SelectionModelIF;
 private import gtk.Widget;
 private import gtk.c.functions;
@@ -229,6 +230,25 @@ public class ListView : ListBase
 	}
 
 	/**
+	 * Gets the factory that's currently used to populate section headers.
+	 *
+	 * Returns: The factory in use
+	 *
+	 * Since: 4.12
+	 */
+	public ListItemFactory getHeaderFactory()
+	{
+		auto __p = gtk_list_view_get_header_factory(gtkListView);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(ListItemFactory)(cast(GtkListItemFactory*) __p);
+	}
+
+	/**
 	 * Gets the model that's currently used to read the items displayed.
 	 *
 	 * Returns: The model in use
@@ -268,6 +288,38 @@ public class ListView : ListBase
 	}
 
 	/**
+	 * Gets the behavior set for the <kbd>Tab</kbd> key.
+	 *
+	 * Returns: The behavior of the <kbd>Tab</kbd> key
+	 *
+	 * Since: 4.12
+	 */
+	public GtkListTabBehavior getTabBehavior()
+	{
+		return gtk_list_view_get_tab_behavior(gtkListView);
+	}
+
+	/**
+	 * Scrolls to the item at the given position and performs the actions
+	 * specified in @flags.
+	 *
+	 * This function works no matter if the listview is shown or focused.
+	 * If it isn't, then the changes will take effect once that happens.
+	 *
+	 * Params:
+	 *     pos = position of the item
+	 *     flags = actions to perform
+	 *     scroll = details of how to perform
+	 *         the scroll operation or %NULL to scroll into view
+	 *
+	 * Since: 4.12
+	 */
+	public void scrollTo(uint pos, GtkListScrollFlags flags, ScrollInfo scroll)
+	{
+		gtk_list_view_scroll_to(gtkListView, pos, flags, (scroll is null) ? null : scroll.getScrollInfoStruct(true));
+	}
+
+	/**
 	 * Sets whether selections can be changed by dragging with the mouse.
 	 *
 	 * Params:
@@ -287,6 +339,22 @@ public class ListView : ListBase
 	public void setFactory(ListItemFactory factory)
 	{
 		gtk_list_view_set_factory(gtkListView, (factory is null) ? null : factory.getListItemFactoryStruct());
+	}
+
+	/**
+	 * Sets the `GtkListItemFactory` to use for populating the
+	 * [class@Gtk.ListHeader] objects used in section headers.
+	 *
+	 * If this factory is set to %NULL, the list will not show section headers.
+	 *
+	 * Params:
+	 *     factory = the factory to use
+	 *
+	 * Since: 4.12
+	 */
+	public void setHeaderFactory(ListItemFactory factory)
+	{
+		gtk_list_view_set_header_factory(gtkListView, (factory is null) ? null : factory.getListItemFactoryStruct());
 	}
 
 	/**
@@ -324,6 +392,19 @@ public class ListView : ListBase
 	public void setSingleClickActivate(bool singleClickActivate)
 	{
 		gtk_list_view_set_single_click_activate(gtkListView, singleClickActivate);
+	}
+
+	/**
+	 * Sets the behavior of the <kbd>Tab</kbd> and <kbd>Shift</kbd>+<kbd>Tab</kbd> keys.
+	 *
+	 * Params:
+	 *     tabBehavior = The desired tab behavior
+	 *
+	 * Since: 4.12
+	 */
+	public void setTabBehavior(GtkListTabBehavior tabBehavior)
+	{
+		gtk_list_view_set_tab_behavior(gtkListView, tabBehavior);
 	}
 
 	/**

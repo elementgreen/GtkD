@@ -39,6 +39,11 @@ public struct URI
 	 * Converts an escaped ASCII-encoded URI to a local filename in the
 	 * encoding used for filenames.
 	 *
+	 * Since GLib 2.78, the query string and fragment can be present in the URI,
+	 * but are not part of the resulting filename.
+	 * We take inspiration from https://url.spec.whatwg.org/#file-state,
+	 * but we don't support the entire standard.
+	 *
 	 * Params:
 	 *     uri = a uri describing a filename (escaped, encoded in ASCII).
 	 *     hostname = Location to store hostname for the URI.

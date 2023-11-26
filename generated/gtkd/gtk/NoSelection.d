@@ -28,6 +28,8 @@ private import gio.ListModelIF;
 private import gio.ListModelT;
 private import glib.ConstructionException;
 private import gobject.ObjectG;
+private import gtk.SectionModelIF;
+private import gtk.SectionModelT;
 private import gtk.SelectionModelIF;
 private import gtk.SelectionModelT;
 private import gtk.c.functions;
@@ -40,8 +42,10 @@ public  import gtk.c.types;
  * 
  * This model is meant to be used as a simple wrapper around a `GListModel`
  * when a `GtkSelectionModel` is required.
+ * 
+ * `GtkNoSelection` passes through sections from the underlying model.
  */
-public class NoSelection : ObjectG, ListModelIF, SelectionModelIF
+public class NoSelection : ObjectG, ListModelIF, SectionModelIF, SelectionModelIF
 {
 	/** the main Gtk struct */
 	protected GtkNoSelection* gtkNoSelection;
@@ -71,6 +75,9 @@ public class NoSelection : ObjectG, ListModelIF, SelectionModelIF
 
 	// add the ListModel capabilities
 	mixin ListModelT!(GtkNoSelection);
+
+	// add the SectionModel capabilities
+	mixin SectionModelT!(GtkNoSelection);
 
 	// add the SelectionModel capabilities
 	mixin SelectionModelT!(GtkNoSelection);

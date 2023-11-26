@@ -205,6 +205,11 @@ public  import gtk.c.types;
  * To summarize, make sure you use a predefined response code
  * when you use `GtkFileChooserDialog` to ensure proper operation.
  * 
+ * ## CSS nodes
+ * 
+ * `GtkFileChooserDialog` has a single CSS node with the name `window` and style
+ * class `.filechooser`.
+ * 
  * Deprecated: Use [class@Gtk.FileDialog] instead
  */
 public class FileChooserDialog : Dialog, FileChooserIF

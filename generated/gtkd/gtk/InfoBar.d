@@ -36,7 +36,7 @@ private import std.algorithm;
 
 
 /**
- * `GtkInfoBar` can be show messages to the user without a dialog.
+ * `GtkInfoBar` can be used to show messages to the user without a dialog.
  * 
  * ![An example GtkInfoBar](info-bar.png)
  * 

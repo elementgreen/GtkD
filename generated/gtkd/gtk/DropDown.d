@@ -43,11 +43,17 @@ private import std.algorithm;
  * 
  * ![An example GtkDropDown](drop-down.png)
  * 
- * The `GtkDropDown` displays the selected choice.
+ * The `GtkDropDown` displays the [selected][property@Gtk.DropDown:selected]
+ * choice.
  * 
  * The options are given to `GtkDropDown` in the form of `GListModel`
  * and how the individual options are represented is determined by
- * a [class@Gtk.ListItemFactory]. The default factory displays simple strings.
+ * a [class@Gtk.ListItemFactory]. The default factory displays simple strings,
+ * and adds a checkmark to the selected item in the popup.
+ * 
+ * To set your own factory, use [method@Gtk.DropDown.set_factory]. It is
+ * possible to use a separate factory for the items in the popup, with
+ * [method@Gtk.DropDown.set_list_factory].
  * 
  * `GtkDropDown` knows how to obtain strings from the items in a
  * [class@Gtk.StringList]; for other models, you have to provide an expression
@@ -58,6 +64,7 @@ private import std.algorithm;
  * use [method@Gtk.DropDown.set_enable_search].
  * 
  * Here is a UI definition example for `GtkDropDown` with a simple model:
+ * 
  * ```xml
  * <object class="GtkDropDown">
  * <property name="model">
@@ -72,12 +79,15 @@ private import std.algorithm;
  * </object>
  * ```
  * 
- * # CSS nodes
+ * To learn more about the list widget framework, see the
+ * [overview](section-list-widget.html).
+ * 
+ * ## CSS nodes
  * 
  * `GtkDropDown` has a single CSS node with name dropdown,
  * with the button and popover nodes as children.
  * 
- * # Accessibility
+ * ## Accessibility
  * 
  * `GtkDropDown` uses the %GTK_ACCESSIBLE_ROLE_COMBO_BOX role.
  */
@@ -214,6 +224,25 @@ public class DropDown : Widget
 	}
 
 	/**
+	 * Gets the factory that's currently used to create header widgets for the popup.
+	 *
+	 * Returns: The factory in use
+	 *
+	 * Since: 4.12
+	 */
+	public ListItemFactory getHeaderFactory()
+	{
+		auto __p = gtk_drop_down_get_header_factory(gtkDropDown);
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(ListItemFactory)(cast(GtkListItemFactory*) __p);
+	}
+
+	/**
 	 * Gets the factory that's currently used to populate list items in the popup.
 	 *
 	 * Returns: The factory in use
@@ -245,6 +274,18 @@ public class DropDown : Widget
 		}
 
 		return ObjectG.getDObject!(ListModelIF)(cast(GListModel*) __p);
+	}
+
+	/**
+	 * Returns the match mode that the search filter is using.
+	 *
+	 * Returns: the match mode of the search filter
+	 *
+	 * Since: 4.12
+	 */
+	public GtkStringFilterMatchMode getSearchMatchMode()
+	{
+		return gtk_drop_down_get_search_match_mode(gtkDropDown);
 	}
 
 	/**
@@ -328,6 +369,19 @@ public class DropDown : Widget
 	}
 
 	/**
+	 * Sets the `GtkListItemFactory` to use for creating header widgets for the popup.
+	 *
+	 * Params:
+	 *     factory = the factory to use
+	 *
+	 * Since: 4.12
+	 */
+	public void setHeaderFactory(ListItemFactory factory)
+	{
+		gtk_drop_down_set_header_factory(gtkDropDown, (factory is null) ? null : factory.getListItemFactoryStruct());
+	}
+
+	/**
 	 * Sets the `GtkListItemFactory` to use for populating list items in the popup.
 	 *
 	 * Params:
@@ -347,6 +401,19 @@ public class DropDown : Widget
 	public void setModel(ListModelIF model)
 	{
 		gtk_drop_down_set_model(gtkDropDown, (model is null) ? null : model.getListModelStruct());
+	}
+
+	/**
+	 * Sets the match mode for the search filter.
+	 *
+	 * Params:
+	 *     searchMatchMode = the new match mode
+	 *
+	 * Since: 4.12
+	 */
+	public void setSearchMatchMode(GtkStringFilterMatchMode searchMatchMode)
+	{
+		gtk_drop_down_set_search_match_mode(gtkDropDown, searchMatchMode);
 	}
 
 	/**

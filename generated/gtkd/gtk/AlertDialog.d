@@ -117,7 +117,7 @@ public class AlertDialog : ObjectG
 	 *     result = a `GAsyncResult`
 	 *
 	 * Returns: the index of the button that was clicked, or -1 if
-	 *     the dialog was cancelled and `[property@Gtk.AlertDialog:cancel-button]
+	 *     the dialog was cancelled and [property@Gtk.AlertDialog:cancel-button]
 	 *     is not set
 	 *
 	 * Since: 4.10

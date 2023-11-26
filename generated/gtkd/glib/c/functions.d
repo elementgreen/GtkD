@@ -1067,6 +1067,7 @@ shared static this()
 
 	Linker.link(g_string_new, "g_string_new", LIBRARY_GLIB);
 	Linker.link(g_string_new_len, "g_string_new_len", LIBRARY_GLIB);
+	Linker.link(g_string_new_take, "g_string_new_take", LIBRARY_GLIB);
 	Linker.link(g_string_sized_new, "g_string_sized_new", LIBRARY_GLIB);
 	Linker.link(g_string_append, "g_string_append", LIBRARY_GLIB);
 	Linker.link(g_string_append_c, "g_string_append_c", LIBRARY_GLIB);
@@ -2954,6 +2955,7 @@ __gshared extern(C)
 
 	GString* function(const(char)* init) c_g_string_new;
 	GString* function(const(char)* init, ptrdiff_t len) c_g_string_new_len;
+	GString* function(char* init) c_g_string_new_take;
 	GString* function(size_t dflSize) c_g_string_sized_new;
 	GString* function(GString* string_, const(char)* val) c_g_string_append;
 	GString* function(GString* string_, char c) c_g_string_append_c;
@@ -4833,6 +4835,7 @@ alias c_g_source_set_name_by_id g_source_set_name_by_id;
 
 alias c_g_string_new g_string_new;
 alias c_g_string_new_len g_string_new_len;
+alias c_g_string_new_take g_string_new_take;
 alias c_g_string_sized_new g_string_sized_new;
 alias c_g_string_append g_string_append;
 alias c_g_string_append_c g_string_append_c;

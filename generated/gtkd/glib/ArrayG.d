@@ -254,8 +254,10 @@ public class ArrayG
 	 * reference count of 1.
 	 *
 	 * This avoids having to copy the data manually, when it can just be
-	 * inherited. @data will eventually be freed using g_free(), so must
-	 * have been allocated with a suitable allocator.
+	 * inherited.
+	 * After this call, @data belongs to the #GArray and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * In case the elements need to be cleared when the array is freed, use
 	 * g_array_set_clear_func() to set a #GDestroyNotify function to perform
@@ -293,8 +295,10 @@ public class ArrayG
 	 * and setting the reference count to 1.
 	 *
 	 * This avoids having to copy the data manually, when it can just be
-	 * inherited. @data will eventually be freed using g_free(), so must
-	 * have been allocated with a suitable allocator.
+	 * inherited.
+	 * After this call, @data belongs to the #GArray and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * The length is calculated by iterating through @data until the first %NULL
 	 * element is found.

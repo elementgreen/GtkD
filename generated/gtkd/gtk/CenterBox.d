@@ -65,7 +65,9 @@ public  import gtk.c.types;
  * 
  * # Accessibility
  * 
- * `GtkCenterBox` uses the %GTK_ACCESSIBLE_ROLE_GROUP role.
+ * Until GTK 4.10, `GtkCenterBox` used the `GTK_ACCESSIBLE_ROLE_GROUP` role.
+ * 
+ * Starting from GTK 4.12, `GtkCenterBox` uses the `GTK_ACCESSIBLE_ROLE_GENERIC` role.
  */
 public class CenterBox : Widget, OrientableIF
 {
@@ -169,6 +171,18 @@ public class CenterBox : Widget, OrientableIF
 	}
 
 	/**
+	 * Gets whether @self shrinks the center widget after other children.
+	 *
+	 * Returns: whether to shrink the center widget after others
+	 *
+	 * Since: 4.12
+	 */
+	public bool getShrinkCenterLast()
+	{
+		return gtk_center_box_get_shrink_center_last(gtkCenterBox) != 0;
+	}
+
+	/**
 	 * Gets the start widget, or %NULL if there is none.
 	 *
 	 * Returns: the start widget.
@@ -226,6 +240,26 @@ public class CenterBox : Widget, OrientableIF
 	public void setEndWidget(Widget child)
 	{
 		gtk_center_box_set_end_widget(gtkCenterBox, (child is null) ? null : child.getWidgetStruct());
+	}
+
+	/**
+	 * Sets whether to shrink the center widget after other children.
+	 *
+	 * By default, when there's no space to give all three children their
+	 * natural widths, the start and end widgets start shrinking and the
+	 * center child keeps natural width until they reach minimum width.
+	 *
+	 * If set to `FALSE`, start and end widgets keep natural width and the
+	 * center widget starts shrinking instead.
+	 *
+	 * Params:
+	 *     shrinkCenterLast = whether to shrink the center widget after others
+	 *
+	 * Since: 4.12
+	 */
+	public void setShrinkCenterLast(bool shrinkCenterLast)
+	{
+		gtk_center_box_set_shrink_center_last(gtkCenterBox, shrinkCenterLast);
 	}
 
 	/**

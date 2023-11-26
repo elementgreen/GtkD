@@ -251,7 +251,7 @@ public class DBusInterfaceSkeleton : ObjectG, DBusInterfaceIF
 	 * @interface_. The returned function pointers should expect @interface_
 	 * itself to be passed as @user_data.
 	 *
-	 * Returns: A #GDBusInterfaceVTable (never %NULL).
+	 * Returns: the vtable of the D-Bus interface implemented by the skeleton
 	 *
 	 * Since: 2.30
 	 */

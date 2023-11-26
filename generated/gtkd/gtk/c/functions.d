@@ -395,6 +395,7 @@ shared static this()
 	Linker.link(gtk_box_get_type, "gtk_box_get_type", LIBRARY_GTK);
 	Linker.link(gtk_box_new, "gtk_box_new", LIBRARY_GTK);
 	Linker.link(gtk_box_append, "gtk_box_append", LIBRARY_GTK);
+	Linker.link(gtk_box_get_baseline_child, "gtk_box_get_baseline_child", LIBRARY_GTK);
 	Linker.link(gtk_box_get_baseline_position, "gtk_box_get_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_box_get_homogeneous, "gtk_box_get_homogeneous", LIBRARY_GTK);
 	Linker.link(gtk_box_get_spacing, "gtk_box_get_spacing", LIBRARY_GTK);
@@ -402,6 +403,7 @@ shared static this()
 	Linker.link(gtk_box_prepend, "gtk_box_prepend", LIBRARY_GTK);
 	Linker.link(gtk_box_remove, "gtk_box_remove", LIBRARY_GTK);
 	Linker.link(gtk_box_reorder_child_after, "gtk_box_reorder_child_after", LIBRARY_GTK);
+	Linker.link(gtk_box_set_baseline_child, "gtk_box_set_baseline_child", LIBRARY_GTK);
 	Linker.link(gtk_box_set_baseline_position, "gtk_box_set_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_box_set_homogeneous, "gtk_box_set_homogeneous", LIBRARY_GTK);
 	Linker.link(gtk_box_set_spacing, "gtk_box_set_spacing", LIBRARY_GTK);
@@ -410,9 +412,11 @@ shared static this()
 
 	Linker.link(gtk_box_layout_get_type, "gtk_box_layout_get_type", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_new, "gtk_box_layout_new", LIBRARY_GTK);
+	Linker.link(gtk_box_layout_get_baseline_child, "gtk_box_layout_get_baseline_child", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_get_baseline_position, "gtk_box_layout_get_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_get_homogeneous, "gtk_box_layout_get_homogeneous", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_get_spacing, "gtk_box_layout_get_spacing", LIBRARY_GTK);
+	Linker.link(gtk_box_layout_set_baseline_child, "gtk_box_layout_set_baseline_child", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_set_baseline_position, "gtk_box_layout_set_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_set_homogeneous, "gtk_box_layout_set_homogeneous", LIBRARY_GTK);
 	Linker.link(gtk_box_layout_set_spacing, "gtk_box_layout_set_spacing", LIBRARY_GTK);
@@ -486,11 +490,13 @@ shared static this()
 	Linker.link(gtk_button_new_from_icon_name, "gtk_button_new_from_icon_name", LIBRARY_GTK);
 	Linker.link(gtk_button_new_with_label, "gtk_button_new_with_label", LIBRARY_GTK);
 	Linker.link(gtk_button_new_with_mnemonic, "gtk_button_new_with_mnemonic", LIBRARY_GTK);
+	Linker.link(gtk_button_get_can_shrink, "gtk_button_get_can_shrink", LIBRARY_GTK);
 	Linker.link(gtk_button_get_child, "gtk_button_get_child", LIBRARY_GTK);
 	Linker.link(gtk_button_get_has_frame, "gtk_button_get_has_frame", LIBRARY_GTK);
 	Linker.link(gtk_button_get_icon_name, "gtk_button_get_icon_name", LIBRARY_GTK);
 	Linker.link(gtk_button_get_label, "gtk_button_get_label", LIBRARY_GTK);
 	Linker.link(gtk_button_get_use_underline, "gtk_button_get_use_underline", LIBRARY_GTK);
+	Linker.link(gtk_button_set_can_shrink, "gtk_button_set_can_shrink", LIBRARY_GTK);
 	Linker.link(gtk_button_set_child, "gtk_button_set_child", LIBRARY_GTK);
 	Linker.link(gtk_button_set_has_frame, "gtk_button_set_has_frame", LIBRARY_GTK);
 	Linker.link(gtk_button_set_icon_name, "gtk_button_set_icon_name", LIBRARY_GTK);
@@ -724,10 +730,12 @@ shared static this()
 	Linker.link(gtk_center_box_get_baseline_position, "gtk_center_box_get_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_center_box_get_center_widget, "gtk_center_box_get_center_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_box_get_end_widget, "gtk_center_box_get_end_widget", LIBRARY_GTK);
+	Linker.link(gtk_center_box_get_shrink_center_last, "gtk_center_box_get_shrink_center_last", LIBRARY_GTK);
 	Linker.link(gtk_center_box_get_start_widget, "gtk_center_box_get_start_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_box_set_baseline_position, "gtk_center_box_set_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_center_box_set_center_widget, "gtk_center_box_set_center_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_box_set_end_widget, "gtk_center_box_set_end_widget", LIBRARY_GTK);
+	Linker.link(gtk_center_box_set_shrink_center_last, "gtk_center_box_set_shrink_center_last", LIBRARY_GTK);
 	Linker.link(gtk_center_box_set_start_widget, "gtk_center_box_set_start_widget", LIBRARY_GTK);
 
 	// gtk.CenterLayout
@@ -738,11 +746,13 @@ shared static this()
 	Linker.link(gtk_center_layout_get_center_widget, "gtk_center_layout_get_center_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_get_end_widget, "gtk_center_layout_get_end_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_get_orientation, "gtk_center_layout_get_orientation", LIBRARY_GTK);
+	Linker.link(gtk_center_layout_get_shrink_center_last, "gtk_center_layout_get_shrink_center_last", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_get_start_widget, "gtk_center_layout_get_start_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_set_baseline_position, "gtk_center_layout_set_baseline_position", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_set_center_widget, "gtk_center_layout_set_center_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_set_end_widget, "gtk_center_layout_set_end_widget", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_set_orientation, "gtk_center_layout_set_orientation", LIBRARY_GTK);
+	Linker.link(gtk_center_layout_set_shrink_center_last, "gtk_center_layout_set_shrink_center_last", LIBRARY_GTK);
 	Linker.link(gtk_center_layout_set_start_widget, "gtk_center_layout_set_start_widget", LIBRARY_GTK);
 
 	// gtk.CheckButton
@@ -826,21 +836,39 @@ shared static this()
 	Linker.link(gtk_column_view_append_column, "gtk_column_view_append_column", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_columns, "gtk_column_view_get_columns", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_enable_rubberband, "gtk_column_view_get_enable_rubberband", LIBRARY_GTK);
+	Linker.link(gtk_column_view_get_header_factory, "gtk_column_view_get_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_model, "gtk_column_view_get_model", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_reorderable, "gtk_column_view_get_reorderable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_get_row_factory, "gtk_column_view_get_row_factory", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_show_column_separators, "gtk_column_view_get_show_column_separators", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_show_row_separators, "gtk_column_view_get_show_row_separators", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_single_click_activate, "gtk_column_view_get_single_click_activate", LIBRARY_GTK);
 	Linker.link(gtk_column_view_get_sorter, "gtk_column_view_get_sorter", LIBRARY_GTK);
+	Linker.link(gtk_column_view_get_tab_behavior, "gtk_column_view_get_tab_behavior", LIBRARY_GTK);
 	Linker.link(gtk_column_view_insert_column, "gtk_column_view_insert_column", LIBRARY_GTK);
 	Linker.link(gtk_column_view_remove_column, "gtk_column_view_remove_column", LIBRARY_GTK);
+	Linker.link(gtk_column_view_scroll_to, "gtk_column_view_scroll_to", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_enable_rubberband, "gtk_column_view_set_enable_rubberband", LIBRARY_GTK);
+	Linker.link(gtk_column_view_set_header_factory, "gtk_column_view_set_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_model, "gtk_column_view_set_model", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_reorderable, "gtk_column_view_set_reorderable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_set_row_factory, "gtk_column_view_set_row_factory", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_show_column_separators, "gtk_column_view_set_show_column_separators", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_show_row_separators, "gtk_column_view_set_show_row_separators", LIBRARY_GTK);
 	Linker.link(gtk_column_view_set_single_click_activate, "gtk_column_view_set_single_click_activate", LIBRARY_GTK);
+	Linker.link(gtk_column_view_set_tab_behavior, "gtk_column_view_set_tab_behavior", LIBRARY_GTK);
 	Linker.link(gtk_column_view_sort_by_column, "gtk_column_view_sort_by_column", LIBRARY_GTK);
+
+	// gtk.ColumnViewCell
+
+	Linker.link(gtk_column_view_cell_get_type, "gtk_column_view_cell_get_type", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_get_child, "gtk_column_view_cell_get_child", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_get_focusable, "gtk_column_view_cell_get_focusable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_get_item, "gtk_column_view_cell_get_item", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_get_position, "gtk_column_view_cell_get_position", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_get_selected, "gtk_column_view_cell_get_selected", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_set_child, "gtk_column_view_cell_set_child", LIBRARY_GTK);
+	Linker.link(gtk_column_view_cell_set_focusable, "gtk_column_view_cell_set_focusable", LIBRARY_GTK);
 
 	// gtk.ColumnViewColumn
 
@@ -865,6 +893,23 @@ shared static this()
 	Linker.link(gtk_column_view_column_set_sorter, "gtk_column_view_column_set_sorter", LIBRARY_GTK);
 	Linker.link(gtk_column_view_column_set_title, "gtk_column_view_column_set_title", LIBRARY_GTK);
 	Linker.link(gtk_column_view_column_set_visible, "gtk_column_view_column_set_visible", LIBRARY_GTK);
+
+	// gtk.ColumnViewRow
+
+	Linker.link(gtk_column_view_row_get_type, "gtk_column_view_row_get_type", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_accessible_description, "gtk_column_view_row_get_accessible_description", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_accessible_label, "gtk_column_view_row_get_accessible_label", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_activatable, "gtk_column_view_row_get_activatable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_focusable, "gtk_column_view_row_get_focusable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_item, "gtk_column_view_row_get_item", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_position, "gtk_column_view_row_get_position", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_selectable, "gtk_column_view_row_get_selectable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_get_selected, "gtk_column_view_row_get_selected", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_set_accessible_description, "gtk_column_view_row_set_accessible_description", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_set_accessible_label, "gtk_column_view_row_set_accessible_label", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_set_activatable, "gtk_column_view_row_set_activatable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_set_focusable, "gtk_column_view_row_set_focusable", LIBRARY_GTK);
+	Linker.link(gtk_column_view_row_set_selectable, "gtk_column_view_row_set_selectable", LIBRARY_GTK);
 
 	// gtk.ColumnViewSorter
 
@@ -986,10 +1031,12 @@ shared static this()
 
 	Linker.link(gtk_css_provider_get_type, "gtk_css_provider_get_type", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_new, "gtk_css_provider_new", LIBRARY_GTK);
+	Linker.link(gtk_css_provider_load_from_bytes, "gtk_css_provider_load_from_bytes", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_load_from_data, "gtk_css_provider_load_from_data", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_load_from_file, "gtk_css_provider_load_from_file", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_load_from_path, "gtk_css_provider_load_from_path", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_load_from_resource, "gtk_css_provider_load_from_resource", LIBRARY_GTK);
+	Linker.link(gtk_css_provider_load_from_string, "gtk_css_provider_load_from_string", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_load_named, "gtk_css_provider_load_named", LIBRARY_GTK);
 	Linker.link(gtk_css_provider_to_string, "gtk_css_provider_to_string", LIBRARY_GTK);
 
@@ -1101,16 +1148,20 @@ shared static this()
 	Linker.link(gtk_drop_down_get_enable_search, "gtk_drop_down_get_enable_search", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_expression, "gtk_drop_down_get_expression", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_factory, "gtk_drop_down_get_factory", LIBRARY_GTK);
+	Linker.link(gtk_drop_down_get_header_factory, "gtk_drop_down_get_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_list_factory, "gtk_drop_down_get_list_factory", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_model, "gtk_drop_down_get_model", LIBRARY_GTK);
+	Linker.link(gtk_drop_down_get_search_match_mode, "gtk_drop_down_get_search_match_mode", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_selected, "gtk_drop_down_get_selected", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_selected_item, "gtk_drop_down_get_selected_item", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_get_show_arrow, "gtk_drop_down_get_show_arrow", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_enable_search, "gtk_drop_down_set_enable_search", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_expression, "gtk_drop_down_set_expression", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_factory, "gtk_drop_down_set_factory", LIBRARY_GTK);
+	Linker.link(gtk_drop_down_set_header_factory, "gtk_drop_down_set_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_list_factory, "gtk_drop_down_set_list_factory", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_model, "gtk_drop_down_set_model", LIBRARY_GTK);
+	Linker.link(gtk_drop_down_set_search_match_mode, "gtk_drop_down_set_search_match_mode", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_selected, "gtk_drop_down_set_selected", LIBRARY_GTK);
 	Linker.link(gtk_drop_down_set_show_arrow, "gtk_drop_down_set_show_arrow", LIBRARY_GTK);
 
@@ -1485,11 +1536,13 @@ shared static this()
 
 	Linker.link(gtk_file_launcher_get_type, "gtk_file_launcher_get_type", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_new, "gtk_file_launcher_new", LIBRARY_GTK);
+	Linker.link(gtk_file_launcher_get_always_ask, "gtk_file_launcher_get_always_ask", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_get_file, "gtk_file_launcher_get_file", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_launch, "gtk_file_launcher_launch", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_launch_finish, "gtk_file_launcher_launch_finish", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_open_containing_folder, "gtk_file_launcher_open_containing_folder", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_open_containing_folder_finish, "gtk_file_launcher_open_containing_folder_finish", LIBRARY_GTK);
+	Linker.link(gtk_file_launcher_set_always_ask, "gtk_file_launcher_set_always_ask", LIBRARY_GTK);
 	Linker.link(gtk_file_launcher_set_file, "gtk_file_launcher_set_file", LIBRARY_GTK);
 
 	// gtk.Filter
@@ -1562,6 +1615,7 @@ shared static this()
 	Linker.link(gtk_flow_box_invalidate_sort, "gtk_flow_box_invalidate_sort", LIBRARY_GTK);
 	Linker.link(gtk_flow_box_prepend, "gtk_flow_box_prepend", LIBRARY_GTK);
 	Linker.link(gtk_flow_box_remove, "gtk_flow_box_remove", LIBRARY_GTK);
+	Linker.link(gtk_flow_box_remove_all, "gtk_flow_box_remove_all", LIBRARY_GTK);
 	Linker.link(gtk_flow_box_select_all, "gtk_flow_box_select_all", LIBRARY_GTK);
 	Linker.link(gtk_flow_box_select_child, "gtk_flow_box_select_child", LIBRARY_GTK);
 	Linker.link(gtk_flow_box_selected_foreach, "gtk_flow_box_selected_foreach", LIBRARY_GTK);
@@ -1696,6 +1750,8 @@ shared static this()
 	Linker.link(gtk_gl_area_get_type, "gtk_gl_area_get_type", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_new, "gtk_gl_area_new", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_attach_buffers, "gtk_gl_area_attach_buffers", LIBRARY_GTK);
+	Linker.link(gtk_gl_area_get_allowed_apis, "gtk_gl_area_get_allowed_apis", LIBRARY_GTK);
+	Linker.link(gtk_gl_area_get_api, "gtk_gl_area_get_api", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_get_auto_render, "gtk_gl_area_get_auto_render", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_get_context, "gtk_gl_area_get_context", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_get_error, "gtk_gl_area_get_error", LIBRARY_GTK);
@@ -1705,6 +1761,7 @@ shared static this()
 	Linker.link(gtk_gl_area_get_use_es, "gtk_gl_area_get_use_es", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_make_current, "gtk_gl_area_make_current", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_queue_render, "gtk_gl_area_queue_render", LIBRARY_GTK);
+	Linker.link(gtk_gl_area_set_allowed_apis, "gtk_gl_area_set_allowed_apis", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_set_auto_render, "gtk_gl_area_set_auto_render", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_set_error, "gtk_gl_area_set_error", LIBRARY_GTK);
 	Linker.link(gtk_gl_area_set_has_depth_buffer, "gtk_gl_area_set_has_depth_buffer", LIBRARY_GTK);
@@ -1866,12 +1923,15 @@ shared static this()
 	Linker.link(gtk_grid_view_get_min_columns, "gtk_grid_view_get_min_columns", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_get_model, "gtk_grid_view_get_model", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_get_single_click_activate, "gtk_grid_view_get_single_click_activate", LIBRARY_GTK);
+	Linker.link(gtk_grid_view_get_tab_behavior, "gtk_grid_view_get_tab_behavior", LIBRARY_GTK);
+	Linker.link(gtk_grid_view_scroll_to, "gtk_grid_view_scroll_to", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_enable_rubberband, "gtk_grid_view_set_enable_rubberband", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_factory, "gtk_grid_view_set_factory", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_max_columns, "gtk_grid_view_set_max_columns", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_min_columns, "gtk_grid_view_set_min_columns", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_model, "gtk_grid_view_set_model", LIBRARY_GTK);
 	Linker.link(gtk_grid_view_set_single_click_activate, "gtk_grid_view_set_single_click_activate", LIBRARY_GTK);
+	Linker.link(gtk_grid_view_set_tab_behavior, "gtk_grid_view_set_tab_behavior", LIBRARY_GTK);
 
 	// gtk.HeaderBar
 
@@ -2221,6 +2281,7 @@ shared static this()
 	Linker.link(gtk_list_box_invalidate_sort, "gtk_list_box_invalidate_sort", LIBRARY_GTK);
 	Linker.link(gtk_list_box_prepend, "gtk_list_box_prepend", LIBRARY_GTK);
 	Linker.link(gtk_list_box_remove, "gtk_list_box_remove", LIBRARY_GTK);
+	Linker.link(gtk_list_box_remove_all, "gtk_list_box_remove_all", LIBRARY_GTK);
 	Linker.link(gtk_list_box_select_all, "gtk_list_box_select_all", LIBRARY_GTK);
 	Linker.link(gtk_list_box_select_row, "gtk_list_box_select_row", LIBRARY_GTK);
 	Linker.link(gtk_list_box_selected_foreach, "gtk_list_box_selected_foreach", LIBRARY_GTK);
@@ -2251,17 +2312,33 @@ shared static this()
 	Linker.link(gtk_list_box_row_set_header, "gtk_list_box_row_set_header", LIBRARY_GTK);
 	Linker.link(gtk_list_box_row_set_selectable, "gtk_list_box_row_set_selectable", LIBRARY_GTK);
 
+	// gtk.ListHeader
+
+	Linker.link(gtk_list_header_get_type, "gtk_list_header_get_type", LIBRARY_GTK);
+	Linker.link(gtk_list_header_get_child, "gtk_list_header_get_child", LIBRARY_GTK);
+	Linker.link(gtk_list_header_get_end, "gtk_list_header_get_end", LIBRARY_GTK);
+	Linker.link(gtk_list_header_get_item, "gtk_list_header_get_item", LIBRARY_GTK);
+	Linker.link(gtk_list_header_get_n_items, "gtk_list_header_get_n_items", LIBRARY_GTK);
+	Linker.link(gtk_list_header_get_start, "gtk_list_header_get_start", LIBRARY_GTK);
+	Linker.link(gtk_list_header_set_child, "gtk_list_header_set_child", LIBRARY_GTK);
+
 	// gtk.ListItem
 
 	Linker.link(gtk_list_item_get_type, "gtk_list_item_get_type", LIBRARY_GTK);
+	Linker.link(gtk_list_item_get_accessible_description, "gtk_list_item_get_accessible_description", LIBRARY_GTK);
+	Linker.link(gtk_list_item_get_accessible_label, "gtk_list_item_get_accessible_label", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_activatable, "gtk_list_item_get_activatable", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_child, "gtk_list_item_get_child", LIBRARY_GTK);
+	Linker.link(gtk_list_item_get_focusable, "gtk_list_item_get_focusable", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_item, "gtk_list_item_get_item", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_position, "gtk_list_item_get_position", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_selectable, "gtk_list_item_get_selectable", LIBRARY_GTK);
 	Linker.link(gtk_list_item_get_selected, "gtk_list_item_get_selected", LIBRARY_GTK);
+	Linker.link(gtk_list_item_set_accessible_description, "gtk_list_item_set_accessible_description", LIBRARY_GTK);
+	Linker.link(gtk_list_item_set_accessible_label, "gtk_list_item_set_accessible_label", LIBRARY_GTK);
 	Linker.link(gtk_list_item_set_activatable, "gtk_list_item_set_activatable", LIBRARY_GTK);
 	Linker.link(gtk_list_item_set_child, "gtk_list_item_set_child", LIBRARY_GTK);
+	Linker.link(gtk_list_item_set_focusable, "gtk_list_item_set_focusable", LIBRARY_GTK);
 	Linker.link(gtk_list_item_set_selectable, "gtk_list_item_set_selectable", LIBRARY_GTK);
 
 	// gtk.ListItemFactory
@@ -2297,14 +2374,19 @@ shared static this()
 	Linker.link(gtk_list_view_new, "gtk_list_view_new", LIBRARY_GTK);
 	Linker.link(gtk_list_view_get_enable_rubberband, "gtk_list_view_get_enable_rubberband", LIBRARY_GTK);
 	Linker.link(gtk_list_view_get_factory, "gtk_list_view_get_factory", LIBRARY_GTK);
+	Linker.link(gtk_list_view_get_header_factory, "gtk_list_view_get_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_list_view_get_model, "gtk_list_view_get_model", LIBRARY_GTK);
 	Linker.link(gtk_list_view_get_show_separators, "gtk_list_view_get_show_separators", LIBRARY_GTK);
 	Linker.link(gtk_list_view_get_single_click_activate, "gtk_list_view_get_single_click_activate", LIBRARY_GTK);
+	Linker.link(gtk_list_view_get_tab_behavior, "gtk_list_view_get_tab_behavior", LIBRARY_GTK);
+	Linker.link(gtk_list_view_scroll_to, "gtk_list_view_scroll_to", LIBRARY_GTK);
 	Linker.link(gtk_list_view_set_enable_rubberband, "gtk_list_view_set_enable_rubberband", LIBRARY_GTK);
 	Linker.link(gtk_list_view_set_factory, "gtk_list_view_set_factory", LIBRARY_GTK);
+	Linker.link(gtk_list_view_set_header_factory, "gtk_list_view_set_header_factory", LIBRARY_GTK);
 	Linker.link(gtk_list_view_set_model, "gtk_list_view_set_model", LIBRARY_GTK);
 	Linker.link(gtk_list_view_set_show_separators, "gtk_list_view_set_show_separators", LIBRARY_GTK);
 	Linker.link(gtk_list_view_set_single_click_activate, "gtk_list_view_set_single_click_activate", LIBRARY_GTK);
+	Linker.link(gtk_list_view_set_tab_behavior, "gtk_list_view_set_tab_behavior", LIBRARY_GTK);
 
 	// gtk.LockButton
 
@@ -2389,6 +2471,7 @@ shared static this()
 	Linker.link(gtk_menu_button_new, "gtk_menu_button_new", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_get_active, "gtk_menu_button_get_active", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_get_always_show_arrow, "gtk_menu_button_get_always_show_arrow", LIBRARY_GTK);
+	Linker.link(gtk_menu_button_get_can_shrink, "gtk_menu_button_get_can_shrink", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_get_child, "gtk_menu_button_get_child", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_get_direction, "gtk_menu_button_get_direction", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_get_has_frame, "gtk_menu_button_get_has_frame", LIBRARY_GTK);
@@ -2402,6 +2485,7 @@ shared static this()
 	Linker.link(gtk_menu_button_popup, "gtk_menu_button_popup", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_set_active, "gtk_menu_button_set_active", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_set_always_show_arrow, "gtk_menu_button_set_always_show_arrow", LIBRARY_GTK);
+	Linker.link(gtk_menu_button_set_can_shrink, "gtk_menu_button_set_can_shrink", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_set_child, "gtk_menu_button_set_child", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_set_create_popup_func, "gtk_menu_button_set_create_popup_func", LIBRARY_GTK);
 	Linker.link(gtk_menu_button_set_direction, "gtk_menu_button_set_direction", LIBRARY_GTK);
@@ -3173,6 +3257,17 @@ shared static this()
 	Linker.link(gtk_scale_button_set_icons, "gtk_scale_button_set_icons", LIBRARY_GTK);
 	Linker.link(gtk_scale_button_set_value, "gtk_scale_button_set_value", LIBRARY_GTK);
 
+	// gtk.ScrollInfo
+
+	Linker.link(gtk_scroll_info_get_type, "gtk_scroll_info_get_type", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_new, "gtk_scroll_info_new", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_get_enable_horizontal, "gtk_scroll_info_get_enable_horizontal", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_get_enable_vertical, "gtk_scroll_info_get_enable_vertical", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_ref, "gtk_scroll_info_ref", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_set_enable_horizontal, "gtk_scroll_info_set_enable_horizontal", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_set_enable_vertical, "gtk_scroll_info_set_enable_vertical", LIBRARY_GTK);
+	Linker.link(gtk_scroll_info_unref, "gtk_scroll_info_unref", LIBRARY_GTK);
+
 	// gtk.Scrollable
 
 	Linker.link(gtk_scrollable_get_type, "gtk_scrollable_get_type", LIBRARY_GTK);
@@ -3253,6 +3348,12 @@ shared static this()
 	Linker.link(gtk_search_entry_set_key_capture_widget, "gtk_search_entry_set_key_capture_widget", LIBRARY_GTK);
 	Linker.link(gtk_search_entry_set_placeholder_text, "gtk_search_entry_set_placeholder_text", LIBRARY_GTK);
 	Linker.link(gtk_search_entry_set_search_delay, "gtk_search_entry_set_search_delay", LIBRARY_GTK);
+
+	// gtk.SectionModel
+
+	Linker.link(gtk_section_model_get_type, "gtk_section_model_get_type", LIBRARY_GTK);
+	Linker.link(gtk_section_model_get_section, "gtk_section_model_get_section", LIBRARY_GTK);
+	Linker.link(gtk_section_model_sections_changed, "gtk_section_model_sections_changed", LIBRARY_GTK);
 
 	// gtk.SelectionFilterModel
 
@@ -3468,9 +3569,11 @@ shared static this()
 	Linker.link(gtk_sort_list_model_get_incremental, "gtk_sort_list_model_get_incremental", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_get_model, "gtk_sort_list_model_get_model", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_get_pending, "gtk_sort_list_model_get_pending", LIBRARY_GTK);
+	Linker.link(gtk_sort_list_model_get_section_sorter, "gtk_sort_list_model_get_section_sorter", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_get_sorter, "gtk_sort_list_model_get_sorter", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_set_incremental, "gtk_sort_list_model_set_incremental", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_set_model, "gtk_sort_list_model_set_model", LIBRARY_GTK);
+	Linker.link(gtk_sort_list_model_set_section_sorter, "gtk_sort_list_model_set_section_sorter", LIBRARY_GTK);
 	Linker.link(gtk_sort_list_model_set_sorter, "gtk_sort_list_model_set_sorter", LIBRARY_GTK);
 
 	// gtk.Sorter
@@ -4425,6 +4528,7 @@ shared static this()
 	Linker.link(gtk_viewport_new, "gtk_viewport_new", LIBRARY_GTK);
 	Linker.link(gtk_viewport_get_child, "gtk_viewport_get_child", LIBRARY_GTK);
 	Linker.link(gtk_viewport_get_scroll_to_focus, "gtk_viewport_get_scroll_to_focus", LIBRARY_GTK);
+	Linker.link(gtk_viewport_scroll_to, "gtk_viewport_scroll_to", LIBRARY_GTK);
 	Linker.link(gtk_viewport_set_child, "gtk_viewport_set_child", LIBRARY_GTK);
 	Linker.link(gtk_viewport_set_scroll_to_focus, "gtk_viewport_set_scroll_to_focus", LIBRARY_GTK);
 
@@ -4464,6 +4568,7 @@ shared static this()
 	Linker.link(gtk_widget_get_allocated_width, "gtk_widget_get_allocated_width", LIBRARY_GTK);
 	Linker.link(gtk_widget_get_allocation, "gtk_widget_get_allocation", LIBRARY_GTK);
 	Linker.link(gtk_widget_get_ancestor, "gtk_widget_get_ancestor", LIBRARY_GTK);
+	Linker.link(gtk_widget_get_baseline, "gtk_widget_get_baseline", LIBRARY_GTK);
 	Linker.link(gtk_widget_get_can_focus, "gtk_widget_get_can_focus", LIBRARY_GTK);
 	Linker.link(gtk_widget_get_can_target, "gtk_widget_get_can_target", LIBRARY_GTK);
 	Linker.link(gtk_widget_get_child_visible, "gtk_widget_get_child_visible", LIBRARY_GTK);
@@ -4669,6 +4774,7 @@ shared static this()
 	Linker.link(gtk_window_is_active, "gtk_window_is_active", LIBRARY_GTK);
 	Linker.link(gtk_window_is_fullscreen, "gtk_window_is_fullscreen", LIBRARY_GTK);
 	Linker.link(gtk_window_is_maximized, "gtk_window_is_maximized", LIBRARY_GTK);
+	Linker.link(gtk_window_is_suspended, "gtk_window_is_suspended", LIBRARY_GTK);
 	Linker.link(gtk_window_maximize, "gtk_window_maximize", LIBRARY_GTK);
 	Linker.link(gtk_window_minimize, "gtk_window_minimize", LIBRARY_GTK);
 	Linker.link(gtk_window_present, "gtk_window_present", LIBRARY_GTK);
@@ -5129,6 +5235,7 @@ __gshared extern(C)
 	GType function() c_gtk_box_get_type;
 	GtkWidget* function(GtkOrientation orientation, int spacing) c_gtk_box_new;
 	void function(GtkBox* box, GtkWidget* child) c_gtk_box_append;
+	int function(GtkBox* box) c_gtk_box_get_baseline_child;
 	GtkBaselinePosition function(GtkBox* box) c_gtk_box_get_baseline_position;
 	int function(GtkBox* box) c_gtk_box_get_homogeneous;
 	int function(GtkBox* box) c_gtk_box_get_spacing;
@@ -5136,6 +5243,7 @@ __gshared extern(C)
 	void function(GtkBox* box, GtkWidget* child) c_gtk_box_prepend;
 	void function(GtkBox* box, GtkWidget* child) c_gtk_box_remove;
 	void function(GtkBox* box, GtkWidget* child, GtkWidget* sibling) c_gtk_box_reorder_child_after;
+	void function(GtkBox* box, int child) c_gtk_box_set_baseline_child;
 	void function(GtkBox* box, GtkBaselinePosition position) c_gtk_box_set_baseline_position;
 	void function(GtkBox* box, int homogeneous) c_gtk_box_set_homogeneous;
 	void function(GtkBox* box, int spacing) c_gtk_box_set_spacing;
@@ -5144,9 +5252,11 @@ __gshared extern(C)
 
 	GType function() c_gtk_box_layout_get_type;
 	GtkLayoutManager* function(GtkOrientation orientation) c_gtk_box_layout_new;
+	int function(GtkBoxLayout* boxLayout) c_gtk_box_layout_get_baseline_child;
 	GtkBaselinePosition function(GtkBoxLayout* boxLayout) c_gtk_box_layout_get_baseline_position;
 	int function(GtkBoxLayout* boxLayout) c_gtk_box_layout_get_homogeneous;
 	uint function(GtkBoxLayout* boxLayout) c_gtk_box_layout_get_spacing;
+	void function(GtkBoxLayout* boxLayout, int child) c_gtk_box_layout_set_baseline_child;
 	void function(GtkBoxLayout* boxLayout, GtkBaselinePosition position) c_gtk_box_layout_set_baseline_position;
 	void function(GtkBoxLayout* boxLayout, int homogeneous) c_gtk_box_layout_set_homogeneous;
 	void function(GtkBoxLayout* boxLayout, uint spacing) c_gtk_box_layout_set_spacing;
@@ -5220,11 +5330,13 @@ __gshared extern(C)
 	GtkWidget* function(const(char)* iconName) c_gtk_button_new_from_icon_name;
 	GtkWidget* function(const(char)* label) c_gtk_button_new_with_label;
 	GtkWidget* function(const(char)* label) c_gtk_button_new_with_mnemonic;
+	int function(GtkButton* button) c_gtk_button_get_can_shrink;
 	GtkWidget* function(GtkButton* button) c_gtk_button_get_child;
 	int function(GtkButton* button) c_gtk_button_get_has_frame;
 	const(char)* function(GtkButton* button) c_gtk_button_get_icon_name;
 	const(char)* function(GtkButton* button) c_gtk_button_get_label;
 	int function(GtkButton* button) c_gtk_button_get_use_underline;
+	void function(GtkButton* button, int canShrink) c_gtk_button_set_can_shrink;
 	void function(GtkButton* button, GtkWidget* child) c_gtk_button_set_child;
 	void function(GtkButton* button, int hasFrame) c_gtk_button_set_has_frame;
 	void function(GtkButton* button, const(char)* iconName) c_gtk_button_set_icon_name;
@@ -5458,10 +5570,12 @@ __gshared extern(C)
 	GtkBaselinePosition function(GtkCenterBox* self) c_gtk_center_box_get_baseline_position;
 	GtkWidget* function(GtkCenterBox* self) c_gtk_center_box_get_center_widget;
 	GtkWidget* function(GtkCenterBox* self) c_gtk_center_box_get_end_widget;
+	int function(GtkCenterBox* self) c_gtk_center_box_get_shrink_center_last;
 	GtkWidget* function(GtkCenterBox* self) c_gtk_center_box_get_start_widget;
 	void function(GtkCenterBox* self, GtkBaselinePosition position) c_gtk_center_box_set_baseline_position;
 	void function(GtkCenterBox* self, GtkWidget* child) c_gtk_center_box_set_center_widget;
 	void function(GtkCenterBox* self, GtkWidget* child) c_gtk_center_box_set_end_widget;
+	void function(GtkCenterBox* self, int shrinkCenterLast) c_gtk_center_box_set_shrink_center_last;
 	void function(GtkCenterBox* self, GtkWidget* child) c_gtk_center_box_set_start_widget;
 
 	// gtk.CenterLayout
@@ -5472,11 +5586,13 @@ __gshared extern(C)
 	GtkWidget* function(GtkCenterLayout* self) c_gtk_center_layout_get_center_widget;
 	GtkWidget* function(GtkCenterLayout* self) c_gtk_center_layout_get_end_widget;
 	GtkOrientation function(GtkCenterLayout* self) c_gtk_center_layout_get_orientation;
+	int function(GtkCenterLayout* self) c_gtk_center_layout_get_shrink_center_last;
 	GtkWidget* function(GtkCenterLayout* self) c_gtk_center_layout_get_start_widget;
 	void function(GtkCenterLayout* self, GtkBaselinePosition baselinePosition) c_gtk_center_layout_set_baseline_position;
 	void function(GtkCenterLayout* self, GtkWidget* widget) c_gtk_center_layout_set_center_widget;
 	void function(GtkCenterLayout* self, GtkWidget* widget) c_gtk_center_layout_set_end_widget;
 	void function(GtkCenterLayout* self, GtkOrientation orientation) c_gtk_center_layout_set_orientation;
+	void function(GtkCenterLayout* self, int shrinkCenterLast) c_gtk_center_layout_set_shrink_center_last;
 	void function(GtkCenterLayout* self, GtkWidget* widget) c_gtk_center_layout_set_start_widget;
 
 	// gtk.CheckButton
@@ -5560,21 +5676,39 @@ __gshared extern(C)
 	void function(GtkColumnView* self, GtkColumnViewColumn* column) c_gtk_column_view_append_column;
 	GListModel* function(GtkColumnView* self) c_gtk_column_view_get_columns;
 	int function(GtkColumnView* self) c_gtk_column_view_get_enable_rubberband;
+	GtkListItemFactory* function(GtkColumnView* self) c_gtk_column_view_get_header_factory;
 	GtkSelectionModel* function(GtkColumnView* self) c_gtk_column_view_get_model;
 	int function(GtkColumnView* self) c_gtk_column_view_get_reorderable;
+	GtkListItemFactory* function(GtkColumnView* self) c_gtk_column_view_get_row_factory;
 	int function(GtkColumnView* self) c_gtk_column_view_get_show_column_separators;
 	int function(GtkColumnView* self) c_gtk_column_view_get_show_row_separators;
 	int function(GtkColumnView* self) c_gtk_column_view_get_single_click_activate;
 	GtkSorter* function(GtkColumnView* self) c_gtk_column_view_get_sorter;
+	GtkListTabBehavior function(GtkColumnView* self) c_gtk_column_view_get_tab_behavior;
 	void function(GtkColumnView* self, uint position, GtkColumnViewColumn* column) c_gtk_column_view_insert_column;
 	void function(GtkColumnView* self, GtkColumnViewColumn* column) c_gtk_column_view_remove_column;
+	void function(GtkColumnView* self, uint pos, GtkColumnViewColumn* column, GtkListScrollFlags flags, GtkScrollInfo* scroll) c_gtk_column_view_scroll_to;
 	void function(GtkColumnView* self, int enableRubberband) c_gtk_column_view_set_enable_rubberband;
+	void function(GtkColumnView* self, GtkListItemFactory* factory) c_gtk_column_view_set_header_factory;
 	void function(GtkColumnView* self, GtkSelectionModel* model) c_gtk_column_view_set_model;
 	void function(GtkColumnView* self, int reorderable) c_gtk_column_view_set_reorderable;
+	void function(GtkColumnView* self, GtkListItemFactory* factory) c_gtk_column_view_set_row_factory;
 	void function(GtkColumnView* self, int showColumnSeparators) c_gtk_column_view_set_show_column_separators;
 	void function(GtkColumnView* self, int showRowSeparators) c_gtk_column_view_set_show_row_separators;
 	void function(GtkColumnView* self, int singleClickActivate) c_gtk_column_view_set_single_click_activate;
+	void function(GtkColumnView* self, GtkListTabBehavior tabBehavior) c_gtk_column_view_set_tab_behavior;
 	void function(GtkColumnView* self, GtkColumnViewColumn* column, GtkSortType direction) c_gtk_column_view_sort_by_column;
+
+	// gtk.ColumnViewCell
+
+	GType function() c_gtk_column_view_cell_get_type;
+	GtkWidget* function(GtkColumnViewCell* self) c_gtk_column_view_cell_get_child;
+	int function(GtkColumnViewCell* self) c_gtk_column_view_cell_get_focusable;
+	void* function(GtkColumnViewCell* self) c_gtk_column_view_cell_get_item;
+	uint function(GtkColumnViewCell* self) c_gtk_column_view_cell_get_position;
+	int function(GtkColumnViewCell* self) c_gtk_column_view_cell_get_selected;
+	void function(GtkColumnViewCell* self, GtkWidget* child) c_gtk_column_view_cell_set_child;
+	void function(GtkColumnViewCell* self, int focusable) c_gtk_column_view_cell_set_focusable;
 
 	// gtk.ColumnViewColumn
 
@@ -5599,6 +5733,23 @@ __gshared extern(C)
 	void function(GtkColumnViewColumn* self, GtkSorter* sorter) c_gtk_column_view_column_set_sorter;
 	void function(GtkColumnViewColumn* self, const(char)* title) c_gtk_column_view_column_set_title;
 	void function(GtkColumnViewColumn* self, int visible) c_gtk_column_view_column_set_visible;
+
+	// gtk.ColumnViewRow
+
+	GType function() c_gtk_column_view_row_get_type;
+	const(char)* function(GtkColumnViewRow* self) c_gtk_column_view_row_get_accessible_description;
+	const(char)* function(GtkColumnViewRow* self) c_gtk_column_view_row_get_accessible_label;
+	int function(GtkColumnViewRow* self) c_gtk_column_view_row_get_activatable;
+	int function(GtkColumnViewRow* self) c_gtk_column_view_row_get_focusable;
+	void* function(GtkColumnViewRow* self) c_gtk_column_view_row_get_item;
+	uint function(GtkColumnViewRow* self) c_gtk_column_view_row_get_position;
+	int function(GtkColumnViewRow* self) c_gtk_column_view_row_get_selectable;
+	int function(GtkColumnViewRow* self) c_gtk_column_view_row_get_selected;
+	void function(GtkColumnViewRow* self, const(char)* description) c_gtk_column_view_row_set_accessible_description;
+	void function(GtkColumnViewRow* self, const(char)* label) c_gtk_column_view_row_set_accessible_label;
+	void function(GtkColumnViewRow* self, int activatable) c_gtk_column_view_row_set_activatable;
+	void function(GtkColumnViewRow* self, int focusable) c_gtk_column_view_row_set_focusable;
+	void function(GtkColumnViewRow* self, int selectable) c_gtk_column_view_row_set_selectable;
 
 	// gtk.ColumnViewSorter
 
@@ -5720,10 +5871,12 @@ __gshared extern(C)
 
 	GType function() c_gtk_css_provider_get_type;
 	GtkCssProvider* function() c_gtk_css_provider_new;
+	void function(GtkCssProvider* cssProvider, GBytes* data) c_gtk_css_provider_load_from_bytes;
 	void function(GtkCssProvider* cssProvider, const(char)* data, ptrdiff_t length) c_gtk_css_provider_load_from_data;
 	void function(GtkCssProvider* cssProvider, GFile* file) c_gtk_css_provider_load_from_file;
 	void function(GtkCssProvider* cssProvider, char* path) c_gtk_css_provider_load_from_path;
 	void function(GtkCssProvider* cssProvider, const(char)* resourcePath) c_gtk_css_provider_load_from_resource;
+	void function(GtkCssProvider* cssProvider, const(char)* string_) c_gtk_css_provider_load_from_string;
 	void function(GtkCssProvider* provider, const(char)* name, const(char)* variant) c_gtk_css_provider_load_named;
 	char* function(GtkCssProvider* provider) c_gtk_css_provider_to_string;
 
@@ -5835,16 +5988,20 @@ __gshared extern(C)
 	int function(GtkDropDown* self) c_gtk_drop_down_get_enable_search;
 	GtkExpression* function(GtkDropDown* self) c_gtk_drop_down_get_expression;
 	GtkListItemFactory* function(GtkDropDown* self) c_gtk_drop_down_get_factory;
+	GtkListItemFactory* function(GtkDropDown* self) c_gtk_drop_down_get_header_factory;
 	GtkListItemFactory* function(GtkDropDown* self) c_gtk_drop_down_get_list_factory;
 	GListModel* function(GtkDropDown* self) c_gtk_drop_down_get_model;
+	GtkStringFilterMatchMode function(GtkDropDown* self) c_gtk_drop_down_get_search_match_mode;
 	uint function(GtkDropDown* self) c_gtk_drop_down_get_selected;
 	void* function(GtkDropDown* self) c_gtk_drop_down_get_selected_item;
 	int function(GtkDropDown* self) c_gtk_drop_down_get_show_arrow;
 	void function(GtkDropDown* self, int enableSearch) c_gtk_drop_down_set_enable_search;
 	void function(GtkDropDown* self, GtkExpression* expression) c_gtk_drop_down_set_expression;
 	void function(GtkDropDown* self, GtkListItemFactory* factory) c_gtk_drop_down_set_factory;
+	void function(GtkDropDown* self, GtkListItemFactory* factory) c_gtk_drop_down_set_header_factory;
 	void function(GtkDropDown* self, GtkListItemFactory* factory) c_gtk_drop_down_set_list_factory;
 	void function(GtkDropDown* self, GListModel* model) c_gtk_drop_down_set_model;
+	void function(GtkDropDown* self, GtkStringFilterMatchMode searchMatchMode) c_gtk_drop_down_set_search_match_mode;
 	void function(GtkDropDown* self, uint position) c_gtk_drop_down_set_selected;
 	void function(GtkDropDown* self, int showArrow) c_gtk_drop_down_set_show_arrow;
 
@@ -6219,11 +6376,13 @@ __gshared extern(C)
 
 	GType function() c_gtk_file_launcher_get_type;
 	GtkFileLauncher* function(GFile* file) c_gtk_file_launcher_new;
+	int function(GtkFileLauncher* self) c_gtk_file_launcher_get_always_ask;
 	GFile* function(GtkFileLauncher* self) c_gtk_file_launcher_get_file;
 	void function(GtkFileLauncher* self, GtkWindow* parent, GCancellable* cancellable, GAsyncReadyCallback callback, void* userData) c_gtk_file_launcher_launch;
 	int function(GtkFileLauncher* self, GAsyncResult* result, GError** err) c_gtk_file_launcher_launch_finish;
 	void function(GtkFileLauncher* self, GtkWindow* parent, GCancellable* cancellable, GAsyncReadyCallback callback, void* userData) c_gtk_file_launcher_open_containing_folder;
 	int function(GtkFileLauncher* self, GAsyncResult* result, GError** err) c_gtk_file_launcher_open_containing_folder_finish;
+	void function(GtkFileLauncher* self, int alwaysAsk) c_gtk_file_launcher_set_always_ask;
 	void function(GtkFileLauncher* self, GFile* file) c_gtk_file_launcher_set_file;
 
 	// gtk.Filter
@@ -6296,6 +6455,7 @@ __gshared extern(C)
 	void function(GtkFlowBox* box) c_gtk_flow_box_invalidate_sort;
 	void function(GtkFlowBox* self, GtkWidget* child) c_gtk_flow_box_prepend;
 	void function(GtkFlowBox* box, GtkWidget* widget) c_gtk_flow_box_remove;
+	void function(GtkFlowBox* box) c_gtk_flow_box_remove_all;
 	void function(GtkFlowBox* box) c_gtk_flow_box_select_all;
 	void function(GtkFlowBox* box, GtkFlowBoxChild* child) c_gtk_flow_box_select_child;
 	void function(GtkFlowBox* box, GtkFlowBoxForeachFunc func, void* data) c_gtk_flow_box_selected_foreach;
@@ -6430,6 +6590,8 @@ __gshared extern(C)
 	GType function() c_gtk_gl_area_get_type;
 	GtkWidget* function() c_gtk_gl_area_new;
 	void function(GtkGLArea* area) c_gtk_gl_area_attach_buffers;
+	GdkGLAPI function(GtkGLArea* area) c_gtk_gl_area_get_allowed_apis;
+	GdkGLAPI function(GtkGLArea* area) c_gtk_gl_area_get_api;
 	int function(GtkGLArea* area) c_gtk_gl_area_get_auto_render;
 	GdkGLContext* function(GtkGLArea* area) c_gtk_gl_area_get_context;
 	GError* function(GtkGLArea* area) c_gtk_gl_area_get_error;
@@ -6439,6 +6601,7 @@ __gshared extern(C)
 	int function(GtkGLArea* area) c_gtk_gl_area_get_use_es;
 	void function(GtkGLArea* area) c_gtk_gl_area_make_current;
 	void function(GtkGLArea* area) c_gtk_gl_area_queue_render;
+	void function(GtkGLArea* area, GdkGLAPI apis) c_gtk_gl_area_set_allowed_apis;
 	void function(GtkGLArea* area, int autoRender) c_gtk_gl_area_set_auto_render;
 	void function(GtkGLArea* area, GError* error) c_gtk_gl_area_set_error;
 	void function(GtkGLArea* area, int hasDepthBuffer) c_gtk_gl_area_set_has_depth_buffer;
@@ -6600,12 +6763,15 @@ __gshared extern(C)
 	uint function(GtkGridView* self) c_gtk_grid_view_get_min_columns;
 	GtkSelectionModel* function(GtkGridView* self) c_gtk_grid_view_get_model;
 	int function(GtkGridView* self) c_gtk_grid_view_get_single_click_activate;
+	GtkListTabBehavior function(GtkGridView* self) c_gtk_grid_view_get_tab_behavior;
+	void function(GtkGridView* self, uint pos, GtkListScrollFlags flags, GtkScrollInfo* scroll) c_gtk_grid_view_scroll_to;
 	void function(GtkGridView* self, int enableRubberband) c_gtk_grid_view_set_enable_rubberband;
 	void function(GtkGridView* self, GtkListItemFactory* factory) c_gtk_grid_view_set_factory;
 	void function(GtkGridView* self, uint maxColumns) c_gtk_grid_view_set_max_columns;
 	void function(GtkGridView* self, uint minColumns) c_gtk_grid_view_set_min_columns;
 	void function(GtkGridView* self, GtkSelectionModel* model) c_gtk_grid_view_set_model;
 	void function(GtkGridView* self, int singleClickActivate) c_gtk_grid_view_set_single_click_activate;
+	void function(GtkGridView* self, GtkListTabBehavior tabBehavior) c_gtk_grid_view_set_tab_behavior;
 
 	// gtk.HeaderBar
 
@@ -6955,6 +7121,7 @@ __gshared extern(C)
 	void function(GtkListBox* box) c_gtk_list_box_invalidate_sort;
 	void function(GtkListBox* box, GtkWidget* child) c_gtk_list_box_prepend;
 	void function(GtkListBox* box, GtkWidget* child) c_gtk_list_box_remove;
+	void function(GtkListBox* box) c_gtk_list_box_remove_all;
 	void function(GtkListBox* box) c_gtk_list_box_select_all;
 	void function(GtkListBox* box, GtkListBoxRow* row) c_gtk_list_box_select_row;
 	void function(GtkListBox* box, GtkListBoxForeachFunc func, void* data) c_gtk_list_box_selected_foreach;
@@ -6985,17 +7152,33 @@ __gshared extern(C)
 	void function(GtkListBoxRow* row, GtkWidget* header) c_gtk_list_box_row_set_header;
 	void function(GtkListBoxRow* row, int selectable) c_gtk_list_box_row_set_selectable;
 
+	// gtk.ListHeader
+
+	GType function() c_gtk_list_header_get_type;
+	GtkWidget* function(GtkListHeader* self) c_gtk_list_header_get_child;
+	uint function(GtkListHeader* self) c_gtk_list_header_get_end;
+	void* function(GtkListHeader* self) c_gtk_list_header_get_item;
+	uint function(GtkListHeader* self) c_gtk_list_header_get_n_items;
+	uint function(GtkListHeader* self) c_gtk_list_header_get_start;
+	void function(GtkListHeader* self, GtkWidget* child) c_gtk_list_header_set_child;
+
 	// gtk.ListItem
 
 	GType function() c_gtk_list_item_get_type;
+	const(char)* function(GtkListItem* self) c_gtk_list_item_get_accessible_description;
+	const(char)* function(GtkListItem* self) c_gtk_list_item_get_accessible_label;
 	int function(GtkListItem* self) c_gtk_list_item_get_activatable;
 	GtkWidget* function(GtkListItem* self) c_gtk_list_item_get_child;
+	int function(GtkListItem* self) c_gtk_list_item_get_focusable;
 	void* function(GtkListItem* self) c_gtk_list_item_get_item;
 	uint function(GtkListItem* self) c_gtk_list_item_get_position;
 	int function(GtkListItem* self) c_gtk_list_item_get_selectable;
 	int function(GtkListItem* self) c_gtk_list_item_get_selected;
+	void function(GtkListItem* self, const(char)* description) c_gtk_list_item_set_accessible_description;
+	void function(GtkListItem* self, const(char)* label) c_gtk_list_item_set_accessible_label;
 	void function(GtkListItem* self, int activatable) c_gtk_list_item_set_activatable;
 	void function(GtkListItem* self, GtkWidget* child) c_gtk_list_item_set_child;
+	void function(GtkListItem* self, int focusable) c_gtk_list_item_set_focusable;
 	void function(GtkListItem* self, int selectable) c_gtk_list_item_set_selectable;
 
 	// gtk.ListItemFactory
@@ -7031,14 +7214,19 @@ __gshared extern(C)
 	GtkWidget* function(GtkSelectionModel* model, GtkListItemFactory* factory) c_gtk_list_view_new;
 	int function(GtkListView* self) c_gtk_list_view_get_enable_rubberband;
 	GtkListItemFactory* function(GtkListView* self) c_gtk_list_view_get_factory;
+	GtkListItemFactory* function(GtkListView* self) c_gtk_list_view_get_header_factory;
 	GtkSelectionModel* function(GtkListView* self) c_gtk_list_view_get_model;
 	int function(GtkListView* self) c_gtk_list_view_get_show_separators;
 	int function(GtkListView* self) c_gtk_list_view_get_single_click_activate;
+	GtkListTabBehavior function(GtkListView* self) c_gtk_list_view_get_tab_behavior;
+	void function(GtkListView* self, uint pos, GtkListScrollFlags flags, GtkScrollInfo* scroll) c_gtk_list_view_scroll_to;
 	void function(GtkListView* self, int enableRubberband) c_gtk_list_view_set_enable_rubberband;
 	void function(GtkListView* self, GtkListItemFactory* factory) c_gtk_list_view_set_factory;
+	void function(GtkListView* self, GtkListItemFactory* factory) c_gtk_list_view_set_header_factory;
 	void function(GtkListView* self, GtkSelectionModel* model) c_gtk_list_view_set_model;
 	void function(GtkListView* self, int showSeparators) c_gtk_list_view_set_show_separators;
 	void function(GtkListView* self, int singleClickActivate) c_gtk_list_view_set_single_click_activate;
+	void function(GtkListView* self, GtkListTabBehavior tabBehavior) c_gtk_list_view_set_tab_behavior;
 
 	// gtk.LockButton
 
@@ -7123,6 +7311,7 @@ __gshared extern(C)
 	GtkWidget* function() c_gtk_menu_button_new;
 	int function(GtkMenuButton* menuButton) c_gtk_menu_button_get_active;
 	int function(GtkMenuButton* menuButton) c_gtk_menu_button_get_always_show_arrow;
+	int function(GtkMenuButton* menuButton) c_gtk_menu_button_get_can_shrink;
 	GtkWidget* function(GtkMenuButton* menuButton) c_gtk_menu_button_get_child;
 	GtkArrowType function(GtkMenuButton* menuButton) c_gtk_menu_button_get_direction;
 	int function(GtkMenuButton* menuButton) c_gtk_menu_button_get_has_frame;
@@ -7136,6 +7325,7 @@ __gshared extern(C)
 	void function(GtkMenuButton* menuButton) c_gtk_menu_button_popup;
 	void function(GtkMenuButton* menuButton, int active) c_gtk_menu_button_set_active;
 	void function(GtkMenuButton* menuButton, int alwaysShowArrow) c_gtk_menu_button_set_always_show_arrow;
+	void function(GtkMenuButton* menuButton, int canShrink) c_gtk_menu_button_set_can_shrink;
 	void function(GtkMenuButton* menuButton, GtkWidget* child) c_gtk_menu_button_set_child;
 	void function(GtkMenuButton* menuButton, GtkMenuButtonCreatePopupFunc func, void* userData, GDestroyNotify destroyNotify) c_gtk_menu_button_set_create_popup_func;
 	void function(GtkMenuButton* menuButton, GtkArrowType direction) c_gtk_menu_button_set_direction;
@@ -7907,6 +8097,17 @@ __gshared extern(C)
 	void function(GtkScaleButton* button, char** icons) c_gtk_scale_button_set_icons;
 	void function(GtkScaleButton* button, double value) c_gtk_scale_button_set_value;
 
+	// gtk.ScrollInfo
+
+	GType function() c_gtk_scroll_info_get_type;
+	GtkScrollInfo* function() c_gtk_scroll_info_new;
+	int function(GtkScrollInfo* self) c_gtk_scroll_info_get_enable_horizontal;
+	int function(GtkScrollInfo* self) c_gtk_scroll_info_get_enable_vertical;
+	GtkScrollInfo* function(GtkScrollInfo* self) c_gtk_scroll_info_ref;
+	void function(GtkScrollInfo* self, int horizontal) c_gtk_scroll_info_set_enable_horizontal;
+	void function(GtkScrollInfo* self, int vertical) c_gtk_scroll_info_set_enable_vertical;
+	void function(GtkScrollInfo* self) c_gtk_scroll_info_unref;
+
 	// gtk.Scrollable
 
 	GType function() c_gtk_scrollable_get_type;
@@ -7987,6 +8188,12 @@ __gshared extern(C)
 	void function(GtkSearchEntry* entry, GtkWidget* widget) c_gtk_search_entry_set_key_capture_widget;
 	void function(GtkSearchEntry* entry, const(char)* text) c_gtk_search_entry_set_placeholder_text;
 	void function(GtkSearchEntry* entry, uint delay) c_gtk_search_entry_set_search_delay;
+
+	// gtk.SectionModel
+
+	GType function() c_gtk_section_model_get_type;
+	void function(GtkSectionModel* self, uint position, uint* outStart, uint* outEnd) c_gtk_section_model_get_section;
+	void function(GtkSectionModel* self, uint position, uint nItems) c_gtk_section_model_sections_changed;
 
 	// gtk.SelectionFilterModel
 
@@ -8202,9 +8409,11 @@ __gshared extern(C)
 	int function(GtkSortListModel* self) c_gtk_sort_list_model_get_incremental;
 	GListModel* function(GtkSortListModel* self) c_gtk_sort_list_model_get_model;
 	uint function(GtkSortListModel* self) c_gtk_sort_list_model_get_pending;
+	GtkSorter* function(GtkSortListModel* self) c_gtk_sort_list_model_get_section_sorter;
 	GtkSorter* function(GtkSortListModel* self) c_gtk_sort_list_model_get_sorter;
 	void function(GtkSortListModel* self, int incremental) c_gtk_sort_list_model_set_incremental;
 	void function(GtkSortListModel* self, GListModel* model) c_gtk_sort_list_model_set_model;
+	void function(GtkSortListModel* self, GtkSorter* sorter) c_gtk_sort_list_model_set_section_sorter;
 	void function(GtkSortListModel* self, GtkSorter* sorter) c_gtk_sort_list_model_set_sorter;
 
 	// gtk.Sorter
@@ -9159,6 +9368,7 @@ __gshared extern(C)
 	GtkWidget* function(GtkAdjustment* hadjustment, GtkAdjustment* vadjustment) c_gtk_viewport_new;
 	GtkWidget* function(GtkViewport* viewport) c_gtk_viewport_get_child;
 	int function(GtkViewport* viewport) c_gtk_viewport_get_scroll_to_focus;
+	void function(GtkViewport* viewport, GtkWidget* descendant, GtkScrollInfo* scroll) c_gtk_viewport_scroll_to;
 	void function(GtkViewport* viewport, GtkWidget* child) c_gtk_viewport_set_child;
 	void function(GtkViewport* viewport, int scrollToFocus) c_gtk_viewport_set_scroll_to_focus;
 
@@ -9198,6 +9408,7 @@ __gshared extern(C)
 	int function(GtkWidget* widget) c_gtk_widget_get_allocated_width;
 	void function(GtkWidget* widget, GtkAllocation* allocation) c_gtk_widget_get_allocation;
 	GtkWidget* function(GtkWidget* widget, GType widgetType) c_gtk_widget_get_ancestor;
+	int function(GtkWidget* widget) c_gtk_widget_get_baseline;
 	int function(GtkWidget* widget) c_gtk_widget_get_can_focus;
 	int function(GtkWidget* widget) c_gtk_widget_get_can_target;
 	int function(GtkWidget* widget) c_gtk_widget_get_child_visible;
@@ -9403,6 +9614,7 @@ __gshared extern(C)
 	int function(GtkWindow* window) c_gtk_window_is_active;
 	int function(GtkWindow* window) c_gtk_window_is_fullscreen;
 	int function(GtkWindow* window) c_gtk_window_is_maximized;
+	int function(GtkWindow* window) c_gtk_window_is_suspended;
 	void function(GtkWindow* window) c_gtk_window_maximize;
 	void function(GtkWindow* window) c_gtk_window_minimize;
 	void function(GtkWindow* window) c_gtk_window_present;
@@ -9861,6 +10073,7 @@ alias c_gtk_border_free gtk_border_free;
 alias c_gtk_box_get_type gtk_box_get_type;
 alias c_gtk_box_new gtk_box_new;
 alias c_gtk_box_append gtk_box_append;
+alias c_gtk_box_get_baseline_child gtk_box_get_baseline_child;
 alias c_gtk_box_get_baseline_position gtk_box_get_baseline_position;
 alias c_gtk_box_get_homogeneous gtk_box_get_homogeneous;
 alias c_gtk_box_get_spacing gtk_box_get_spacing;
@@ -9868,6 +10081,7 @@ alias c_gtk_box_insert_child_after gtk_box_insert_child_after;
 alias c_gtk_box_prepend gtk_box_prepend;
 alias c_gtk_box_remove gtk_box_remove;
 alias c_gtk_box_reorder_child_after gtk_box_reorder_child_after;
+alias c_gtk_box_set_baseline_child gtk_box_set_baseline_child;
 alias c_gtk_box_set_baseline_position gtk_box_set_baseline_position;
 alias c_gtk_box_set_homogeneous gtk_box_set_homogeneous;
 alias c_gtk_box_set_spacing gtk_box_set_spacing;
@@ -9876,9 +10090,11 @@ alias c_gtk_box_set_spacing gtk_box_set_spacing;
 
 alias c_gtk_box_layout_get_type gtk_box_layout_get_type;
 alias c_gtk_box_layout_new gtk_box_layout_new;
+alias c_gtk_box_layout_get_baseline_child gtk_box_layout_get_baseline_child;
 alias c_gtk_box_layout_get_baseline_position gtk_box_layout_get_baseline_position;
 alias c_gtk_box_layout_get_homogeneous gtk_box_layout_get_homogeneous;
 alias c_gtk_box_layout_get_spacing gtk_box_layout_get_spacing;
+alias c_gtk_box_layout_set_baseline_child gtk_box_layout_set_baseline_child;
 alias c_gtk_box_layout_set_baseline_position gtk_box_layout_set_baseline_position;
 alias c_gtk_box_layout_set_homogeneous gtk_box_layout_set_homogeneous;
 alias c_gtk_box_layout_set_spacing gtk_box_layout_set_spacing;
@@ -9952,11 +10168,13 @@ alias c_gtk_button_new gtk_button_new;
 alias c_gtk_button_new_from_icon_name gtk_button_new_from_icon_name;
 alias c_gtk_button_new_with_label gtk_button_new_with_label;
 alias c_gtk_button_new_with_mnemonic gtk_button_new_with_mnemonic;
+alias c_gtk_button_get_can_shrink gtk_button_get_can_shrink;
 alias c_gtk_button_get_child gtk_button_get_child;
 alias c_gtk_button_get_has_frame gtk_button_get_has_frame;
 alias c_gtk_button_get_icon_name gtk_button_get_icon_name;
 alias c_gtk_button_get_label gtk_button_get_label;
 alias c_gtk_button_get_use_underline gtk_button_get_use_underline;
+alias c_gtk_button_set_can_shrink gtk_button_set_can_shrink;
 alias c_gtk_button_set_child gtk_button_set_child;
 alias c_gtk_button_set_has_frame gtk_button_set_has_frame;
 alias c_gtk_button_set_icon_name gtk_button_set_icon_name;
@@ -10190,10 +10408,12 @@ alias c_gtk_center_box_new gtk_center_box_new;
 alias c_gtk_center_box_get_baseline_position gtk_center_box_get_baseline_position;
 alias c_gtk_center_box_get_center_widget gtk_center_box_get_center_widget;
 alias c_gtk_center_box_get_end_widget gtk_center_box_get_end_widget;
+alias c_gtk_center_box_get_shrink_center_last gtk_center_box_get_shrink_center_last;
 alias c_gtk_center_box_get_start_widget gtk_center_box_get_start_widget;
 alias c_gtk_center_box_set_baseline_position gtk_center_box_set_baseline_position;
 alias c_gtk_center_box_set_center_widget gtk_center_box_set_center_widget;
 alias c_gtk_center_box_set_end_widget gtk_center_box_set_end_widget;
+alias c_gtk_center_box_set_shrink_center_last gtk_center_box_set_shrink_center_last;
 alias c_gtk_center_box_set_start_widget gtk_center_box_set_start_widget;
 
 // gtk.CenterLayout
@@ -10204,11 +10424,13 @@ alias c_gtk_center_layout_get_baseline_position gtk_center_layout_get_baseline_p
 alias c_gtk_center_layout_get_center_widget gtk_center_layout_get_center_widget;
 alias c_gtk_center_layout_get_end_widget gtk_center_layout_get_end_widget;
 alias c_gtk_center_layout_get_orientation gtk_center_layout_get_orientation;
+alias c_gtk_center_layout_get_shrink_center_last gtk_center_layout_get_shrink_center_last;
 alias c_gtk_center_layout_get_start_widget gtk_center_layout_get_start_widget;
 alias c_gtk_center_layout_set_baseline_position gtk_center_layout_set_baseline_position;
 alias c_gtk_center_layout_set_center_widget gtk_center_layout_set_center_widget;
 alias c_gtk_center_layout_set_end_widget gtk_center_layout_set_end_widget;
 alias c_gtk_center_layout_set_orientation gtk_center_layout_set_orientation;
+alias c_gtk_center_layout_set_shrink_center_last gtk_center_layout_set_shrink_center_last;
 alias c_gtk_center_layout_set_start_widget gtk_center_layout_set_start_widget;
 
 // gtk.CheckButton
@@ -10292,21 +10514,39 @@ alias c_gtk_column_view_new gtk_column_view_new;
 alias c_gtk_column_view_append_column gtk_column_view_append_column;
 alias c_gtk_column_view_get_columns gtk_column_view_get_columns;
 alias c_gtk_column_view_get_enable_rubberband gtk_column_view_get_enable_rubberband;
+alias c_gtk_column_view_get_header_factory gtk_column_view_get_header_factory;
 alias c_gtk_column_view_get_model gtk_column_view_get_model;
 alias c_gtk_column_view_get_reorderable gtk_column_view_get_reorderable;
+alias c_gtk_column_view_get_row_factory gtk_column_view_get_row_factory;
 alias c_gtk_column_view_get_show_column_separators gtk_column_view_get_show_column_separators;
 alias c_gtk_column_view_get_show_row_separators gtk_column_view_get_show_row_separators;
 alias c_gtk_column_view_get_single_click_activate gtk_column_view_get_single_click_activate;
 alias c_gtk_column_view_get_sorter gtk_column_view_get_sorter;
+alias c_gtk_column_view_get_tab_behavior gtk_column_view_get_tab_behavior;
 alias c_gtk_column_view_insert_column gtk_column_view_insert_column;
 alias c_gtk_column_view_remove_column gtk_column_view_remove_column;
+alias c_gtk_column_view_scroll_to gtk_column_view_scroll_to;
 alias c_gtk_column_view_set_enable_rubberband gtk_column_view_set_enable_rubberband;
+alias c_gtk_column_view_set_header_factory gtk_column_view_set_header_factory;
 alias c_gtk_column_view_set_model gtk_column_view_set_model;
 alias c_gtk_column_view_set_reorderable gtk_column_view_set_reorderable;
+alias c_gtk_column_view_set_row_factory gtk_column_view_set_row_factory;
 alias c_gtk_column_view_set_show_column_separators gtk_column_view_set_show_column_separators;
 alias c_gtk_column_view_set_show_row_separators gtk_column_view_set_show_row_separators;
 alias c_gtk_column_view_set_single_click_activate gtk_column_view_set_single_click_activate;
+alias c_gtk_column_view_set_tab_behavior gtk_column_view_set_tab_behavior;
 alias c_gtk_column_view_sort_by_column gtk_column_view_sort_by_column;
+
+// gtk.ColumnViewCell
+
+alias c_gtk_column_view_cell_get_type gtk_column_view_cell_get_type;
+alias c_gtk_column_view_cell_get_child gtk_column_view_cell_get_child;
+alias c_gtk_column_view_cell_get_focusable gtk_column_view_cell_get_focusable;
+alias c_gtk_column_view_cell_get_item gtk_column_view_cell_get_item;
+alias c_gtk_column_view_cell_get_position gtk_column_view_cell_get_position;
+alias c_gtk_column_view_cell_get_selected gtk_column_view_cell_get_selected;
+alias c_gtk_column_view_cell_set_child gtk_column_view_cell_set_child;
+alias c_gtk_column_view_cell_set_focusable gtk_column_view_cell_set_focusable;
 
 // gtk.ColumnViewColumn
 
@@ -10331,6 +10571,23 @@ alias c_gtk_column_view_column_set_resizable gtk_column_view_column_set_resizabl
 alias c_gtk_column_view_column_set_sorter gtk_column_view_column_set_sorter;
 alias c_gtk_column_view_column_set_title gtk_column_view_column_set_title;
 alias c_gtk_column_view_column_set_visible gtk_column_view_column_set_visible;
+
+// gtk.ColumnViewRow
+
+alias c_gtk_column_view_row_get_type gtk_column_view_row_get_type;
+alias c_gtk_column_view_row_get_accessible_description gtk_column_view_row_get_accessible_description;
+alias c_gtk_column_view_row_get_accessible_label gtk_column_view_row_get_accessible_label;
+alias c_gtk_column_view_row_get_activatable gtk_column_view_row_get_activatable;
+alias c_gtk_column_view_row_get_focusable gtk_column_view_row_get_focusable;
+alias c_gtk_column_view_row_get_item gtk_column_view_row_get_item;
+alias c_gtk_column_view_row_get_position gtk_column_view_row_get_position;
+alias c_gtk_column_view_row_get_selectable gtk_column_view_row_get_selectable;
+alias c_gtk_column_view_row_get_selected gtk_column_view_row_get_selected;
+alias c_gtk_column_view_row_set_accessible_description gtk_column_view_row_set_accessible_description;
+alias c_gtk_column_view_row_set_accessible_label gtk_column_view_row_set_accessible_label;
+alias c_gtk_column_view_row_set_activatable gtk_column_view_row_set_activatable;
+alias c_gtk_column_view_row_set_focusable gtk_column_view_row_set_focusable;
+alias c_gtk_column_view_row_set_selectable gtk_column_view_row_set_selectable;
 
 // gtk.ColumnViewSorter
 
@@ -10452,10 +10709,12 @@ alias c_gtk_constraint_target_get_type gtk_constraint_target_get_type;
 
 alias c_gtk_css_provider_get_type gtk_css_provider_get_type;
 alias c_gtk_css_provider_new gtk_css_provider_new;
+alias c_gtk_css_provider_load_from_bytes gtk_css_provider_load_from_bytes;
 alias c_gtk_css_provider_load_from_data gtk_css_provider_load_from_data;
 alias c_gtk_css_provider_load_from_file gtk_css_provider_load_from_file;
 alias c_gtk_css_provider_load_from_path gtk_css_provider_load_from_path;
 alias c_gtk_css_provider_load_from_resource gtk_css_provider_load_from_resource;
+alias c_gtk_css_provider_load_from_string gtk_css_provider_load_from_string;
 alias c_gtk_css_provider_load_named gtk_css_provider_load_named;
 alias c_gtk_css_provider_to_string gtk_css_provider_to_string;
 
@@ -10567,16 +10826,20 @@ alias c_gtk_drop_down_new_from_strings gtk_drop_down_new_from_strings;
 alias c_gtk_drop_down_get_enable_search gtk_drop_down_get_enable_search;
 alias c_gtk_drop_down_get_expression gtk_drop_down_get_expression;
 alias c_gtk_drop_down_get_factory gtk_drop_down_get_factory;
+alias c_gtk_drop_down_get_header_factory gtk_drop_down_get_header_factory;
 alias c_gtk_drop_down_get_list_factory gtk_drop_down_get_list_factory;
 alias c_gtk_drop_down_get_model gtk_drop_down_get_model;
+alias c_gtk_drop_down_get_search_match_mode gtk_drop_down_get_search_match_mode;
 alias c_gtk_drop_down_get_selected gtk_drop_down_get_selected;
 alias c_gtk_drop_down_get_selected_item gtk_drop_down_get_selected_item;
 alias c_gtk_drop_down_get_show_arrow gtk_drop_down_get_show_arrow;
 alias c_gtk_drop_down_set_enable_search gtk_drop_down_set_enable_search;
 alias c_gtk_drop_down_set_expression gtk_drop_down_set_expression;
 alias c_gtk_drop_down_set_factory gtk_drop_down_set_factory;
+alias c_gtk_drop_down_set_header_factory gtk_drop_down_set_header_factory;
 alias c_gtk_drop_down_set_list_factory gtk_drop_down_set_list_factory;
 alias c_gtk_drop_down_set_model gtk_drop_down_set_model;
+alias c_gtk_drop_down_set_search_match_mode gtk_drop_down_set_search_match_mode;
 alias c_gtk_drop_down_set_selected gtk_drop_down_set_selected;
 alias c_gtk_drop_down_set_show_arrow gtk_drop_down_set_show_arrow;
 
@@ -10951,11 +11214,13 @@ alias c_gtk_file_filter_to_gvariant gtk_file_filter_to_gvariant;
 
 alias c_gtk_file_launcher_get_type gtk_file_launcher_get_type;
 alias c_gtk_file_launcher_new gtk_file_launcher_new;
+alias c_gtk_file_launcher_get_always_ask gtk_file_launcher_get_always_ask;
 alias c_gtk_file_launcher_get_file gtk_file_launcher_get_file;
 alias c_gtk_file_launcher_launch gtk_file_launcher_launch;
 alias c_gtk_file_launcher_launch_finish gtk_file_launcher_launch_finish;
 alias c_gtk_file_launcher_open_containing_folder gtk_file_launcher_open_containing_folder;
 alias c_gtk_file_launcher_open_containing_folder_finish gtk_file_launcher_open_containing_folder_finish;
+alias c_gtk_file_launcher_set_always_ask gtk_file_launcher_set_always_ask;
 alias c_gtk_file_launcher_set_file gtk_file_launcher_set_file;
 
 // gtk.Filter
@@ -11028,6 +11293,7 @@ alias c_gtk_flow_box_invalidate_filter gtk_flow_box_invalidate_filter;
 alias c_gtk_flow_box_invalidate_sort gtk_flow_box_invalidate_sort;
 alias c_gtk_flow_box_prepend gtk_flow_box_prepend;
 alias c_gtk_flow_box_remove gtk_flow_box_remove;
+alias c_gtk_flow_box_remove_all gtk_flow_box_remove_all;
 alias c_gtk_flow_box_select_all gtk_flow_box_select_all;
 alias c_gtk_flow_box_select_child gtk_flow_box_select_child;
 alias c_gtk_flow_box_selected_foreach gtk_flow_box_selected_foreach;
@@ -11162,6 +11428,8 @@ alias c_gtk_frame_set_label_widget gtk_frame_set_label_widget;
 alias c_gtk_gl_area_get_type gtk_gl_area_get_type;
 alias c_gtk_gl_area_new gtk_gl_area_new;
 alias c_gtk_gl_area_attach_buffers gtk_gl_area_attach_buffers;
+alias c_gtk_gl_area_get_allowed_apis gtk_gl_area_get_allowed_apis;
+alias c_gtk_gl_area_get_api gtk_gl_area_get_api;
 alias c_gtk_gl_area_get_auto_render gtk_gl_area_get_auto_render;
 alias c_gtk_gl_area_get_context gtk_gl_area_get_context;
 alias c_gtk_gl_area_get_error gtk_gl_area_get_error;
@@ -11171,6 +11439,7 @@ alias c_gtk_gl_area_get_required_version gtk_gl_area_get_required_version;
 alias c_gtk_gl_area_get_use_es gtk_gl_area_get_use_es;
 alias c_gtk_gl_area_make_current gtk_gl_area_make_current;
 alias c_gtk_gl_area_queue_render gtk_gl_area_queue_render;
+alias c_gtk_gl_area_set_allowed_apis gtk_gl_area_set_allowed_apis;
 alias c_gtk_gl_area_set_auto_render gtk_gl_area_set_auto_render;
 alias c_gtk_gl_area_set_error gtk_gl_area_set_error;
 alias c_gtk_gl_area_set_has_depth_buffer gtk_gl_area_set_has_depth_buffer;
@@ -11332,12 +11601,15 @@ alias c_gtk_grid_view_get_max_columns gtk_grid_view_get_max_columns;
 alias c_gtk_grid_view_get_min_columns gtk_grid_view_get_min_columns;
 alias c_gtk_grid_view_get_model gtk_grid_view_get_model;
 alias c_gtk_grid_view_get_single_click_activate gtk_grid_view_get_single_click_activate;
+alias c_gtk_grid_view_get_tab_behavior gtk_grid_view_get_tab_behavior;
+alias c_gtk_grid_view_scroll_to gtk_grid_view_scroll_to;
 alias c_gtk_grid_view_set_enable_rubberband gtk_grid_view_set_enable_rubberband;
 alias c_gtk_grid_view_set_factory gtk_grid_view_set_factory;
 alias c_gtk_grid_view_set_max_columns gtk_grid_view_set_max_columns;
 alias c_gtk_grid_view_set_min_columns gtk_grid_view_set_min_columns;
 alias c_gtk_grid_view_set_model gtk_grid_view_set_model;
 alias c_gtk_grid_view_set_single_click_activate gtk_grid_view_set_single_click_activate;
+alias c_gtk_grid_view_set_tab_behavior gtk_grid_view_set_tab_behavior;
 
 // gtk.HeaderBar
 
@@ -11687,6 +11959,7 @@ alias c_gtk_list_box_invalidate_headers gtk_list_box_invalidate_headers;
 alias c_gtk_list_box_invalidate_sort gtk_list_box_invalidate_sort;
 alias c_gtk_list_box_prepend gtk_list_box_prepend;
 alias c_gtk_list_box_remove gtk_list_box_remove;
+alias c_gtk_list_box_remove_all gtk_list_box_remove_all;
 alias c_gtk_list_box_select_all gtk_list_box_select_all;
 alias c_gtk_list_box_select_row gtk_list_box_select_row;
 alias c_gtk_list_box_selected_foreach gtk_list_box_selected_foreach;
@@ -11717,17 +11990,33 @@ alias c_gtk_list_box_row_set_child gtk_list_box_row_set_child;
 alias c_gtk_list_box_row_set_header gtk_list_box_row_set_header;
 alias c_gtk_list_box_row_set_selectable gtk_list_box_row_set_selectable;
 
+// gtk.ListHeader
+
+alias c_gtk_list_header_get_type gtk_list_header_get_type;
+alias c_gtk_list_header_get_child gtk_list_header_get_child;
+alias c_gtk_list_header_get_end gtk_list_header_get_end;
+alias c_gtk_list_header_get_item gtk_list_header_get_item;
+alias c_gtk_list_header_get_n_items gtk_list_header_get_n_items;
+alias c_gtk_list_header_get_start gtk_list_header_get_start;
+alias c_gtk_list_header_set_child gtk_list_header_set_child;
+
 // gtk.ListItem
 
 alias c_gtk_list_item_get_type gtk_list_item_get_type;
+alias c_gtk_list_item_get_accessible_description gtk_list_item_get_accessible_description;
+alias c_gtk_list_item_get_accessible_label gtk_list_item_get_accessible_label;
 alias c_gtk_list_item_get_activatable gtk_list_item_get_activatable;
 alias c_gtk_list_item_get_child gtk_list_item_get_child;
+alias c_gtk_list_item_get_focusable gtk_list_item_get_focusable;
 alias c_gtk_list_item_get_item gtk_list_item_get_item;
 alias c_gtk_list_item_get_position gtk_list_item_get_position;
 alias c_gtk_list_item_get_selectable gtk_list_item_get_selectable;
 alias c_gtk_list_item_get_selected gtk_list_item_get_selected;
+alias c_gtk_list_item_set_accessible_description gtk_list_item_set_accessible_description;
+alias c_gtk_list_item_set_accessible_label gtk_list_item_set_accessible_label;
 alias c_gtk_list_item_set_activatable gtk_list_item_set_activatable;
 alias c_gtk_list_item_set_child gtk_list_item_set_child;
+alias c_gtk_list_item_set_focusable gtk_list_item_set_focusable;
 alias c_gtk_list_item_set_selectable gtk_list_item_set_selectable;
 
 // gtk.ListItemFactory
@@ -11763,14 +12052,19 @@ alias c_gtk_list_view_get_type gtk_list_view_get_type;
 alias c_gtk_list_view_new gtk_list_view_new;
 alias c_gtk_list_view_get_enable_rubberband gtk_list_view_get_enable_rubberband;
 alias c_gtk_list_view_get_factory gtk_list_view_get_factory;
+alias c_gtk_list_view_get_header_factory gtk_list_view_get_header_factory;
 alias c_gtk_list_view_get_model gtk_list_view_get_model;
 alias c_gtk_list_view_get_show_separators gtk_list_view_get_show_separators;
 alias c_gtk_list_view_get_single_click_activate gtk_list_view_get_single_click_activate;
+alias c_gtk_list_view_get_tab_behavior gtk_list_view_get_tab_behavior;
+alias c_gtk_list_view_scroll_to gtk_list_view_scroll_to;
 alias c_gtk_list_view_set_enable_rubberband gtk_list_view_set_enable_rubberband;
 alias c_gtk_list_view_set_factory gtk_list_view_set_factory;
+alias c_gtk_list_view_set_header_factory gtk_list_view_set_header_factory;
 alias c_gtk_list_view_set_model gtk_list_view_set_model;
 alias c_gtk_list_view_set_show_separators gtk_list_view_set_show_separators;
 alias c_gtk_list_view_set_single_click_activate gtk_list_view_set_single_click_activate;
+alias c_gtk_list_view_set_tab_behavior gtk_list_view_set_tab_behavior;
 
 // gtk.LockButton
 
@@ -11855,6 +12149,7 @@ alias c_gtk_menu_button_get_type gtk_menu_button_get_type;
 alias c_gtk_menu_button_new gtk_menu_button_new;
 alias c_gtk_menu_button_get_active gtk_menu_button_get_active;
 alias c_gtk_menu_button_get_always_show_arrow gtk_menu_button_get_always_show_arrow;
+alias c_gtk_menu_button_get_can_shrink gtk_menu_button_get_can_shrink;
 alias c_gtk_menu_button_get_child gtk_menu_button_get_child;
 alias c_gtk_menu_button_get_direction gtk_menu_button_get_direction;
 alias c_gtk_menu_button_get_has_frame gtk_menu_button_get_has_frame;
@@ -11868,6 +12163,7 @@ alias c_gtk_menu_button_popdown gtk_menu_button_popdown;
 alias c_gtk_menu_button_popup gtk_menu_button_popup;
 alias c_gtk_menu_button_set_active gtk_menu_button_set_active;
 alias c_gtk_menu_button_set_always_show_arrow gtk_menu_button_set_always_show_arrow;
+alias c_gtk_menu_button_set_can_shrink gtk_menu_button_set_can_shrink;
 alias c_gtk_menu_button_set_child gtk_menu_button_set_child;
 alias c_gtk_menu_button_set_create_popup_func gtk_menu_button_set_create_popup_func;
 alias c_gtk_menu_button_set_direction gtk_menu_button_set_direction;
@@ -12639,6 +12935,17 @@ alias c_gtk_scale_button_set_adjustment gtk_scale_button_set_adjustment;
 alias c_gtk_scale_button_set_icons gtk_scale_button_set_icons;
 alias c_gtk_scale_button_set_value gtk_scale_button_set_value;
 
+// gtk.ScrollInfo
+
+alias c_gtk_scroll_info_get_type gtk_scroll_info_get_type;
+alias c_gtk_scroll_info_new gtk_scroll_info_new;
+alias c_gtk_scroll_info_get_enable_horizontal gtk_scroll_info_get_enable_horizontal;
+alias c_gtk_scroll_info_get_enable_vertical gtk_scroll_info_get_enable_vertical;
+alias c_gtk_scroll_info_ref gtk_scroll_info_ref;
+alias c_gtk_scroll_info_set_enable_horizontal gtk_scroll_info_set_enable_horizontal;
+alias c_gtk_scroll_info_set_enable_vertical gtk_scroll_info_set_enable_vertical;
+alias c_gtk_scroll_info_unref gtk_scroll_info_unref;
+
 // gtk.Scrollable
 
 alias c_gtk_scrollable_get_type gtk_scrollable_get_type;
@@ -12719,6 +13026,12 @@ alias c_gtk_search_entry_get_search_delay gtk_search_entry_get_search_delay;
 alias c_gtk_search_entry_set_key_capture_widget gtk_search_entry_set_key_capture_widget;
 alias c_gtk_search_entry_set_placeholder_text gtk_search_entry_set_placeholder_text;
 alias c_gtk_search_entry_set_search_delay gtk_search_entry_set_search_delay;
+
+// gtk.SectionModel
+
+alias c_gtk_section_model_get_type gtk_section_model_get_type;
+alias c_gtk_section_model_get_section gtk_section_model_get_section;
+alias c_gtk_section_model_sections_changed gtk_section_model_sections_changed;
 
 // gtk.SelectionFilterModel
 
@@ -12934,9 +13247,11 @@ alias c_gtk_sort_list_model_new gtk_sort_list_model_new;
 alias c_gtk_sort_list_model_get_incremental gtk_sort_list_model_get_incremental;
 alias c_gtk_sort_list_model_get_model gtk_sort_list_model_get_model;
 alias c_gtk_sort_list_model_get_pending gtk_sort_list_model_get_pending;
+alias c_gtk_sort_list_model_get_section_sorter gtk_sort_list_model_get_section_sorter;
 alias c_gtk_sort_list_model_get_sorter gtk_sort_list_model_get_sorter;
 alias c_gtk_sort_list_model_set_incremental gtk_sort_list_model_set_incremental;
 alias c_gtk_sort_list_model_set_model gtk_sort_list_model_set_model;
+alias c_gtk_sort_list_model_set_section_sorter gtk_sort_list_model_set_section_sorter;
 alias c_gtk_sort_list_model_set_sorter gtk_sort_list_model_set_sorter;
 
 // gtk.Sorter
@@ -13891,6 +14206,7 @@ alias c_gtk_viewport_get_type gtk_viewport_get_type;
 alias c_gtk_viewport_new gtk_viewport_new;
 alias c_gtk_viewport_get_child gtk_viewport_get_child;
 alias c_gtk_viewport_get_scroll_to_focus gtk_viewport_get_scroll_to_focus;
+alias c_gtk_viewport_scroll_to gtk_viewport_scroll_to;
 alias c_gtk_viewport_set_child gtk_viewport_set_child;
 alias c_gtk_viewport_set_scroll_to_focus gtk_viewport_set_scroll_to_focus;
 
@@ -13930,6 +14246,7 @@ alias c_gtk_widget_get_allocated_height gtk_widget_get_allocated_height;
 alias c_gtk_widget_get_allocated_width gtk_widget_get_allocated_width;
 alias c_gtk_widget_get_allocation gtk_widget_get_allocation;
 alias c_gtk_widget_get_ancestor gtk_widget_get_ancestor;
+alias c_gtk_widget_get_baseline gtk_widget_get_baseline;
 alias c_gtk_widget_get_can_focus gtk_widget_get_can_focus;
 alias c_gtk_widget_get_can_target gtk_widget_get_can_target;
 alias c_gtk_widget_get_child_visible gtk_widget_get_child_visible;
@@ -14135,6 +14452,7 @@ alias c_gtk_window_has_group gtk_window_has_group;
 alias c_gtk_window_is_active gtk_window_is_active;
 alias c_gtk_window_is_fullscreen gtk_window_is_fullscreen;
 alias c_gtk_window_is_maximized gtk_window_is_maximized;
+alias c_gtk_window_is_suspended gtk_window_is_suspended;
 alias c_gtk_window_maximize gtk_window_maximize;
 alias c_gtk_window_minimize gtk_window_minimize;
 alias c_gtk_window_present gtk_window_present;

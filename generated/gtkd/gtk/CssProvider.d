@@ -25,6 +25,7 @@
 module gtk.CssProvider;
 
 private import gio.FileIF;
+private import glib.Bytes;
 private import glib.ConstructionException;
 private import glib.ErrorG;
 private import glib.Str;
@@ -133,6 +134,24 @@ public class CssProvider : ObjectG, StyleProviderIF
 	 * This clears any previously loaded information.
 	 *
 	 * Params:
+	 *     data = `GBytes` containing the data to load
+	 *
+	 * Since: 4.12
+	 */
+	public void loadFromBytes(Bytes data)
+	{
+		gtk_css_provider_load_from_bytes(gtkCssProvider, (data is null) ? null : data.getBytesStruct());
+	}
+
+	/**
+	 * Loads @data into @css_provider.
+	 *
+	 * This clears any previously loaded information.
+	 *
+	 * Deprecated: Use [method@Gtk.CssProvider.load_from_string]
+	 * or [method@Gtk.CssProvider.load_from_bytes] instead
+	 *
+	 * Params:
 	 *     data = CSS data to be parsed
 	 *     length = the length of @data in bytes, or -1 for NUL terminated strings
 	 */
@@ -179,6 +198,21 @@ public class CssProvider : ObjectG, StyleProviderIF
 	public void loadFromResource(string resourcePath)
 	{
 		gtk_css_provider_load_from_resource(gtkCssProvider, Str.toStringz(resourcePath));
+	}
+
+	/**
+	 * Loads @string into @css_provider.
+	 *
+	 * This clears any previously loaded information.
+	 *
+	 * Params:
+	 *     string_ = the CSS to load
+	 *
+	 * Since: 4.12
+	 */
+	public void loadFromString(string string_)
+	{
+		gtk_css_provider_load_from_string(gtkCssProvider, Str.toStringz(string_));
 	}
 
 	/**

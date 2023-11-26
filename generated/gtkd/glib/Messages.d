@@ -123,7 +123,7 @@ public struct Messages
 	 * Any messages passed to g_print() will be output via
 	 * the new handler. The default handler outputs
 	 * the encoded message to stdout. By providing your own handler
-	 * you can redirect the output, to a GTK+ widget or a
+	 * you can redirect the output, to a GTK widget or a
 	 * log file for example.
 	 *
 	 * Since 2.76 this functions always returns a valid
@@ -151,7 +151,7 @@ public struct Messages
 	 * Any messages passed to g_printerr() will be output via
 	 * the new handler. The default handler outputs the encoded
 	 * message to stderr. By providing your own handler you can
-	 * redirect the output, to a GTK+ widget or a log file for
+	 * redirect the output, to a GTK widget or a log file for
 	 * example.
 	 *
 	 * Since 2.76 this functions always returns a valid

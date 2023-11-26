@@ -97,14 +97,17 @@ public struct UnixUtils
 	}
 
 	/**
-	 * Creates a #GSource to watch for a particular IO condition on a file
+	 * Creates a #GSource to watch for a particular I/O condition on a file
 	 * descriptor.
 	 *
-	 * The source will never close the fd -- you must do it yourself.
+	 * The source will never close the @fd — you must do it yourself.
+	 *
+	 * Any callback attached to the returned #GSource must have type
+	 * #GUnixFDSourceFunc.
 	 *
 	 * Params:
 	 *     fd = a file descriptor
-	 *     condition = IO conditions to watch for on @fd
+	 *     condition = I/O conditions to watch for on @fd
 	 *
 	 * Returns: the newly created #GSource
 	 *
@@ -125,12 +128,20 @@ public struct UnixUtils
 	/**
 	 * Similar to the UNIX pipe() call, but on modern systems like Linux
 	 * uses the pipe2() system call, which atomically creates a pipe with
-	 * the configured flags. The only supported flag currently is
-	 * %FD_CLOEXEC. If for example you want to configure %O_NONBLOCK, that
-	 * must still be done separately with fcntl().
+	 * the configured flags.
 	 *
-	 * This function does not take %O_CLOEXEC, it takes %FD_CLOEXEC as if
-	 * for fcntl(); these are different on Linux/glibc.
+	 * As of GLib 2.78, the supported flags are `O_CLOEXEC`/`FD_CLOEXEC` (see below)
+	 * and `O_NONBLOCK`. Prior to GLib 2.78, only `FD_CLOEXEC` was supported — if
+	 * you wanted to configure `O_NONBLOCK` then that had to be done separately with
+	 * `fcntl()`.
+	 *
+	 * It is a programmer error to call this function with unsupported flags, and a
+	 * critical warning will be raised.
+	 *
+	 * As of GLib 2.78, it is preferred to pass `O_CLOEXEC` in, rather than
+	 * `FD_CLOEXEC`, as that matches the underlying `pipe()` API more closely. Prior
+	 * to 2.78, only `FD_CLOEXEC` was supported. Support for `FD_CLOEXEC` may be
+	 * deprecated and removed in future.
 	 *
 	 * Params:
 	 *     fds = Array of two integers

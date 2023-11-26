@@ -63,7 +63,7 @@ private import gobject.ObjectG;
  * - g_file_new_tmp_async() to asynchronously create a temporary file.
  * - g_file_new_tmp_dir_async() to asynchronously create a temporary directory.
  * - g_file_parse_name() from a UTF-8 string gotten from g_file_get_parse_name().
- * - g_file_new_build_filename() to create a file from path elements.
+ * - g_file_new_build_filename() or g_file_new_build_filenamev() to create a file from path elements.
  * 
  * One way to think of a #GFile is as an abstraction of a pathname. For
  * normal files the system pathname is what is stored internally, but as
@@ -144,6 +144,33 @@ public interface FileIF{
 	public static GType getType()
 	{
 		return g_file_get_type();
+	}
+
+	/**
+	 * Constructs a #GFile from a vector of elements using the correct
+	 * separator for filenames.
+	 *
+	 * Using this function is equivalent to calling g_build_filenamev(),
+	 * followed by g_file_new_for_path() on the result.
+	 *
+	 * Params:
+	 *     args = %NULL-terminated
+	 *         array of strings containing the path elements.
+	 *
+	 * Returns: a new #GFile
+	 *
+	 * Since: 2.78
+	 */
+	public static FileIF newBuildFilenamev(string[] args)
+	{
+		auto __p = g_file_new_build_filenamev(Str.toStringzArray(args));
+
+		if(__p is null)
+		{
+			return null;
+		}
+
+		return ObjectG.getDObject!(FileIF)(cast(GFile*) __p, true);
 	}
 
 	/**
@@ -491,8 +518,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void appendToAsync(GFileCreateFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -612,11 +639,12 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     progressCallback = function to callback with progress
-	 *         information, or %NULL if progress information is not needed
+	 *     progressCallback = function to callback with progress information, or %NULL if
+	 *         progress information is not needed
 	 *     progressCallbackData = user data to pass to @progress_callback
-	 *     callback = a #GAsyncReadyCallback to call when the request is satisfied
-	 *     userData = the data to pass to callback function
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
+	 *     userData = the data to pass to callback
 	 */
 	public void copyAsync(FileIF destination, GFileCopyFlags flags, int ioPriority, Cancellable cancellable, GFileProgressCallback progressCallback, void* progressCallbackData, GAsyncReadyCallback callback, void* userData);
 
@@ -705,8 +733,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void createAsync(GFileCreateFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -781,8 +809,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22
@@ -903,8 +931,8 @@ public interface FileIF{
 	 *     flags = flags affecting the operation
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied, or %NULL
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void ejectMountable(GMountUnmountFlags flags, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -942,8 +970,8 @@ public interface FileIF{
 	 *         or %NULL to avoid user interaction
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied, or %NULL
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22
@@ -1024,8 +1052,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call when the
-	 *         request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void enumerateChildrenAsync(string attributes, GFileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -1098,8 +1126,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void findEnclosingMountAsync(int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -1394,8 +1422,8 @@ public interface FileIF{
 	 *
 	 * Params:
 	 *     cancellable = a #GCancellable or %NULL
-	 *     callback = a #GAsyncReadyCallback to call when the
-	 *         request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.56
@@ -1885,8 +1913,8 @@ public interface FileIF{
 	 *         or %NULL to avoid user interaction
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied, or %NULL
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void mountMountable(GMountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -1975,12 +2003,10 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     progressCallback = #GFileProgressCallback
-	 *         function for updates
-	 *     progressCallbackData = gpointer to user data for
-	 *         the callback function
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     progressCallback = #GFileProgressCallback function for updates
+	 *     progressCallbackData = gpointer to user data for the callback function
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.72
@@ -2046,8 +2072,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22
@@ -2282,8 +2308,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void queryFilesystemInfoAsync(string attributes, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -2365,8 +2391,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call when the
-	 *         request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void queryInfoAsync(string attributes, GFileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -2468,8 +2494,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void readAsync(int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -2565,8 +2591,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void replaceAsync(string etag, bool makeBackup, GFileCreateFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -2742,8 +2768,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22
@@ -2954,7 +2980,8 @@ public interface FileIF{
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
 	 *     callback = a #GAsyncReadyCallback
-	 *     userData = a #gpointer
+	 *         to call when the request is satisfied
+	 *     userData = the data to pass to callback function
 	 */
 	public void setAttributesAsync(FileInfo info, GFileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
 
@@ -3042,8 +3069,8 @@ public interface FileIF{
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void setDisplayNameAsync(string displayName, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -3228,8 +3255,8 @@ public interface FileIF{
 	 *     flags = flags affecting the operation
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied, or %NULL
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void unmountMountable(GMountUnmountFlags flags, Cancellable cancellable, GAsyncReadyCallback callback, void* userData);
@@ -3270,8 +3297,8 @@ public interface FileIF{
 	 *         or %NULL to avoid user interaction
 	 *     cancellable = optional #GCancellable object,
 	 *         %NULL to ignore
-	 *     callback = a #GAsyncReadyCallback to call
-	 *         when the request is satisfied, or %NULL
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22

@@ -119,7 +119,8 @@ public struct DataList
 	 * Params:
 	 *     datalist = location of a datalist
 	 *     keyId = the #GQuark identifying a data element
-	 *     dupFunc = function to duplicate the old value
+	 *     dupFunc = function to
+	 *         duplicate the old value
 	 *     userData = passed as user_data to @dup_func
 	 *
 	 * Returns: the result of calling @dup_func on the value

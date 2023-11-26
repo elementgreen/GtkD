@@ -229,7 +229,8 @@ public class IOStream : ObjectG
 	 * Params:
 	 *     ioPriority = the io priority of the request
 	 *     cancellable = optional cancellable object
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.22
@@ -370,8 +371,9 @@ public class IOStream : ObjectG
 	 *     flags = a set of #GIOStreamSpliceFlags.
 	 *     ioPriority = the io priority of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = a #GAsyncReadyCallback.
-	 *     userData = user data passed to @callback.
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
+	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.28
 	 */

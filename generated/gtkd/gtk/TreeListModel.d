@@ -68,32 +68,36 @@ public class TreeListModel : ObjectG, ListModelIF
 	mixin ListModelT!(GtkTreeListModel);
 
 
-	/** */
-	public static GType getType()
-	{
-		return gtk_tree_list_model_get_type();
-	}
+	private ListModelIF delegate(ObjectG item) _createDeleg;
 
 	/**
-	 * Creates a new empty `GtkTreeListModel` displaying @root
+	 * Creates a new empty `TreeListModel` displaying @root
 	 * with all rows collapsed.
 	 *
 	 * Params:
 	 *     root = The `GListModel` to use as root
 	 *     passthrough = %TRUE to pass through items from the models
 	 *     autoexpand = %TRUE to set the autoexpand property and expand the @root model
-	 *     createFunc = Function to call to create the `GListModel` for the children
+	 *     createFunc = Delegate to call to create the `GListModel` for the children
 	 *         of an item
-	 *     userData = Data to pass to @create_func
-	 *     userDestroy = Function to call to free @user_data
 	 *
-	 * Returns: a newly created `GtkTreeListModel`.
+	 * Returns: a newly created `TreeListModel`.
 	 *
 	 * Throws: ConstructionException GTK+ fails to create the object.
 	 */
-	public this(ListModelIF root, bool passthrough, bool autoexpand, GtkTreeListModelCreateModelFunc createFunc, void* userData, GDestroyNotify userDestroy)
+	public this(ListModelIF root, bool passthrough, bool autoexpand, ListModelIF delegate(ObjectG item) createDeleg)
 	{
-		auto __p = gtk_tree_list_model_new((root is null) ? null : root.getListModelStruct(), passthrough, autoexpand, createFunc, userData, userDestroy);
+		extern(C) GListModel* createFunc(void* gobj, void* user_data)
+		{
+			auto treeListModel = cast(TreeListModel)user_data;
+			auto item = treeListModel._createDeleg(ObjectG.getDObject!(ObjectG)(cast(GObject*)gobj));
+			return item.getListModelStruct();
+		}
+
+		_createDeleg = createDeleg;
+
+		auto __p = gtk_tree_list_model_new((root is null) ? null : root.getListModelStruct(),
+		cast(int)passthrough, cast(int)autoexpand, &createFunc, cast(void*)this, null);
 
 		if(__p is null)
 		{
@@ -101,6 +105,15 @@ public class TreeListModel : ObjectG, ListModelIF
 		}
 
 		this(cast(GtkTreeListModel*) __p, true);
+	}
+
+	/**
+	 */
+
+	/** */
+	public static GType getType()
+	{
+		return gtk_tree_list_model_get_type();
 	}
 
 	/**

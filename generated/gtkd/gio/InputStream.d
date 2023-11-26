@@ -151,7 +151,8 @@ public class InputStream : ObjectG
 	 * Params:
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional cancellable object
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void closeAsync(int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -314,7 +315,8 @@ public class InputStream : ObjectG
 	 *     buffer = a buffer to read data into (which should be at least count bytes long)
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.44
@@ -393,7 +395,8 @@ public class InputStream : ObjectG
 	 *     ioPriority = the [I/O priority][io-priority]
 	 *         of the request.
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void readAsync(out ubyte[] buffer, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)
@@ -486,7 +489,8 @@ public class InputStream : ObjectG
 	 *     count = the number of bytes that will be read from the stream
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 *
 	 * Since: 2.34
@@ -641,7 +645,8 @@ public class InputStream : ObjectG
 	 *     count = the number of bytes that will be skipped from the stream
 	 *     ioPriority = the [I/O priority][io-priority] of the request
 	 *     cancellable = optional #GCancellable object, %NULL to ignore.
-	 *     callback = callback to call when the request is satisfied
+	 *     callback = a #GAsyncReadyCallback
+	 *         to call when the request is satisfied
 	 *     userData = the data to pass to callback function
 	 */
 	public void skipAsync(size_t count, int ioPriority, Cancellable cancellable, GAsyncReadyCallback callback, void* userData)

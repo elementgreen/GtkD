@@ -475,6 +475,13 @@ public class Snapshot : DGdkSnapshot
 	 * Modifies the colors of an image by applying an affine transformation
 	 * in RGB space.
 	 *
+	 * In particular, the colors will be transformed by applying
+	 *
+	 * pixel = transpose(color_matrix) * pixel + color_offset
+	 *
+	 * for every pixel. The transformation operates on unpremultiplied
+	 * colors, with color components ordered R, G, B, A.
+	 *
 	 * The image is recorded until the next call to [method@Gtk.Snapshot.pop].
 	 *
 	 * Params:
@@ -719,9 +726,10 @@ public class Snapshot : DGdkSnapshot
 
 	/**
 	 * Rotates @@snapshot's coordinate system by @angle degrees in 2D space -
-	 * or in 3D speak, rotates around the Z axis.
+	 * or in 3D speak, rotates around the Z axis. The rotation happens around
+	 * the origin point of (0, 0) in the @snapshot's current coordinate system.
 	 *
-	 * To rotate around other axes, use [method@Gsk.Transform.rotate_3d].
+	 * To rotate around axes other than the Z axis, use [method@Gsk.Transform.rotate_3d].
 	 *
 	 * Params:
 	 *     angle = the rotation angle, in degrees (clockwise)

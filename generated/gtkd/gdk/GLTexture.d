@@ -77,6 +77,9 @@ public class GLTexture : Texture
 	 * which will happen when the GdkTexture object is finalized, or due to
 	 * an explicit call of [method@Gdk.GLTexture.release].
 	 *
+	 * Deprecated: [class@Gdk.GLTextureBuilder] supercedes this function
+	 * and provides extended functionality for creating GL textures.
+	 *
 	 * Params:
 	 *     context = a `GdkGLContext`
 	 *     id = the ID of a texture that was created with @context

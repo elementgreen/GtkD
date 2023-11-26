@@ -200,6 +200,19 @@ public class Button : Widget, ActionableIF
 	}
 
 	/**
+	 * Retrieves whether the button can be smaller than the natural
+	 * size of its contents.
+	 *
+	 * Returns: true if the button can shrink, and false otherwise
+	 *
+	 * Since: 4.12
+	 */
+	public bool getCanShrink()
+	{
+		return gtk_button_get_can_shrink(gtkButton) != 0;
+	}
+
+	/**
 	 * Gets the child widget of @button.
 	 *
 	 * Returns: the child widget of @button
@@ -266,6 +279,24 @@ public class Button : Widget, ActionableIF
 	public bool getUseUnderline()
 	{
 		return gtk_button_get_use_underline(gtkButton) != 0;
+	}
+
+	/**
+	 * Sets whether the button size can be smaller than the natural size of
+	 * its contents.
+	 *
+	 * For text buttons, setting @can_shrink to true will ellipsize the label.
+	 *
+	 * For icons and custom children, this function has no effect.
+	 *
+	 * Params:
+	 *     canShrink = whether the button can shrink
+	 *
+	 * Since: 4.12
+	 */
+	public void setCanShrink(bool canShrink)
+	{
+		gtk_button_set_can_shrink(gtkButton, canShrink);
 	}
 
 	/**

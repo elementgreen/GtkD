@@ -486,8 +486,10 @@ public class PtrArray
 	 * Creates a new #GPtrArray with @data as pointers, @len as length and a
 	 * reference count of 1.
 	 *
-	 * This avoids having to copy such data manually. @data will eventually be
-	 * freed using g_free(), so must have been allocated with a suitable allocator.
+	 * This avoids having to copy such data manually.
+	 * After this call, @data belongs to the #GPtrArray and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * It also sets @element_free_func for freeing each element when the array is
 	 * destroyed either via g_ptr_array_unref(), when g_ptr_array_free() is called
@@ -523,8 +525,10 @@ public class PtrArray
 	 * Creates a new #GPtrArray with @data as pointers, computing the length of it
 	 * and setting the reference count to 1.
 	 *
-	 * This avoids having to copy such data manually. @data will eventually be
-	 * freed using g_free(), so must have been allocated with a suitable allocator.
+	 * This avoids having to copy such data manually.
+	 * After this call, @data belongs to the #GPtrArray and may no longer be
+	 * modified by the caller. The memory of @data has to be dynamically
+	 * allocated and will eventually be freed with g_free().
 	 *
 	 * The length is calculated by iterating through @data until the first %NULL
 	 * element is found.
@@ -771,7 +775,7 @@ public class PtrArray
 	 * take the pointers from the array as arguments, it takes pointers to
 	 * the pointers in the array.
 	 *
-	 * Use g_ptr_array_sort_with_data() if you want to use normal
+	 * Use g_ptr_array_sort_values() if you want to use normal
 	 * #GCompareFuncs, otherwise here is a full example of use:
 	 *
 	 * |[<!-- language="C" -->
@@ -852,7 +856,7 @@ public class PtrArray
 	 * doesn't take the pointers from the array as arguments, it takes
 	 * pointers to the pointers in the array.
 	 *
-	 * Use g_ptr_array_sort_with_data() if you want to use normal
+	 * Use g_ptr_array_sort_values_with_data() if you want to use normal
 	 * #GCompareDataFuncs, otherwise here is a full example of use:
 	 *
 	 * |[<!-- language="C" -->

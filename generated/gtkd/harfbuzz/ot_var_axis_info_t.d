@@ -22,16 +22,28 @@
 // implement new conversion functionalities on the wrap.utils pakage
 
 
-module glib.GLib;
+module harfbuzz.ot_var_axis_info_t;
 
-private import glib.c.functions;
-public  import glib.c.types;
+private import harfbuzz.c.functions;
+public  import harfbuzz.c.types;
 
-
-/** */
-static import glib.Version;
-deprecated("moves to the glib.Version module")
-alias glib.Version.Version Version;
 
 /**
+ * Data type for holding variation-axis values.
+ * 
+ * The minimum, default, and maximum values are in un-normalized, user scales.
+ * 
+ * <note>Note: at present, the only flag defined for @flags is
+ * #HB_OT_VAR_AXIS_FLAG_HIDDEN.</note>
+ *
+ * Since: 2.2.0
  */
+public struct ot_var_axis_info_t
+{
+
+	/** */
+	public static GType getType()
+	{
+		return hb_gobject_ot_var_axis_info_get_type();
+	}
+}

@@ -210,6 +210,8 @@ public class Surface : ObjectG
 	 * pointer to a “nil” surface if @other is already in an error state
 	 * or any other error occurs.
 	 *
+	 * Deprecated: Create a suitable cairo image surface yourself
+	 *
 	 * Params:
 	 *     content = the content for the new surface
 	 *     width = width of the new surface
@@ -408,6 +410,28 @@ public class Surface : ObjectG
 	}
 
 	/**
+	 * Returns the internal scale that maps from surface coordinates
+	 * to the actual device pixels.
+	 *
+	 * When the scale is bigger than 1, the windowing system prefers to get
+	 * buffers with a resolution that is bigger than the surface size (e.g.
+	 * to show the surface on a high-resolution display, or in a magnifier).
+	 *
+	 * Compare with [method@Gdk.Surface.get_scale_factor], which returns the
+	 * next larger integer.
+	 *
+	 * The scale may change during the lifetime of the surface.
+	 *
+	 * Returns: the scale
+	 *
+	 * Since: 4.12
+	 */
+	public double getScale()
+	{
+		return gdk_surface_get_scale(gdkSurface);
+	}
+
+	/**
 	 * Returns the internal scale factor that maps from surface coordinates
 	 * to the actual device pixels.
 	 *
@@ -418,7 +442,7 @@ public class Surface : ObjectG
 	 * pixel-based data the scale value can be used to determine whether to
 	 * use a pixel resource with higher resolution data.
 	 *
-	 * The scale of a surface may change during runtime.
+	 * The scale factor may change during the lifetime of the surface.
 	 *
 	 * Returns: the scale factor
 	 */

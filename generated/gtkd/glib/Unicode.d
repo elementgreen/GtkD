@@ -276,9 +276,9 @@ public struct Unicode
 	 *
 	 * Since: 2.4
 	 */
-	public static bool unicharGetMirrorChar(dchar ch, dchar* mirroredCh)
+	public static bool unicharGetMirrorChar(dchar ch, out dchar mirroredCh)
 	{
-		return g_unichar_get_mirror_char(ch, mirroredCh) != 0;
+		return g_unichar_get_mirror_char(ch, &mirroredCh) != 0;
 	}
 
 	/**
@@ -1444,7 +1444,7 @@ public struct Unicode
 	 * Note that g_utf8_validate() returns %FALSE if @max_len is
 	 * positive and any of the @max_len bytes are nul.
 	 *
-	 * Returns %TRUE if all of @str was valid. Many GLib and GTK+
+	 * Returns %TRUE if all of @str was valid. Many GLib and GTK
 	 * routines require valid UTF-8 as input; so data read from a file
 	 * or the network should be checked with g_utf8_validate() before
 	 * doing anything else with it.

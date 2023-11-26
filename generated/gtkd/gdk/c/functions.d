@@ -286,6 +286,10 @@ shared static this()
 	Linker.link(gdk_drag_surface_get_type, "gdk_drag_surface_get_type", LIBRARY_GDK);
 	Linker.link(gdk_drag_surface_present, "gdk_drag_surface_present", LIBRARY_GDK);
 
+	// gdk.DragSurfaceSize
+
+	Linker.link(gdk_drag_surface_size_set_size, "gdk_drag_surface_size_set_size", LIBRARY_GDK);
+
 	// gdk.DrawContext
 
 	Linker.link(gdk_draw_context_get_type, "gdk_draw_context_get_type", LIBRARY_GDK);
@@ -408,6 +412,30 @@ shared static this()
 	Linker.link(gdk_gl_texture_get_type, "gdk_gl_texture_get_type", LIBRARY_GDK);
 	Linker.link(gdk_gl_texture_new, "gdk_gl_texture_new", LIBRARY_GDK);
 	Linker.link(gdk_gl_texture_release, "gdk_gl_texture_release", LIBRARY_GDK);
+
+	// gdk.GLTextureBuilder
+
+	Linker.link(gdk_gl_texture_builder_get_type, "gdk_gl_texture_builder_get_type", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_new, "gdk_gl_texture_builder_new", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_build, "gdk_gl_texture_builder_build", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_context, "gdk_gl_texture_builder_get_context", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_format, "gdk_gl_texture_builder_get_format", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_has_mipmap, "gdk_gl_texture_builder_get_has_mipmap", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_height, "gdk_gl_texture_builder_get_height", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_id, "gdk_gl_texture_builder_get_id", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_sync, "gdk_gl_texture_builder_get_sync", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_update_region, "gdk_gl_texture_builder_get_update_region", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_update_texture, "gdk_gl_texture_builder_get_update_texture", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_get_width, "gdk_gl_texture_builder_get_width", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_context, "gdk_gl_texture_builder_set_context", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_format, "gdk_gl_texture_builder_set_format", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_has_mipmap, "gdk_gl_texture_builder_set_has_mipmap", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_height, "gdk_gl_texture_builder_set_height", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_id, "gdk_gl_texture_builder_set_id", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_sync, "gdk_gl_texture_builder_set_sync", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_update_region, "gdk_gl_texture_builder_set_update_region", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_update_texture, "gdk_gl_texture_builder_set_update_texture", LIBRARY_GDK);
+	Linker.link(gdk_gl_texture_builder_set_width, "gdk_gl_texture_builder_set_width", LIBRARY_GDK);
 
 	// gdk.GrabBrokenEvent
 
@@ -569,6 +597,7 @@ shared static this()
 	Linker.link(gdk_surface_get_frame_clock, "gdk_surface_get_frame_clock", LIBRARY_GDK);
 	Linker.link(gdk_surface_get_height, "gdk_surface_get_height", LIBRARY_GDK);
 	Linker.link(gdk_surface_get_mapped, "gdk_surface_get_mapped", LIBRARY_GDK);
+	Linker.link(gdk_surface_get_scale, "gdk_surface_get_scale", LIBRARY_GDK);
 	Linker.link(gdk_surface_get_scale_factor, "gdk_surface_get_scale_factor", LIBRARY_GDK);
 	Linker.link(gdk_surface_get_width, "gdk_surface_get_width", LIBRARY_GDK);
 	Linker.link(gdk_surface_hide, "gdk_surface_hide", LIBRARY_GDK);
@@ -927,6 +956,10 @@ __gshared extern(C)
 	GType function() c_gdk_drag_surface_get_type;
 	int function(GdkDragSurface* dragSurface, int width, int height) c_gdk_drag_surface_present;
 
+	// gdk.DragSurfaceSize
+
+	void function(GdkDragSurfaceSize* size, int width, int height) c_gdk_drag_surface_size_set_size;
+
 	// gdk.DrawContext
 
 	GType function() c_gdk_draw_context_get_type;
@@ -1049,6 +1082,30 @@ __gshared extern(C)
 	GType function() c_gdk_gl_texture_get_type;
 	GdkTexture* function(GdkGLContext* context, uint id, int width, int height, GDestroyNotify destroy, void* data) c_gdk_gl_texture_new;
 	void function(GdkGLTexture* self) c_gdk_gl_texture_release;
+
+	// gdk.GLTextureBuilder
+
+	GType function() c_gdk_gl_texture_builder_get_type;
+	GdkGLTextureBuilder* function() c_gdk_gl_texture_builder_new;
+	GdkTexture* function(GdkGLTextureBuilder* self, GDestroyNotify destroy, void* data) c_gdk_gl_texture_builder_build;
+	GdkGLContext* function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_context;
+	GdkMemoryFormat function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_format;
+	int function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_has_mipmap;
+	int function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_height;
+	uint function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_id;
+	void* function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_sync;
+	cairo_region_t* function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_update_region;
+	GdkTexture* function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_update_texture;
+	int function(GdkGLTextureBuilder* self) c_gdk_gl_texture_builder_get_width;
+	void function(GdkGLTextureBuilder* self, GdkGLContext* context) c_gdk_gl_texture_builder_set_context;
+	void function(GdkGLTextureBuilder* self, GdkMemoryFormat format) c_gdk_gl_texture_builder_set_format;
+	void function(GdkGLTextureBuilder* self, int hasMipmap) c_gdk_gl_texture_builder_set_has_mipmap;
+	void function(GdkGLTextureBuilder* self, int height) c_gdk_gl_texture_builder_set_height;
+	void function(GdkGLTextureBuilder* self, uint id) c_gdk_gl_texture_builder_set_id;
+	void function(GdkGLTextureBuilder* self, void* sync) c_gdk_gl_texture_builder_set_sync;
+	void function(GdkGLTextureBuilder* self, cairo_region_t* region) c_gdk_gl_texture_builder_set_update_region;
+	void function(GdkGLTextureBuilder* self, GdkTexture* texture) c_gdk_gl_texture_builder_set_update_texture;
+	void function(GdkGLTextureBuilder* self, int width) c_gdk_gl_texture_builder_set_width;
 
 	// gdk.GrabBrokenEvent
 
@@ -1210,6 +1267,7 @@ __gshared extern(C)
 	GdkFrameClock* function(GdkSurface* surface) c_gdk_surface_get_frame_clock;
 	int function(GdkSurface* surface) c_gdk_surface_get_height;
 	int function(GdkSurface* surface) c_gdk_surface_get_mapped;
+	double function(GdkSurface* surface) c_gdk_surface_get_scale;
 	int function(GdkSurface* surface) c_gdk_surface_get_scale_factor;
 	int function(GdkSurface* surface) c_gdk_surface_get_width;
 	void function(GdkSurface* surface) c_gdk_surface_hide;
@@ -1566,6 +1624,10 @@ alias c_gdk_drag_set_hotspot gdk_drag_set_hotspot;
 alias c_gdk_drag_surface_get_type gdk_drag_surface_get_type;
 alias c_gdk_drag_surface_present gdk_drag_surface_present;
 
+// gdk.DragSurfaceSize
+
+alias c_gdk_drag_surface_size_set_size gdk_drag_surface_size_set_size;
+
 // gdk.DrawContext
 
 alias c_gdk_draw_context_get_type gdk_draw_context_get_type;
@@ -1688,6 +1750,30 @@ alias c_gdk_gl_context_set_use_es gdk_gl_context_set_use_es;
 alias c_gdk_gl_texture_get_type gdk_gl_texture_get_type;
 alias c_gdk_gl_texture_new gdk_gl_texture_new;
 alias c_gdk_gl_texture_release gdk_gl_texture_release;
+
+// gdk.GLTextureBuilder
+
+alias c_gdk_gl_texture_builder_get_type gdk_gl_texture_builder_get_type;
+alias c_gdk_gl_texture_builder_new gdk_gl_texture_builder_new;
+alias c_gdk_gl_texture_builder_build gdk_gl_texture_builder_build;
+alias c_gdk_gl_texture_builder_get_context gdk_gl_texture_builder_get_context;
+alias c_gdk_gl_texture_builder_get_format gdk_gl_texture_builder_get_format;
+alias c_gdk_gl_texture_builder_get_has_mipmap gdk_gl_texture_builder_get_has_mipmap;
+alias c_gdk_gl_texture_builder_get_height gdk_gl_texture_builder_get_height;
+alias c_gdk_gl_texture_builder_get_id gdk_gl_texture_builder_get_id;
+alias c_gdk_gl_texture_builder_get_sync gdk_gl_texture_builder_get_sync;
+alias c_gdk_gl_texture_builder_get_update_region gdk_gl_texture_builder_get_update_region;
+alias c_gdk_gl_texture_builder_get_update_texture gdk_gl_texture_builder_get_update_texture;
+alias c_gdk_gl_texture_builder_get_width gdk_gl_texture_builder_get_width;
+alias c_gdk_gl_texture_builder_set_context gdk_gl_texture_builder_set_context;
+alias c_gdk_gl_texture_builder_set_format gdk_gl_texture_builder_set_format;
+alias c_gdk_gl_texture_builder_set_has_mipmap gdk_gl_texture_builder_set_has_mipmap;
+alias c_gdk_gl_texture_builder_set_height gdk_gl_texture_builder_set_height;
+alias c_gdk_gl_texture_builder_set_id gdk_gl_texture_builder_set_id;
+alias c_gdk_gl_texture_builder_set_sync gdk_gl_texture_builder_set_sync;
+alias c_gdk_gl_texture_builder_set_update_region gdk_gl_texture_builder_set_update_region;
+alias c_gdk_gl_texture_builder_set_update_texture gdk_gl_texture_builder_set_update_texture;
+alias c_gdk_gl_texture_builder_set_width gdk_gl_texture_builder_set_width;
 
 // gdk.GrabBrokenEvent
 
@@ -1849,6 +1935,7 @@ alias c_gdk_surface_get_display gdk_surface_get_display;
 alias c_gdk_surface_get_frame_clock gdk_surface_get_frame_clock;
 alias c_gdk_surface_get_height gdk_surface_get_height;
 alias c_gdk_surface_get_mapped gdk_surface_get_mapped;
+alias c_gdk_surface_get_scale gdk_surface_get_scale;
 alias c_gdk_surface_get_scale_factor gdk_surface_get_scale_factor;
 alias c_gdk_surface_get_width gdk_surface_get_width;
 alias c_gdk_surface_hide gdk_surface_hide;

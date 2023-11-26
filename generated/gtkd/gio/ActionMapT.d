@@ -162,4 +162,39 @@ public template ActionMapT(TStruct)
 	{
 		g_action_map_remove_action(getActionMapStruct(), Str.toStringz(actionName));
 	}
+
+	/**
+	 * Remove actions from a #GActionMap. This is meant as the reverse of
+	 * g_action_map_add_action_entries().
+	 *
+	 *
+	 * |[<!-- language="C" -->
+	 * static const GActionEntry entries[] = {
+	 * { "quit",         activate_quit              },
+	 * { "print-string", activate_print_string, "s" }
+	 * };
+	 *
+	 * void
+	 * add_actions (GActionMap *map)
+	 * {
+	 * g_action_map_add_action_entries (map, entries, G_N_ELEMENTS (entries), NULL);
+	 * }
+	 *
+	 * void
+	 * remove_actions (GActionMap *map)
+	 * {
+	 * g_action_map_remove_action_entries (map, entries, G_N_ELEMENTS (entries));
+	 * }
+	 * ]|
+	 *
+	 * Params:
+	 *     entries = a pointer to
+	 *         the first item in an array of #GActionEntry structs
+	 *
+	 * Since: 2.78
+	 */
+	public void removeActionEntries(GActionEntry[] entries)
+	{
+		g_action_map_remove_action_entries(getActionMapStruct(), entries.ptr, cast(int)entries.length);
+	}
 }

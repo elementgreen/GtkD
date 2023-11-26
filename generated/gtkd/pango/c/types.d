@@ -2638,17 +2638,17 @@ alias PANGO_VERSION_MAJOR = VERSION_MAJOR;
 /**
  * The micro component of the version of Pango available at compile-time.
  */
-enum VERSION_MICRO = 12;
+enum VERSION_MICRO = 0;
 alias PANGO_VERSION_MICRO = VERSION_MICRO;
 
 /**
  * The minor component of the version of Pango available at compile-time.
  */
-enum VERSION_MINOR = 50;
+enum VERSION_MINOR = 51;
 alias PANGO_VERSION_MINOR = VERSION_MINOR;
 
 /**
  * A string literal containing the version of Pango available at compile-time.
  */
-enum VERSION_STRING = "1.50.12";
+enum VERSION_STRING = "1.51.0";
 alias PANGO_VERSION_STRING = VERSION_STRING;

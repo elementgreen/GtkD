@@ -210,6 +210,34 @@ public class GLArea : Widget
 	}
 
 	/**
+	 * Gets the allowed APIs.
+	 *
+	 * See [method@Gtk.GLArea.set_allowed_apis].
+	 *
+	 * Returns: the allowed APIs
+	 *
+	 * Since: 4.12
+	 */
+	public GdkGLAPI getAllowedApis()
+	{
+		return gtk_gl_area_get_allowed_apis(gtkGLArea);
+	}
+
+	/**
+	 * Gets the API that is currently in use.
+	 *
+	 * If the GL area has not been realized yet, 0 is returned.
+	 *
+	 * Returns: the currently used API
+	 *
+	 * Since: 4.12
+	 */
+	public GdkGLAPI getApi()
+	{
+		return gtk_gl_area_get_api(gtkGLArea);
+	}
+
+	/**
 	 * Returns whether the area is in auto render mode or not.
 	 *
 	 * Returns: %TRUE if the @area is auto rendering, %FALSE otherwise
@@ -292,6 +320,8 @@ public class GLArea : Widget
 	 *
 	 * See [method@Gtk.GLArea.set_use_es].
 	 *
+	 * Deprecated: Use [method@Gtk.GLArea.get_api]
+	 *
 	 * Returns: %TRUE if the `GtkGLArea` should create an OpenGL ES context
 	 *     and %FALSE otherwise
 	 */
@@ -327,6 +357,24 @@ public class GLArea : Widget
 	public void queueRender()
 	{
 		gtk_gl_area_queue_render(gtkGLArea);
+	}
+
+	/**
+	 * Sets the allowed APIs to create a context with.
+	 *
+	 * You should check [property@Gtk.GLArea:api] before drawing
+	 * with either API.
+	 *
+	 * By default, all APIs are allowed.
+	 *
+	 * Params:
+	 *     apis = the allowed APIs
+	 *
+	 * Since: 4.12
+	 */
+	public void setAllowedApis(GdkGLAPI apis)
+	{
+		gtk_gl_area_set_allowed_apis(gtkGLArea, apis);
 	}
 
 	/**
@@ -415,6 +463,8 @@ public class GLArea : Widget
 	 *
 	 * You should check the capabilities of the `GdkGLContext` before drawing
 	 * with either API.
+	 *
+	 * Deprecated: Use [method@Gtk.GLArea.set_allowed_apis]
 	 *
 	 * Params:
 	 *     useEs = whether to use OpenGL or OpenGL ES

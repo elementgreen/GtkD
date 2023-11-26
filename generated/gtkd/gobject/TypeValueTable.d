@@ -24,8 +24,12 @@
 
 module gobject.TypeValueTable;
 
+private import glib.Memory;
+private import glib.Str;
+private import glib.c.functions;
 private import gobject.c.functions;
 public  import gobject.c.types;
+private import gtkd.Loader;
 
 
 /**

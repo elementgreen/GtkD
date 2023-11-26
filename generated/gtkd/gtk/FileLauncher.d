@@ -112,6 +112,18 @@ public class FileLauncher : ObjectG
 	}
 
 	/**
+	 * Returns whether to ask the user to choose an app for opening the file.
+	 *
+	 * Returns: `TRUE` if always asking for app
+	 *
+	 * Since: 4.12
+	 */
+	public bool getAlwaysAsk()
+	{
+		return gtk_file_launcher_get_always_ask(gtkFileLauncher) != 0;
+	}
+
+	/**
 	 * Gets the file that will be opened.
 	 *
 	 * Returns: the file
@@ -229,6 +241,20 @@ public class FileLauncher : ObjectG
 		}
 
 		return __p;
+	}
+
+	/**
+	 * Sets whether to awlays ask the user to choose an app for opening the file.
+	 * If `FALSE`, the file might be opened with a default app or the previous choice.
+	 *
+	 * Params:
+	 *     alwaysAsk = a `gboolean`
+	 *
+	 * Since: 4.12
+	 */
+	public void setAlwaysAsk(bool alwaysAsk)
+	{
+		gtk_file_launcher_set_always_ask(gtkFileLauncher, alwaysAsk);
 	}
 
 	/**

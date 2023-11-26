@@ -2626,7 +2626,7 @@ alias GTraverseType TraverseType;
  * Since new unicode versions may add new types here, applications should be ready
  * to handle unknown values. They may be regarded as %G_UNICODE_BREAK_UNKNOWN.
  *
- * See [Unicode Line Breaking Algorithm](http://www.unicode.org/unicode/reports/tr14/).
+ * See [Unicode Line Breaking Algorithm](https://www.unicode.org/reports/tr14/).
  */
 public enum GUnicodeBreakType
 {
@@ -5328,7 +5328,7 @@ public alias extern(C) void function(GError* error) GErrorInitFunc;
 /**
  * Declares a type of function which takes an arbitrary
  * data pointer argument and has no return value. It is
- * not currently used in GLib or GTK+.
+ * not currently used in GLib or GTK.
  *
  * Params:
  *     data = a data pointer
@@ -5955,6 +5955,29 @@ enum ASCII_DTOSTR_BUF_SIZE = 39;
 alias G_ASCII_DTOSTR_BUF_SIZE = ASCII_DTOSTR_BUF_SIZE;
 
 /**
+ * Evaluates to the initial reference count for `gatomicrefcount`.
+ *
+ * This macro is useful for initializing `gatomicrefcount` fields inside
+ * structures, for instance:
+ *
+ * |[<!-- language="C" -->
+ * typedef struct {
+ * gatomicrefcount ref_count;
+ * char *name;
+ * char *address;
+ * } Person;
+ *
+ * static const Person default_person = {
+ * .ref_count = G_ATOMIC_REF_COUNT_INIT,
+ * .name = "Default name",
+ * .address = "Default address",
+ * };
+ * ]|
+ */
+enum ATOMIC_REF_COUNT_INIT = 1;
+alias G_ATOMIC_REF_COUNT_INIT = ATOMIC_REF_COUNT_INIT;
+
+/**
  * Specifies one of the possible types of byte order.
  * See %G_BYTE_ORDER.
  */
@@ -6529,7 +6552,7 @@ alias G_LITTLE_ENDIAN = LITTLE_ENDIAN;
  * not advisable, as it cannot be filtered against using the `G_MESSAGES_DEBUG`
  * environment variable.
  *
- * For example, GTK+ uses this in its `Makefile.am`:
+ * For example, GTK uses this in its `Makefile.am`:
  * |[
  * AM_CPPFLAGS = -DG_LOG_DOMAIN=\"Gtk\"
  * ]|
@@ -6677,7 +6700,7 @@ alias G_MININT8 = MININT8;
  * application compile time, rather than from the library
  * linked against at application run time.
  */
-enum MINOR_VERSION = 76;
+enum MINOR_VERSION = 78;
 alias GLIB_MINOR_VERSION = MINOR_VERSION;
 
 enum MODULE_SUFFIX = "so";
@@ -6741,7 +6764,7 @@ alias G_PRIORITY_DEFAULT_IDLE = PRIORITY_DEFAULT_IDLE;
 /**
  * Use this for high priority event sources.
  *
- * It is not used within GLib or GTK+.
+ * It is not used within GLib or GTK.
  */
 enum PRIORITY_HIGH = -100;
 alias G_PRIORITY_HIGH = PRIORITY_HIGH;
@@ -6749,7 +6772,7 @@ alias G_PRIORITY_HIGH = PRIORITY_HIGH;
 /**
  * Use this for high priority idle functions.
  *
- * GTK+ uses %G_PRIORITY_HIGH_IDLE + 10 for resizing operations,
+ * GTK uses %G_PRIORITY_HIGH_IDLE + 10 for resizing operations,
  * and %G_PRIORITY_HIGH_IDLE + 20 for redrawing operations. (This is
  * done to ensure that any pending resizes are processed before any
  * pending redraws, so that widgets are not redrawn twice unnecessarily.)
@@ -6760,10 +6783,33 @@ alias G_PRIORITY_HIGH_IDLE = PRIORITY_HIGH_IDLE;
 /**
  * Use this for very low priority background tasks.
  *
- * It is not used within GLib or GTK+.
+ * It is not used within GLib or GTK.
  */
 enum PRIORITY_LOW = 300;
 alias G_PRIORITY_LOW = PRIORITY_LOW;
+
+/**
+ * Evaluates to the initial reference count for `grefcount`.
+ *
+ * This macro is useful for initializing `grefcount` fields inside
+ * structures, for instance:
+ *
+ * |[<!-- language="C" -->
+ * typedef struct {
+ * grefcount ref_count;
+ * char *name;
+ * char *address;
+ * } Person;
+ *
+ * static const Person default_person = {
+ * .ref_count = G_REF_COUNT_INIT,
+ * .name = "Default name",
+ * .address = "Default address",
+ * };
+ * ]|
+ */
+enum REF_COUNT_INIT = -1;
+alias G_REF_COUNT_INIT = REF_COUNT_INIT;
 
 enum SIZEOF_LONG = 8;
 alias GLIB_SIZEOF_LONG = SIZEOF_LONG;
