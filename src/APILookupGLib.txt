@@ -298,14 +298,6 @@ code: start
 	}
 code: end
 
-struct: GLib
-namespace:
-code: start
-	static import glib.Version;
-	deprecated("moves to the glib.Version module")
-	alias glib.Version.Version Version;
-code: end
-
 struct: HashTable
 class: HashTable
 
