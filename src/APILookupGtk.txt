@@ -214,17 +214,41 @@ code: start
 code: end
 
 struct: TextBuffer
+noCode: new
 import: core.vararg
 import: gobject.c.functions
 import: pango.PgFontDescription
 import: pango.PgTabArray
 import: std.stdio
+import: glib.ConstructionException
 array: insert text len
 array: insert_at_cursor text len
 array: insert_interactive text len
 array: insert_interactive_at_cursor text len
 array: set_text text len
 code: start
+	/**
+	 * Creates a new text buffer.
+	 *
+	 * Params:
+	 *     table = a tag table, or %null to create a new one (defaults to %null)
+	 *
+	 * Returns: a new text buffer
+	 *
+	 * Throws: ConstructionException GTK+ fails to create the object.
+	 */
+	public this(TextTagTable table = null)
+	{
+		auto __p = gtk_text_buffer_new((table is null) ? null : table.getTextTagTableStruct());
+
+		if(__p is null)
+		{
+			throw new ConstructionException("null returned by new");
+		}
+
+		this(cast(GtkTextBuffer*) __p, true);
+	}
+
 	/**
 	 * Inserts text into buffer at iter, applying the list of tags to
 	 * the newly-inserted text. The last tag specified must be NULL to
